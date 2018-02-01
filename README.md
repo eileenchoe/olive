@@ -76,7 +76,7 @@ x = fill(1.0, (3))          ~ Vector of ones
 
 ```
 
-
+#### Matrix
 Matrices are multi-dimensional vectors.
 
 ```
@@ -89,7 +89,11 @@ Matrices can be generated programmatically.
 A = rand(1:4,3,3)             ~ 3x3 Matrix of random numbers in the range [1, 4]
 ```
 
+Olive supports a number of built-in operations and functions for matrices.
 
+```
+TODO: things like matrix multiplication, transpose
+```
 
 ### Functions
 ```
