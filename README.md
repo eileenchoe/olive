@@ -1,5 +1,4 @@
-olive
-
+![olive-logo](https://github.com/eileenchoe/olive/blob/master/resources/olive-logo.png)
 ## Introduction
 Olive is a static language that complies to JavaScript. Olive combines the expressivity and power of Python with the first class support for matrix and array mathematics of languages like Julia and MATLAB. Olive's goal is to make programming delightful for data science and numerical computing applications. A simple syntax paired with implicit typing reduces the overhead of language-specific syntax and allows the programmer to focus on the content of their programs.
 
