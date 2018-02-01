@@ -1,13 +1,14 @@
 olive
 
 ## Introduction
-Olive is a static language that complies to JavaScript. Olive combines the expressivity and power of Python with the first class support for matrix and array mathematics of languages like Julia and MATLAB.
+Olive is a static language that complies to JavaScript. Olive combines the expressivity and power of Python with the first class support for matrix and array mathematics of languages like Julia and MATLAB. Olive's goal is to make programming delightful for data science and numerical computing applications. A simple syntax paired with implicit typing reduces the overhead of language-specific syntax and allows the programmer to focus on the content of their programs.
 
 ## List of Features
 - `.oil` file extension
 - Named and Default Parameters
-- Type inference
-- Static Typing
+- Strongly, Statically, and Implicitly Typed
+- String Interpolation
+- Built in data structures
 
 ## Examples
 
@@ -60,25 +61,43 @@ Maps store key value pairs.
 color = {'red': 85, 'green': 107, 'blue': 47 }
 ```
 
-#### List
+#### Vector
 
-Lists are mutable ordered sequences of elements. 
+Vectors are mutable ordered sequences of elements. 
 
 ```
 olive_products = ['oil', 'raw', 'pickled', 'stuffed']
 fibonacci_numbers = [0, 1, 1, 2, 3, 5, 8, 13]
 ```
 
-Matrices are multi-dimensional lists.
+Vectors can be generated programmatically.
+```
+x = fill(1.0, (3))          ~ Vector of ones
 
 ```
-olive_population = 	[[0, 1, 1], [0, 0, 1], [0, 0, 1]]
+
+
+Matrices are multi-dimensional vectors.
+
 ```
+olive_population = [[0, 1, 1], [0, 0, 1], [0, 0, 1]]
+```
+
+Matrices can be generated programmatically.
+
+```
+A = rand(1:4,3,3)             ~ 3x3 Matrix of random numbers in the range [1, 4]
+```
+
+
 
 ### Functions
 ```
-say_hello () =
-  print "Hello, World!"
+say_hello (name: 'Eileen') =
+  print `Hello, ${name}!`
+
+say_hello (name: 'Eddie')     ~ 'Hello, Eddie!' (named parameter)
+say_hello ()                  ~ 'Hello, Eileen!' (default parameter)
 
 square (x) =
   return x ^ 2
