@@ -85,13 +85,19 @@ olive_population = [[0, 1, 1], [0, 0, 1], [0, 0, 1]]
 Matrices can be generated programmatically.
 
 ```
-A = rand(1:4,3,3)             ~ 3x3 Matrix of random numbers in the range [1, 4]
+A = rand(1:4,(3,3))             ~ 3x3 Matrix of random numbers in the range [1, 4]
 ```
 
 Olive supports a number of built-in operations and functions for matrices.
 
 ```
-TODO: things like matrix multiplication, transpose
+~ Matrix Multiplication
+A = rand(1:4,(3,3))
+B = rand(1:2,(3,3))
+C = A B
+
+~ Transpose
+A_transpose = A'
 ```
 
 ### Functions
