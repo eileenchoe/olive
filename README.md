@@ -1,4 +1,4 @@
-![olive-logo](https://github.com/eileenchoe/olive/blob/master/resources/olive-logo.png)
+![olive-logo](https://github.com/eileenchoe/olive/blob/master/resources/olive-logo2.png)
 ## Introduction
 Olive is a static language that complies to JavaScript. Olive combines the expressivity and power of Python with the first class support for matrix and array mathematics of languages like Julia and MATLAB. Olive's goal is to make programming delightful for data science and numerical computing applications. A simple syntax paired with implicit typing reduces the overhead of language-specific syntax and allows the programmer to focus on the content of their programs.
 
@@ -23,7 +23,7 @@ year = 2018
 
 ```
 ---
-This is a 
+This is a
 multi line comment
 ---
 
@@ -46,7 +46,7 @@ modulus = 101 % 2
 
 #### Tuple
 
-Tuples are immutable ordered sequences of elements. 
+Tuples are immutable ordered sequences of elements.
 
 ```
 olives = ('kalamata', 'picholine', 'moroccan salt-cured', 'cerignola')
@@ -62,7 +62,7 @@ color = {'red': 85, 'green': 107, 'blue': 47 }
 
 #### Vector
 
-Vectors are mutable ordered sequences of elements. 
+Vectors are mutable ordered sequences of elements.
 
 ```
 olive_products = ['oil', 'raw', 'pickled', 'stuffed']
@@ -110,18 +110,17 @@ say_hello ()                  ~ 'Hello, Eileen!' (default parameter)
 
 square (x) =
   return x ^ 2
- 
+
 double (y) =
   return 2 y
-  
+
 factorial (x) =
   if x < 0
     throw "invalid argument"
   elif x == 0
     return 1
   return factorial (x - 1) * x
-  
+
 ~ Anonymous Functions
 double = (y) => 2 y
 ```
-
