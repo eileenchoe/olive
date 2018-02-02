@@ -83,11 +83,8 @@ Vectors can be generated programmatically.
 ```
 a = ones((5))                           | 5 element vector of ones
 b = ones((3)) * 2.5                     | 3 element vector of 2.5s
-c = random((6))                         | 6 element vector of random numbers in (0,1]
+c = random((6))                         | 6 element vector of random numbers in (0,1] (default)
 d = random((7), range: (0, 10])         | 7 element vector of random numbers in (0, 10]
-
-e = random(range: (0, 10])
-
 ```
 
 #### Matrix
@@ -100,25 +97,35 @@ olive_population = [[0, 1, 1], [0, 0, 1], [0, 0, 1]]
 Matrices can be generated programmatically.
 
 ```
-A = rand(1:4,(3,3))             | 3x3 Matrix of random numbers in the range [1, 4]
+A = random((1, 3, 4), range: (0, 10])          | 1x3x4 matrix of random numbers in (0, 10]
+B = zeros((3,3))						     | 3x3 matrix of zeros
+C = identity(10)						     | 10x10 identity matrix
 ```
 
 Olive supports a number of built-in operations and functions for matrices.
 
 ```
-| Matrix Multiplication
-A = rand(1:4,(3,3))
-B = rand(1:2,(3,3))
+| Multiplication
+A = random((1, 3, 4), range: (0, 10]) 
+B = random((1, 3, 4), range: (3, 10]) 
 C = A B
 
 | Transpose
 A_transpose = A'
+
+| Inverse
+D = random((1, 3, 4), range: (3, 10]) 
+D_inverse = inverse(D)
+
+| Element Wise Operations are precided by a dot
+E = A .* B							| Multiply elements in matrices A and B element-wise
+F = A ./ B							| Divide elements in matrices A and B element-wise
 ```
 
 ### Functions
 ```
 say_hello (name: 'Eileen') =
-  print `Hello, ${name}!`
+  print(`Hello, ${name}!`)
 
 say_hello (name: 'Eddie')     | 'Hello, Eddie!' (named parameter)
 say_hello ()                  | 'Hello, Eileen!' (default parameter)
@@ -134,9 +141,9 @@ factorial (x) =
     throw "invalid argument"
   elif x == 0
     return 1
-  return factorial (x - 1) * x
+  return factorial(x - 1) * x
   
 | Anonymous Functions
-double = (y) => 2 y
+((y) = 2 y)(2)				| Evaluates anonymous function with the argument 2
 ```
 
