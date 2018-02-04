@@ -1,0 +1,19 @@
+{
+  "name": "olive",
+  "version": "1.0.0",
+  "description": "Olive is a high-level, high-performance language for numerical computing.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eileenchoe/olive.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eileenchoe/olive/issues"
+  },
+  "homepage": "https://github.com/eileenchoe/olive#readme"
+}
