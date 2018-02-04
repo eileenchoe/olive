@@ -12,6 +12,18 @@ Olive is a high-level, high-performance language for numerical computing. Olive 
 
 ## Examples
 
+
+### Comments
+
+```
+---
+This is a 
+multi line comment
+---
+
+| This is a single line comment
+```
+
 ### Variable Declarations
 
 ```
@@ -25,17 +37,6 @@ y := 2.3    | mutable
 | There are some built in constants
 e           | Euler's Constant
 pi          | Pi
-```
-
-### Comments
-
-```
----
-This is a 
-multi line comment
----
-
-| This is a single line comment
 ```
 
 ### Arithmetic
@@ -83,8 +84,8 @@ Vectors can be generated programmatically.
 ```
 a = ones((5))                           | 5 element vector of ones
 b = ones((3)) * 2.5                     | 3 element vector of 2.5s
-c = random((6))                         | 6 element vector of random numbers in (0,1] (default)
-d = random((7), range: (0, 10])         | 7 element vector of random numbers in (0, 10]
+c = random((6))                         | 6 element vector of random numbers in [0,1)
+d = random((7), range: (0, 10])         | 7 element vector of random numbers in [0, 10)
 ```
 
 #### Matrix
@@ -97,9 +98,9 @@ olive_population = [[0, 1, 1], [0, 0, 1], [0, 0, 1]]
 Matrices can be generated programmatically.
 
 ```
-A = random((1, 3, 4), range: (0, 10])          | 1x3x4 matrix of random numbers in (0, 10]
-B = zeros((3,3))						     | 3x3 matrix of zeros
-C = identity(10)						     | 10x10 identity matrix
+A = random((1, 3, 4), range: [0, 10))          | 1x3x4 matrix of random numbers in (0, 10]
+B = zeros((3,3))						                   | 3x3 matrix of zeros
+I = identity(10)						                   | 10x10 identity matrix
 ```
 
 Olive supports a number of built-in operations and functions for matrices.
@@ -114,12 +115,12 @@ C = A B
 A_transpose = A'
 
 | Inverse
-D = random((1, 3, 4), range: (3, 10]) 
+D = random((1, 3, 4), range: [3, 10]) 
 D_inverse = inverse(D)
 
-| Element Wise Operations are precided by a dot
-E = A .* B							| Multiply elements in matrices A and B element-wise
-F = A ./ B							| Divide elements in matrices A and B element-wise
+| Element wise operations are precided by a dot
+E = A .* B							| Multiply A and B element-wise
+F = A ./ B							| Divide A and B element-wise
 ```
 
 ### Functions
