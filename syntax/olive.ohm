@@ -3,7 +3,13 @@ Olive {
   Block       =  Statement+
   Statement   =  Id assignop Exp                  -- vardecl
               |  "print(" + Exp + ")"             -- print
-
+              |  VarExp "=" Exp                   -- assign
+              |  "while" Exp Suite                -- while
+              |  "if" Exp Suite
+                 ("elseif" Exp Suite)*
+                 ("else" Suite)?                  -- if
+  Suite       =  Statement newline                -- small
+              |  newline indent Statement+ dedent -- large
   Exp         =  Exp "or" Exp1                    -- or
               |  Exp "and" Exp1                   -- and
               |  Exp1
@@ -19,8 +25,11 @@ Olive {
               |  intlit
               |  floatlit
               |  stringlit
+              |  VarExp
               |  "(" Exp ")"                      -- parens
-  Id          =  id
+  Id          = id
+  VarExp      =  VarExp "[" Exp "]"               -- subscripted
+              |  Id                               -- basic
 
   id          =  ~keyword lower idrest*
   idrest      =  "_" | alnum
