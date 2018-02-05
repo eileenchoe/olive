@@ -1,4 +1,4 @@
-![olive-logo](https://github.com/eileenchoe/olive/blob/master/resources/olive-logo2.png)
+![olive-logo](./resources/logo-new.png)
 
 ## Introduction
 Olive is a high-level, high-performance language for numerical computing. Olive combines the expressivity and power of Python with the first class support for matrix and array mathematics of languages like Julia and MATLAB. Olive's goal is to make programming delightful for data science and numerical computing applications. A simple syntax paired with implicit typing reduces the overhead of language-specific syntax and allows the programmer to focus on the content of their programs.
@@ -147,4 +147,3 @@ factorial (x) =
 | Anonymous Functions
 ((y) = 2 y)(2)				| Evaluates anonymous function with the argument 2
 ```
-
