@@ -4,7 +4,7 @@
   "description": "Olive is a high-level, high-performance language for numerical computing.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest test/**/*test.js"
   },
   "repository": "git+https://github.com/eileenchoe/olive.git",
   "author": "Eileen Choe <echoe@lion.lmu.edu>",
@@ -14,11 +14,13 @@
   },
   "homepage": "https://github.com/eileenchoe/olive#readme",
   "dependencies": {
+    "ohm-js": "^0.14.0",
     "yargs": "^11.0.0"
   },
   "devDependencies": {
     "eslint": "^4.17.0",
-    "jest": "^22.1.4",
-    "ohm-js": "^0.14.0"
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "jest": "^22.1.4"
   }
 }

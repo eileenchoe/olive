@@ -1,0 +1,6 @@
+Olive {
+  Program     = Block
+  Block       = Statement+
+  Statement   = "print(" + Exp +")"
+  Exp         = "hello"
+}
