@@ -1,0 +1,6 @@
+if x > 3
+  print('greater than 3')
+elseif x == 3
+  print('equal to 3')
+else
+  print('less than 3')
