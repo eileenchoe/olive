@@ -6,14 +6,19 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/eileenchoe/olive.git"
-  },
-  "author": "",
+  "repository": "git+https://github.com/eileenchoe/olive.git",
+  "author": "Eileen Choe <echoe@lion.lmu.edu>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/eileenchoe/olive/issues"
   },
-  "homepage": "https://github.com/eileenchoe/olive#readme"
+  "homepage": "https://github.com/eileenchoe/olive#readme",
+  "dependencies": {
+    "yargs": "^11.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.17.0",
+    "jest": "^22.1.4",
+    "ohm-js": "^0.14.0"
+  }
 }
