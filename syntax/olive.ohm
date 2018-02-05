@@ -1,6 +1,47 @@
 Olive {
-  Program     = Block
-  Block       = Statement+
-  Statement   = "print(" + Exp +")"
-  Exp         = "hello"
+  Program     =  Block
+  Block       =  Statement+
+  Statement   =  Id assignop Exp                  -- vardecl
+              |  "print(" + Exp + ")"             -- print
+
+  Exp         =  Exp "or" Exp1                    -- or
+              |  Exp "and" Exp1                   -- and
+              |  Exp1
+  Exp1        =  Exp2 relop Exp2                  -- binary
+              |  Exp2
+  Exp2        =  Exp2 addop Exp3                  -- binary
+              |  Exp3
+  Exp3        =  Exp3 mulop Exp4                  -- binary
+              |  Exp4
+  Exp4        =  prefixop Exp5                    -- unary
+              |  Exp5
+  Exp5        =  boollit
+              |  intlit
+              |  floatlit
+              |  stringlit
+              |  "(" Exp ")"                      -- parens
+  Id          =  id
+
+  id          =  ~keyword lower idrest*
+  idrest      =  "_" | alnum
+  keyword     = ("true" | "false" | "if"
+            | "else" | "while" | "for" | "in" | "print" | "return" | "null") ~idrest
+
+  assignop    =  ":=" | "="
+  addop       =  "+" | "-"
+  relop       =  "<=" | "<" | "==" | "!=" | ">=" | ">"
+  mulop       =  "*" | "/" | "%" | "/%"
+  prefixop    =  "-"
+  indent      =  "⇨"
+  dedent      =  "⇦"
+
+  stringlit   = "\'" ("\\\"" | (~"\'" any))* "\'"
+  boollit     = "true" | "false"
+  intlit      = ~floatlit digit+
+  floatlit    = digit+ "." digit+
+  nullLit     = "null"
+
+  newline     =  "\n"+
+  space       += comment
+  comment     =  "|" (~"\n" any)* "\n"
 }
