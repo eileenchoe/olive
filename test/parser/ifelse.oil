@@ -1,6 +1,10 @@
+x = 3
+
 if x > 3
   print('greater than 3')
-elseif x == 3
+else if x == 3
   print('equal to 3')
+else if x == 4
+  print('equal to 4')
 else
   print('less than 3')

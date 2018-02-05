@@ -6,10 +6,9 @@ Olive {
               |  VarExp "=" Exp                   -- assign
               |  "while" Exp Suite                -- while
               |  "if" Exp Suite
-                 ("elseif" Exp Suite)*
+                 ("else if" Exp Suite)*
                  ("else" Suite)?                  -- if
-  Suite       =  Statement newline                -- small
-              |  newline indent Statement+ dedent -- large
+  Suite       =  indent Statement+ dedent
   Exp         =  Exp "or" Exp1                    -- or
               |  Exp "and" Exp1                   -- and
               |  Exp1
