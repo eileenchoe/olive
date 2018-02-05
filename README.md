@@ -123,6 +123,35 @@ E = A .* B							| Multiply A and B element-wise
 F = A ./ B							| Divide A and B element-wise
 ```
 
+### Strings
+#### Interpolation
+```
+s = 'olive'             | Strings are 
+```
+
+### Loops
+#### If
+```
+olive_types = ('kalamata', 'picholine', 'moroccan salt-cured', 'cerignola')
+if (olive_types[0] == 'kalamata')
+  print('yay')
+```
+
+#### For
+```
+olive_types = ('kalamata', 'picholine', 'moroccan salt-cured', 'cerignola')
+for types in olive_types
+  print(types)
+```
+
+#### While
+```
+counter = 10
+while (counter >= 0)
+  print(counter)
+  counter = counter - 1
+```
+
 ### Functions
 ```
 say_hello (name: 'Eileen') =
@@ -147,3 +176,32 @@ factorial (x) =
 | Anonymous Functions
 ((y) = 2 y)(2)				| Evaluates anonymous function with the argument 2
 ```
+#### Type Annotations
+Functions may have type annotations.
+
+When a type annotation is provided, the compiler will check that the function parameters and return value are of the correct type.
+
+```
+int -> int
+double (x) = 
+  return x + x
+
+double("string")  | Compile time error
+
+triple (x) = 
+  return 3 x
+
+triple("10")      | Run time error
+
+```
+
+### Types
+|Type| Description|
+| -- | ---------- |
+| int |  | 
+| float | |
+| boolean | |
+| string | |
+
+
+
