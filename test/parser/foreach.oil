@@ -1,4 +1,5 @@
 values = (1, 2, 3, 'hallo')
+d = { 100: 1, y: 2, dog: 'cat' }
 
 for value in values
     print(value)
@@ -8,3 +9,6 @@ for i in [1,2,3]
 
 for character in 'Nats'
     print(character)
+
+for key in d
+    print(key)
