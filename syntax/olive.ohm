@@ -50,14 +50,18 @@ Olive {
   indent      =  "⇨"
   dedent      =  "⇦"
 
-  List        = "[" VarList "]"
-  Tuple       = "(" VarList ")"
-  VarList     = (Exp5 ("," Exp5)*)?
+  Tuple       = "(" (Exp5 ("," Exp5)*)? ")"
+  List        = "[" (boollit ("," boollit)*)? "]"
+              | "[" (intlit ("," intlit)*)? "]"
+              | "[" (floatlit ("," floatlit)*)? "]"
+              | "[" (stringlit ("," stringlit)*)? "]"
+              | "[" (VarExp ("," VarExp)*)? "]"
+
 
   stringlit   = "\'" ("\\\"" | (~"\'" any))* "\'"
   boollit     = "true" | "false"
-  intlit      = ~floatlit digit+
-  floatlit    = digit+ "." digit+
+  intlit      = "-"? ~floatlit digit+
+  floatlit    = "-"? digit+ "." digit+
   nullLit     = "null"
 
   newline     =  "\n"+
