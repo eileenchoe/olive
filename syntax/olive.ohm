@@ -25,6 +25,7 @@ Olive {
   Iterable    = List
               | Tuple
               | stringlit
+              | Dictionary
 
   Exp5        =  boollit
               |  intlit
@@ -58,6 +59,8 @@ Olive {
               | "[" (floatlit ("," floatlit)*)? "]"
               | "[" (stringlit ("," stringlit)*)? "]"
               | "[" (VarExp ("," VarExp)*)? "]"
+  Dictionary  = "{" (IdValuePair ("," IdValuePair)*)? "}"
+  IdValuePair = Exp ":" Exp5
 
 
   stringlit   = "\'" ("\\\"" | (~"\'" any))* "\'"
