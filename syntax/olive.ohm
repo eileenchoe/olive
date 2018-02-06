@@ -5,7 +5,7 @@ Olive {
               |  "print(" Exp ")"                 -- print
               |  VarExp "=" Exp                   -- assign
               |  "while" Exp Suite                -- while
-              |  "for" Id "in" (Iterable | Id) Suite     -- for
+              |  "for" Id "in" Exp Suite          -- for
               |  "if" Exp Suite
                  ("else if" Exp Suite)*
                  ("else" Suite)?                  -- if
