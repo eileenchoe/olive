@@ -54,6 +54,7 @@ Olive {
   dedent      =  "⇦"
 
   Tuple       = "(" (Exp5 ("," Exp5)*)? ")"
+  Matrix      = "[" (List ("," List)*)? "]"
   List        = "[" (boollit ("," boollit)*)? "]"
               | "[" (intlit ("," intlit)*)? "]"
               | "[" (floatlit ("," floatlit)*)? "]"
