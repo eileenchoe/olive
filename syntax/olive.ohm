@@ -2,7 +2,7 @@ Olive {
   Program     =  Block
   Block       =  Statement+
   Statement   =  Id assignop Exp                  -- vardecl
-              |  "print(" + Exp + ")"             -- print
+              |  "print(" Exp ")"                 -- print
               |  VarExp "=" Exp                   -- assign
               |  "while" Exp Suite                -- while
               |  "if" Exp Suite
@@ -19,13 +19,18 @@ Olive {
   Exp3        =  Exp3 mulop Exp4                  -- binary
               |  Exp4
   Exp4        =  prefixop Exp5                    -- unary
+              |  Iterable
               |  Exp5
+  Iterable    = List
+              | Tuple
+
   Exp5        =  boollit
               |  intlit
               |  floatlit
               |  stringlit
               |  VarExp
               |  "(" Exp ")"                      -- parens
+
   Id          = id
   VarExp      =  VarExp "[" Exp "]"               -- subscripted
               |  Id                               -- basic
@@ -35,6 +40,8 @@ Olive {
   keyword     = ("true" | "false" | "if"
             | "else" | "while" | "for" | "in" | "print" | "return" | "null") ~idrest
 
+
+
   assignop    =  ":=" | "="
   addop       =  "+" | "-"
   relop       =  "<=" | "<" | "==" | "!=" | ">=" | ">"
@@ -42,6 +49,10 @@ Olive {
   prefixop    =  "-"
   indent      =  "⇨"
   dedent      =  "⇦"
+
+  List        = "[" VarList "]"
+  Tuple       = "(" VarList ")"
+  VarList     = (Exp5 ("," Exp5)*)?
 
   stringlit   = "\'" ("\\\"" | (~"\'" any))* "\'"
   boollit     = "true" | "false"
