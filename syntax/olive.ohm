@@ -5,6 +5,7 @@ Olive {
               |  "print(" Exp ")"                 -- print
               |  VarExp "=" Exp                   -- assign
               |  "while" Exp Suite                -- while
+              |  "for" Id "in" (Iterable | Id) Suite     -- for
               |  "if" Exp Suite
                  ("else if" Exp Suite)*
                  ("else" Suite)?                  -- if
@@ -23,6 +24,7 @@ Olive {
               |  Exp5
   Iterable    = List
               | Tuple
+              | stringlit
 
   Exp5        =  boollit
               |  intlit

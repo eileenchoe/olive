@@ -1,0 +1,10 @@
+values = (1, 2, 3, 'hallo')
+
+for value in values
+    print(value)
+
+for i in [1,2,3]
+    print(i)
+
+for character in 'Nats'
+    print(character)
