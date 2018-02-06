@@ -1,9 +1,9 @@
 Olive {
   Program     =  Block
   Block       =  Statement+
-  Statement   =  Id assignop Exp                  -- vardecl
+  Statement   =  Id assignop Exp                  -- vardec
               |  "print(" Exp ")"                 -- print
-              |  VarExp "=" Exp                   -- assign
+              |  VarExp "=" Exp                   -- assignment
               |  "while" Exp Suite                -- while
               |  "for" Id "in" Exp Suite          -- for
               |  "if" Exp Suite
@@ -19,13 +19,15 @@ Olive {
               |  Exp3
   Exp3        =  Exp3 mulop Exp4                  -- binary
               |  Exp4
-  Exp4        =  prefixop Exp5                    -- unary
-              |  Iterable
+  Exp4        =  Iterable
+              |  prefixop Exp5                    -- unary
               |  Exp5
-  Iterable    = List
+
+  Iterable    = Vector
+              | List
               | Tuple
-              | stringlit
               | Dictionary
+              | stringlit
 
   Exp5        =  boollit
               |  intlit
@@ -53,22 +55,19 @@ Olive {
   indent      =  "⇨"
   dedent      =  "⇦"
 
-  Tuple       = "(" (Exp5 ("," Exp5)*)? ")"
-  Matrix      = "[" (List ("," List)*)? "]"
-  List        = "[" (boollit ("," boollit)*)? "]"
-              | "[" (intlit ("," intlit)*)? "]"
-              | "[" (floatlit ("," floatlit)*)? "]"
-              | "[" (stringlit ("," stringlit)*)? "]"
-              | "[" (VarExp ("," VarExp)*)? "]"
-  Dictionary  = "{" (IdValuePair ("," IdValuePair)*)? "}"
-  IdValuePair = Exp ":" Exp5
+  Tuple       = "(" (Exp4 ("," Exp4)*)? ")"
+  Vector      = "[" ((numlit|VarExp) ("," (numlit|VarExp))*)? "]"
+  List        = "[" (Exp4 ("," Exp4)*)? "]"
+  Dictionary  = "{" (KeyValuePair ("," KeyValuePair)*)? "}"
+  KeyValuePair = Exp5 ":" Exp4
 
 
+  numlit      = (intlit | floatlit | nulllit)
   stringlit   = "\'" ("\\\"" | (~"\'" any))* "\'"
   boollit     = "true" | "false"
-  intlit      = "-"? ~floatlit digit+
-  floatlit    = "-"? digit+ "." digit+
-  nullLit     = "null"
+  intlit      = ~floatlit digit+
+  floatlit    = digit+ "." digit+
+  nulllit     = "null"
 
   newline     =  "\n"+
   space       += comment
