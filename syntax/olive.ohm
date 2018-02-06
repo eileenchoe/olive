@@ -54,8 +54,8 @@ Olive {
   dedent      =  "⇦"
 
   Tuple        =  "(" (Exp4 ("," Exp4)*)? ")"
-  Matrix       =  "[" ((Matrix) ("," (Matrix))*)? "]"
-               |  "[" ((numlit|VarExp) ("," (numlit|VarExp))*)? "]"
+  Matrix       =  "[" ((Matrix) ("," (Matrix))*)? "]"               -- rec
+               |  "[" ((numlit|VarExp) ("," (numlit|VarExp))*)? "]" -- base
   List         =  "[" (Exp4 ("," Exp4)*)? "]"
   Dictionary   =  "{" (KeyValuePair ("," KeyValuePair)*)? "}"
   KeyValuePair =  Exp5 ":" Exp4
