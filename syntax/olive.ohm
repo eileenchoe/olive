@@ -40,7 +40,7 @@ Olive {
   VarExp      =  VarExp "[" Exp "]"               -- subscripted
               |  Id                               -- basic
 
-  id          =  ~keyword lower idrest*
+  id          =  ~keyword letter idrest*
   idrest      =  "_" | alnum
   keyword     = ("true" | "false" | "if"
             | "else" | "while" | "for" | "in" | "print" | "return" | "null") ~idrest
