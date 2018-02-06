@@ -23,7 +23,7 @@ Olive {
               |  prefixop Exp5                    -- unary
               |  Exp5
 
-  Iterable    = Vector
+  Iterable    = Matrix
               | List
               | Tuple
               | Dictionary
@@ -45,8 +45,6 @@ Olive {
   keyword     = ("true" | "false" | "if"
             | "else" | "while" | "for" | "in" | "print" | "return" | "null") ~idrest
 
-
-
   assignop    =  ":=" | "="
   addop       =  "+" | "-"
   relop       =  "<=" | "<" | "==" | "!=" | ">=" | ">"
@@ -55,11 +53,12 @@ Olive {
   indent      =  "⇨"
   dedent      =  "⇦"
 
-  Tuple       = "(" (Exp4 ("," Exp4)*)? ")"
-  Vector      = "[" ((numlit|VarExp) ("," (numlit|VarExp))*)? "]"
-  List        = "[" (Exp4 ("," Exp4)*)? "]"
-  Dictionary  = "{" (KeyValuePair ("," KeyValuePair)*)? "}"
-  KeyValuePair = Exp5 ":" Exp4
+  Tuple        =  "(" (Exp4 ("," Exp4)*)? ")"
+  Matrix       =  "[" ((Matrix) ("," (Matrix))*)? "]"
+               |  "[" ((numlit|VarExp) ("," (numlit|VarExp))*)? "]"
+  List         =  "[" (Exp4 ("," Exp4)*)? "]"
+  Dictionary   =  "{" (KeyValuePair ("," KeyValuePair)*)? "}"
+  KeyValuePair =  Exp5 ":" Exp4
 
 
   numlit      = (intlit | floatlit | nulllit)
