@@ -17,7 +17,7 @@ Olive is a high-level, high-performance language for numerical computing. Olive 
 
 ```
 ---
-This is a 
+This is a
 multi line comment
 ---
 
@@ -57,7 +57,7 @@ modulus = 101 % 2
 
 #### Tuple
 
-Tuples are heterogeneous ordered sequences of elements. 
+Tuples are heterogeneous ordered sequences of elements.
 
 ```
 olives = ('kalamata', 'picholine', 'moroccan salt-cured', 'cerignola', 100)
@@ -71,33 +71,34 @@ Dictionary store key value pairs.
 color = {'red': 85, 'green': 107, 'blue': 47 }
 ```
 
-#### Vector
+#### List
 
-Vectors are homogeneous ordered sequences of elements. 
+Lists are homogeneous ordered sequences of elements.
 
 ```
 olive_products = ['oil', 'raw', 'pickled', 'stuffed']
 fibonacci_numbers = [0, 1, 1, 2, 3, 5, 8, 13]
 ```
 
-Vectors can be generated programmatically.
-```
-a = ones((5))                           | 5 element vector of ones
-b = ones((3)) * 2.5                     | 3 element vector of 2.5s
-c = random((6))                         | 6 element vector of random numbers in [0,1)
-d = random((7), range: (0, 10])         | 7 element vector of random numbers in (0, 10]
-```
-
 #### Matrix
-Matrices are multi-dimensional vectors.
+Matrices are single or multi-dimensional vectors.
 
+Matrices can behave as vectors
 ```
-olive_population = [[0, 1, 1], [0, 0, 1], [0, 0, 1]]
+v = [[1], [2], [3], [4]]  | Column vector
+u = [1, 2, 3, 4]          | Row vector
+
+W = [[0, 1, 1], [0, 0, 1], [0, 0, 1]]  | Matrix
 ```
 
-Matrices can be generated programmatically.
-
+Can be generated programmatically.
 ```
+a = ones((5, 1))                   | 5 element column vector of ones
+a = ones((1, 5))                   | 5 element row vector of ones
+b = ones((1, 3)) * 2.5             | 3 element vector of 2.5s
+c = random((1, 3))                 | 3 element vector of random numbers in [0:1)
+d = random((7), range: (0:10])     | 7 element vector of random numbers in (0:10]
+
 A = random((1, 3, 4), range: [0, 10))           | 1x3x4 matrix of random numbers in (0, 10]
 B = zeros((3,3))                                | 3x3 matrix of zeros
 I = identity(10)                                | 10x10 identity matrix
@@ -107,20 +108,20 @@ Olive supports a number of built-in operations and functions for matrices.
 
 ```
 | Multiplication
-A = random((1, 3, 4), range: (0, 10]) 
-B = random((1, 3, 4), range: (3, 10]) 
+A = random((1, 3, 4), range: (0, 10])
+B = random((1, 3, 4), range: (3, 10])
 C = A B
 
 | Transpose
 A_transpose = A'
 
 | Inverse
-D = random((1, 3, 4), range: [3, 10]) 
+D = random((1, 3, 4), range: [3, 10])
 D_inverse = inverse(D)
 
-| Element wise operations are precided by a dot
-E = A .* B							| Multiply A and B element-wise
-F = A ./ B							| Divide A and B element-wise
+| Element wise operations are preceded by a dot
+E = A .* B
+F = A ./ B
 ```
 
 ### Strings
@@ -168,24 +169,24 @@ while (counter >= 0)
 say_hello (name: 'Eileen') =
   print(`Hello, ${name}!`)
 
-say_hello (name: 'Eddie')     | 'Hello, Eddie!' (named parameter)
-say_hello ()                  | 'Hello, Eileen!' (default parameter)
+say_hello(name: 'Eddie')     | 'Hello, Eddie!' (named parameter)
+say_hello()                  | 'Hello, Eileen!' (default parameter)
 
 square (x) =
   return x ^ 2
- 
+
 double (y) =
   return 2 y
-  
+
 factorial (x) =
   if x < 0
     throw "invalid argument"
-  elif x == 0
+  else if x == 0
     return 1
   return factorial(x - 1) * x
-  
+
 | Anonymous Functions
-((y) = 2 y)(2)				| Evaluates anonymous function with the argument 2
+((y) = 2 y)(2)
 ```
 #### Type Annotations
 Functions may have type annotations.
@@ -194,12 +195,12 @@ When a type annotation is provided, the compiler will check that the function pa
 
 ```
 double: int -> int
-double (x) = 
+double (x) =
   return x + x
 
 double("string")  | Compile time error
 
-triple (x) = 
+triple (x) =
   return 3 x
 
 triple("10")      | Run time error
@@ -209,10 +210,7 @@ triple("10")      | Run time error
 ### Types
 |Type| Description|
 | -- | ---------- |
-| int | Signed Integer | 
+| int | Signed Integer |
 | float | Floating point real values |
 | boolean | `true` or `false` |
 | string | `'hello'`|
-
-
-
