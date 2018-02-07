@@ -85,7 +85,7 @@ Vectors can be generated programmatically.
 a = ones((5))                           | 5 element vector of ones
 b = ones((3)) * 2.5                     | 3 element vector of 2.5s
 c = random((6))                         | 6 element vector of random numbers in [0,1)
-d = random((7), range: (0, 10])         | 7 element vector of random numbers in [0, 10)
+d = random((7), range: (0, 10])         | 7 element vector of random numbers in (0, 10]
 ```
 
 #### Matrix
@@ -98,9 +98,9 @@ olive_population = [[0, 1, 1], [0, 0, 1], [0, 0, 1]]
 Matrices can be generated programmatically.
 
 ```
-A = random((1, 3, 4), range: [0, 10))          | 1x3x4 matrix of random numbers in (0, 10]
-B = zeros((3,3))						                   | 3x3 matrix of zeros
-I = identity(10)						                   | 10x10 identity matrix
+A = random((1, 3, 4), range: [0, 10))           | 1x3x4 matrix of random numbers in (0, 10]
+B = zeros((3,3))                                | 3x3 matrix of zeros
+I = identity(10)                                | 10x10 identity matrix
 ```
 
 Olive supports a number of built-in operations and functions for matrices.
@@ -126,7 +126,18 @@ F = A ./ B							| Divide A and B element-wise
 ### Strings
 #### Interpolation
 ```
-s = 'olive'             | Strings are 
+greeting = 'hello'
+name = 'olive'
+
+complete_greeting = `${greeting}, ${name}`
+
+```
+#### Concatenation
+```
+greeting = 'hello'
+name = 'olive'
+
+complete_greeting = greeting ++ ', ' ++ name
 ```
 
 ### Loops
@@ -146,10 +157,10 @@ for types in olive_types
 
 #### While
 ```
-counter = 10
+counter := 10
 while (counter >= 0)
   print(counter)
-  counter = counter - 1
+  counter := counter - 1
 ```
 
 ### Functions
@@ -182,7 +193,7 @@ Functions may have type annotations.
 When a type annotation is provided, the compiler will check that the function parameters and return value are of the correct type.
 
 ```
-int -> int
+double: int -> int
 double (x) = 
   return x + x
 
@@ -198,10 +209,10 @@ triple("10")      | Run time error
 ### Types
 |Type| Description|
 | -- | ---------- |
-| int |  | 
-| float | |
-| boolean | |
-| string | |
+| int | Signed Integer | 
+| float | Floating point real values |
+| boolean | `true` or `false` |
+| string | `'hello'`|
 
 
 
