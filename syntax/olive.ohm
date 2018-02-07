@@ -40,7 +40,7 @@ Olive {
   StringInterpolation = "`" InterpolationTypes+ "`"
   Interpolation = "${" Id "}"
 
-  InterpolationTypes = string+ | Interpolation
+  InterpolationTypes = string | Interpolation
 
   Id          = id
   VarExp      =  VarExp "[" Exp "]"               -- subscripted
