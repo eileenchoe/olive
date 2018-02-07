@@ -34,7 +34,13 @@ Olive {
               |  floatlit
               |  stringlit
               |  VarExp
+              |  StringInterpolation
               |  "(" Exp ")"                      -- parens
+
+  StringInterpolation = "`" InterpolationTypes+ "`"
+  Interpolation = "${" Id "}"
+
+  InterpolationTypes = string+ | Interpolation
 
   Id          = id
   VarExp      =  VarExp "[" Exp "]"               -- subscripted
@@ -63,6 +69,7 @@ Olive {
 
   numlit      = (intlit | floatlit | nulllit)
   stringlit   = "\'" ("\\\"" | (~"\'" any))* "\'"
+  string      = ("\\\"" | (~"`" any))+
   boollit     = "true" | "false"
   intlit      = ~floatlit digit+
   floatlit    = digit+ "." digit+

@@ -1,0 +1,4 @@
+name = 'eileen'
+print(     `${name} Hello, ${name}`)
+greeting = `Hello, ${name}`
+x = `hello`
