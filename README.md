@@ -193,7 +193,7 @@ Functions may have type annotations.
 When a type annotation is provided, the compiler will check that the function parameters and return value are of the correct type.
 
 ```
-int -> int
+double: int -> int
 double (x) = 
   return x + x
 
