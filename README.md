@@ -126,7 +126,18 @@ F = A ./ B							| Divide A and B element-wise
 ### Strings
 #### Interpolation
 ```
-s = 'olive'             | Strings are 
+greeting = 'hello'
+name = 'olive'
+
+complete_greeting = `${greeting}, ${name}`
+
+```
+#### Concatenation
+```
+greeting = 'hello'
+name = 'olive'
+
+complete_greeting = greeting ++ ', ' ++ name
 ```
 
 ### Loops
