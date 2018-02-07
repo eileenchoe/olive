@@ -198,10 +198,10 @@ triple("10")      | Run time error
 ### Types
 |Type| Description|
 | -- | ---------- |
-| int |  | 
-| float | |
-| boolean | |
-| string | |
+| int | Signed Integer | 
+| float | Floating point real values |
+| boolean | `true` or `false` |
+| string | `'hello'`|
 
 
 
