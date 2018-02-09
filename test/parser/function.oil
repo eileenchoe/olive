@@ -1,0 +1,14 @@
+fun () =
+    return x
+
+fun (x, y, z) =
+    return x
+
+fun (x = 5) =
+    return x
+
+fun (x=1, y=2, z=4) =
+    return x
+
+fun (x, z=5) =
+    return x

@@ -1,7 +1,9 @@
 Olive {
   Program     =  Block
   Block       =  Statement+
-  Statement   =  Id assignop Exp                  -- vardec
+  Statement   =  Dec                              -- vardec
+              |  Fun                              -- functionDeclaration
+              |  "return" Exp?                    -- return
               |  "print(" Exp ")"                 -- print
               |  VarExp "=" Exp                   -- assignment
               |  "while" Exp Suite                -- while
@@ -35,14 +37,26 @@ Olive {
               |  stringlit
               |  VarExp
               |  StringInterpolation
-              |  "(" Exp ")"                      -- parens
+              |  "(" Exp ")"                       -- parens
+
 
   StringInterpolation = "`" InterpolationTypes+ "`"
   Interpolation = "${" Id "}"
 
   InterpolationTypes = string | Interpolation
 
-  Id          = id
+  Fun         = Id "(" Params? ")" "=" Suite
+
+  Params      =  Named                            -- onlynamed
+              |  Unnamed "," Named                -- both
+              |  Unnamed                          -- onlyunnamed
+
+  Unnamed     =  Id ("," Id ~ "=")*               -- unnamedparams
+  Named       =  Id "=" Exp ("," Id "=" Exp)*     -- namedparams
+
+  Dec         =  Id assignop Exp                  -- single
+
+  Id          =  id                               -- single
   VarExp      =  VarExp "[" Exp "]"               -- subscripted
               |  Id                               -- basic
 
