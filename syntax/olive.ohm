@@ -2,7 +2,7 @@ Olive {
   Program     =  Block
   Block       =  Statement+
   Statement   =  Dec                              -- vardec
-              |  (Annotation indent)? Function      -- functionDeclaration
+              |  (Annotation)? Function      -- functionDeclaration
               |  "return" Exp?                    -- return
               |  "print(" Exp ")"                 -- print
               |  VarExp "=" Exp                   -- assignment
@@ -49,8 +49,8 @@ Olive {
               |  "sets"
               |  "boolean"                        -- types
 
-  Annotation  =  Id ":" (Types ("," Types)*)? "->" Types
-  
+  Annotation  =  Id ":" (Types ("," Types)*)? "->" Types?
+
   Function    =  Id "(" Parameters? ")" "=" Suite -- regularfuctions
               | "(" Id ")" "=" Exp                -- anonymousfunctions
 

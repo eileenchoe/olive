@@ -1,17 +1,21 @@
+fun: ->
 fun () =
-    return x
+    return
 
+fun: float, float, float -> float
 fun (x, y, z) =
     return x
 
 fun (x = 5) =
     return x
 
+fun: int, int, int -> int
 fun (x=1, y=2, z=4) =
     return x + 2
 
+fun: float, int -> string
 fun (x, z=5) =
-    return x
+    return 'hello'
 
 (y) = y
 
