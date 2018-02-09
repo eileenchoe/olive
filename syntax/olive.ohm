@@ -2,7 +2,7 @@ Olive {
   Program     =  Block
   Block       =  Statement+
   Statement   =  Dec                              -- vardec
-              |  Fun                              -- functionDeclaration
+              |  (Annotation indent)? Function      -- functionDeclaration
               |  "return" Exp?                    -- return
               |  "print(" Exp ")"                 -- print
               |  VarExp "=" Exp                   -- assignment
@@ -39,10 +39,20 @@ Olive {
   Interpolation = "${" Id "}"
 
   InterpolationTypes = string | Interpolation
+  Types       =  "int"
+              |  "float"
+              |  "string"
+              |  "none"
+              |  "tuple"
+              |  "matrix"
+              |  "dictionary"
+              |  "sets"
+              |  "boolean"                        -- types
 
-  Fun         = Id "(" Params? ")" "=" Suite
+  Annotation  =  Id ":" (Types ("," Types)*)? "->" Types
+  Function    =  Id "(" Parameters? ")" "=" Suite
 
-  Params      =  Named                            -- onlynamed
+  Parameters  =  Named                            -- onlynamed
               |  Unnamed "," Named                -- both
               |  Unnamed                          -- onlyunnamed
 
@@ -50,6 +60,7 @@ Olive {
   Named       =  Id "=" Exp ("," Id "=" Exp)*     -- namedparams
 
   Dec         =  Id assignop Exp                  -- single
+              |  Id "," Dec "," Exp               -- double
 
   Id          =  id                               -- single
   VarExp      =  VarExp "[" Exp "]"               -- subscripted
@@ -58,7 +69,7 @@ Olive {
   id          =  ~keyword letter idrest*
   idrest      =  "_" | alnum
   keyword     = ("true" | "false" | "if"
-            | "else" | "while" | "for" | "in" | "print" | "return" | "null") ~idrest
+              | "else" | "while" | "for" | "in" | "print" | "return" | "null") ~idrest
 
   assignop    =  ":=" | "="
   addop       =  "+" | "-"
