@@ -23,7 +23,8 @@ Olive {
               |  Exp4
   Exp4        =  prefixop Exp5                    -- unary
               |  Exp5
-  Exp5        =  Matrix
+  Exp5        =  dotNotation
+              |  Matrix
               |  Tuple
               |  Dictionary
               |  boollit
@@ -67,6 +68,8 @@ Olive {
   Id          =  id                               -- single
   VarExp      =  VarExp "[" Exp "]"               -- subscripted
               |  Id                               -- basic
+
+  dotNotation = id "." id                         -- dotNotation
 
   id          =  ~keyword letter idrest*
   idrest      =  "_" | alnum
