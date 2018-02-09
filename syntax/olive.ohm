@@ -32,7 +32,7 @@ Olive {
               |  StringInterpolation
               |  "(" Exp ")"                      -- parens
 
-  StringInterpolation = "`" InterpolationTypes+ "`"
+  StringInterpolation = "`" InterpolationTypes* "`"
   Interpolation = "${" Id "}"
 
   InterpolationTypes = string | Interpolation
