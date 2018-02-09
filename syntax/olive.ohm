@@ -19,17 +19,14 @@ Olive {
               |  Exp3
   Exp3        =  Exp3 mulop Exp4                  -- binary
               |  Exp4
-  Exp4        =  Iterable
-              |  prefixop Exp5                    -- unary
+  Exp4        =  prefixop Exp5                    -- unary
               |  Exp5
 
-  Iterable    = Matrix
+  Exp5        =  Matrix
               | List
               | Tuple
               | Dictionary
-              | stringlit
-
-  Exp5        =  boollit
+              | boollit
               |  intlit
               |  floatlit
               |  stringlit
@@ -61,13 +58,12 @@ Olive {
 
   Tuple        =  "(" (Exp4 ("," Exp4)*)? ")"
   Matrix       =  "[" ((Matrix) ("," (Matrix))*)? "]"               -- rec
-               |  "[" ((numlit|VarExp) ("," (numlit|VarExp))*)? "]" -- base
+               |  "[" (VarExp ("," VarExp)*)? "]" -- base
   List         =  "[" (Exp4 ("," Exp4)*)? "]"
   Dictionary   =  "{" (KeyValuePair ("," KeyValuePair)*)? "}"
   KeyValuePair =  Exp5 ":" Exp4
 
 
-  numlit      = (intlit | floatlit | nulllit)
   stringlit   = "\'" ("\\\"" | (~"\'" any))* "\'"
   string      = ("\\\"" | (~"`" any))+
   boollit     = "true" | "false"
