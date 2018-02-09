@@ -8,7 +8,11 @@ fun (x = 5) =
     return x
 
 fun (x=1, y=2, z=4) =
-    return x
+    return x + 2
 
 fun (x, z=5) =
     return x
+
+(y) = y
+
+(y) = 2 + silly
