@@ -49,18 +49,10 @@ Olive {
               |  "sets"
               |  "boolean"                        -- types
 
-<<<<<<< Updated upstream
   Annotation  =  Id ":" (Types ("," Types)*)? "->" Types
-  Function    =  Id "(" Parameters? ")" "=" Suite
-=======
-<<<<<<< HEAD
-  Fun         = Id "(" Params? ")" "=" Suite      -- regularfuctions
-              | "(" Id ")" "=" Exp                -- anonfunctions
-=======
-  Annotation  =  Id ":" (Types ("," Types)*)? "->" Types
-  Function    =  Id "(" Parameters? ")" "=" Suite
->>>>>>> origin/master
->>>>>>> Stashed changes
+  
+  Function    =  Id "(" Parameters? ")" "=" Suite -- regularfuctions
+              | "(" Id ")" "=" Exp                -- anonymousfunctions
 
   Parameters  =  Named                            -- onlynamed
               |  Unnamed "," Named                -- both
