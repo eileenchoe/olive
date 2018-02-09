@@ -21,9 +21,7 @@ Olive {
               |  Exp4
   Exp4        =  prefixop Exp5                    -- unary
               |  Exp5
-
   Exp5        =  Matrix
-              |  List
               |  Tuple
               |  Dictionary
               |  boollit
@@ -57,9 +55,7 @@ Olive {
   dedent      =  "⇦"
 
   Tuple        =  "(" (Exp4 ("," Exp4)*)? ")"
-  Matrix       =  "[" ((Matrix) ("," (Matrix))*)? "]"          -- rec
-               |  List                                         -- base
-  List         =  "[" (Exp4 ("," Exp4)*)? "]"
+  Matrix       =  "[" (Exp4 ("," Exp4)*)? "]"
   Dictionary   =  "{" (KeyValuePair ("," KeyValuePair)*)? "}"
   KeyValuePair =  Exp5 ":" Exp4
 
