@@ -21,17 +21,12 @@ Olive {
               |  Exp3
   Exp3        =  Exp3 mulop Exp4                  -- binary
               |  Exp4
-  Exp4        =  Iterable
-              |  prefixop Exp5                    -- unary
+  Exp4        =  prefixop Exp5                    -- unary
               |  Exp5
-
-  Iterable    = Matrix
-              | List
-              | Tuple
-              | Dictionary
-              | stringlit
-
-  Exp5        =  boollit
+  Exp5        =  Matrix
+              |  Tuple
+              |  Dictionary
+              |  boollit
               |  intlit
               |  floatlit
               |  stringlit
@@ -40,7 +35,7 @@ Olive {
               |  "(" Exp ")"                       -- parens
 
 
-  StringInterpolation = "`" InterpolationTypes+ "`"
+  StringInterpolation = "`" InterpolationTypes* "`"
   Interpolation = "${" Id "}"
 
   InterpolationTypes = string | Interpolation
@@ -74,14 +69,11 @@ Olive {
   dedent      =  "⇦"
 
   Tuple        =  "(" (Exp4 ("," Exp4)*)? ")"
-  Matrix       =  "[" ((Matrix) ("," (Matrix))*)? "]"               -- rec
-               |  "[" ((numlit|VarExp) ("," (numlit|VarExp))*)? "]" -- base
-  List         =  "[" (Exp4 ("," Exp4)*)? "]"
+  Matrix       =  "[" (Exp4 ("," Exp4)*)? "]"
   Dictionary   =  "{" (KeyValuePair ("," KeyValuePair)*)? "}"
   KeyValuePair =  Exp5 ":" Exp4
 
 
-  numlit      = (intlit | floatlit | nulllit)
   stringlit   = "\'" ("\\\"" | (~"\'" any))* "\'"
   string      = ("\\\"" | (~"`" any))+
   boollit     = "true" | "false"
