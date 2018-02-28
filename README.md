@@ -214,3 +214,4 @@ triple("10")      | Run time error
 | float | Floating point real values |
 | boolean | `true` or `false` |
 | string | `'hello'`|
+to be continued
