@@ -2,7 +2,7 @@ Olive {
   Program     =  Block
   Block       =  Statement+
   Statement   =  Dec                              -- vardec
-              |  (Annotation)? Function      -- functionDeclaration
+              |  (Annotation)? Function           -- functionDeclaration
               |  "return" Exp?                    -- return
               |  "print(" Exp ")"                 -- print
               |  VarExp "=" Exp                   -- assignment
@@ -11,6 +11,7 @@ Olive {
               |  "if" Exp Suite
                  ("else if" Exp Suite)*
                  ("else" Suite)?                  -- if
+              |  Exp                              -- scripting
   Suite       =  indent Statement+ dedent
   Exp         =  Exp "or" Exp1                    -- or
               |  Exp "and" Exp1                   -- and
@@ -23,8 +24,7 @@ Olive {
               |  Exp4
   Exp4        =  prefixop Exp5                    -- unary
               |  Exp5
-  Exp5        =  dotNotation
-              |  Matrix
+  Exp5        =  Matrix
               |  Tuple
               |  Dictionary
               |  boollit
@@ -37,9 +37,9 @@ Olive {
 
 
   StringInterpolation = "`" InterpolationTypes* "`"
-  Interpolation = "${" Id "}"
-
   InterpolationTypes = string | Interpolation
+  Interpolation = "${" VarExp "}"
+
   Types       =  "int"
               |  "float"
               |  "string"
@@ -53,7 +53,7 @@ Olive {
   Annotation  =  Id ":" (Types ("," Types)*)? "->" Types?
 
   Function    =  Id "(" Parameters? ")" "=" Suite -- regularfuctions
-              | "(" Id ")" "=" Exp                -- anonymousfunctions
+              | "(" Unnamed ")" "=" Exp           -- anonymousfunctions
 
   Parameters  =  Named                            -- onlynamed
               |  Unnamed "," Named                -- both
@@ -68,8 +68,6 @@ Olive {
   Id          =  id                               -- single
   VarExp      =  VarExp "[" Exp "]"               -- subscripted
               |  Id                               -- basic
-
-  dotNotation = id "." id                         -- dotNotation
 
   id          =  ~keyword letter idrest*
   idrest      =  "_" | alnum

@@ -19,4 +19,6 @@ fun (x, z=5) =
 
 (y) = y
 
-(y) = 2 + silly
+(y) = 2 + y
+
+(x, y) = x + y

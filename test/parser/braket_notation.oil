@@ -1,0 +1,13 @@
+a = {1: 2, 3: 4, true: 's', 'empanada': 0}
+b = ['a', 'b', 'c']
+c = (12, 43, 'salame', true)
+
+print(a[3])
+print(a['empanada'])
+a[4 < 10]
+
+b[1+1]
+
+c[4]
+
+b = [1, 2, 3][0]
