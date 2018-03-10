@@ -38,7 +38,7 @@ module.exports = (source) => {
       result += `⇨${content}`;
     } else {
       // We've come out, so keep popping and emitting dedent tokens until done or error
-      for (let dedents = 1; true; dedents += 1) {
+      for (let dedents = 1; ; dedents += 1) {
         const next = (stack.pop(), stack[stack.length - 1]);
         if (indent > next) {
           throw new Error('Indent Error');
