@@ -23,7 +23,7 @@ describe('The parser', () => {
         });
       });
     } else if (name.endsWith('.oil')) {
-      it(`produces the correct AST for ${name}`, (done) => {
+      it(`produces the correct syntax for ${name}`, (done) => {
         fs.readFile(`${__dirname}/${name}`, 'utf-8', (err, input) => {
           const ast = parse(input);
           assert.deepEqual(ast, { success: true });

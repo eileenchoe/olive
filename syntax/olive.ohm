@@ -72,7 +72,7 @@ Olive {
   id          =  ~keyword letter idrest*
   idrest      =  "_" | alnum
   keyword     = ("true" | "false" | "if"
-              | "else" | "while" | "for" | "in" | "print" | "return" | "null") ~idrest
+              | "else" | "while" | "for" | "in" | "return" | "null") ~idrest
 
   assignop    =  ":=" | "="
   addop       =  "+" | "-"
@@ -85,7 +85,7 @@ Olive {
   Tuple        =  "(" (Exp4 ("," Exp4)*)? ")"
   Matrix       =  "[" (Exp4 ("," Exp4)*)? "]"
   Dictionary   =  "{" (KeyValuePair ("," KeyValuePair)*)? "}"
-  KeyValuePair =  Exp5 ":" Exp4
+  KeyValuePair =  (stringlit | alnum*) ":" Exp4
 
 
   stringlit   = "\'" ("\\\"" | (~"\'" any))* "\'"
