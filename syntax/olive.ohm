@@ -27,14 +27,15 @@ Olive {
   Exp5        =  Matrix
               |  Tuple
               |  Dictionary
-              |  boollit
+              |  Immutables
+              |  "(" Exp ")"                      -- parens
+
+  Immutables  =  boollit
               |  intlit
               |  floatlit
               |  stringlit
-              |  VarExp
               |  StringInterpolation
-              |  "(" Exp ")"                       -- parens
-
+              |  VarExp
 
   StringInterpolation = "`" InterpolationTypes* "`"
   InterpolationTypes = (~"`" any) | Interpolation
@@ -48,7 +49,7 @@ Olive {
               |  "matrix"
               |  "dictionary"
               |  "sets"
-              |  "boolean"                        -- types
+              |  "boolean"
 
   Annotation  =  Id ":" (Types ("," Types)*)? "->" Types?
 
@@ -85,7 +86,7 @@ Olive {
   Tuple        =  "(" (Exp4 ("," Exp4)*)? ")"
   Matrix       =  "[" (Exp4 ("," Exp4)*)? "]"
   Dictionary   =  "{" (KeyValuePair ("," KeyValuePair)*)? "}"
-  KeyValuePair =  (stringlit | alnum*) ":" Exp4
+  KeyValuePair =  Immutables ":" Exp4
 
 
   stringlit   = "\'" ("\\\"" | (~"\'" any))* "\'"
