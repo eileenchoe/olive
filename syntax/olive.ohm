@@ -38,8 +38,8 @@ Olive {
               |  VarExp
 
   StringInterpolation = "`" InterpolationTypes* "`"
-  InterpolationTypes = string | Interpolation
-  Interpolation = "${" VarExp "}"
+  InterpolationTypes = (~"`" any) | Interpolation
+  Interpolation = "${" StringInterpolation | Exp "}"
 
   Types       =  "int"
               |  "float"
@@ -90,7 +90,6 @@ Olive {
 
 
   stringlit   = "\'" ("\\\"" | (~"\'" any))* "\'"
-  string      = ("\\\"" | (~"`" any))+
   boollit     = "true" | "false"
   intlit      = ~floatlit digit+
   floatlit    = digit+ "." digit+
