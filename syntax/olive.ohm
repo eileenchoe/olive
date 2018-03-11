@@ -1,7 +1,7 @@
 Olive {
   Program     =  Block
   Block       =  Statement+
-  Statement   =  Dec                              -- vardec
+  Statement   =  NonemptyListOf <VarExp, ","> assignop NonemptyListOf< (Exp | VarExp), ","> -- assign
               |  (Annotation)? Function           -- functionDeclaration
               |  "return" Exp?                    -- return
               |  "print(" Exp ")"                 -- print
