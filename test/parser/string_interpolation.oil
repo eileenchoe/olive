@@ -3,3 +3,5 @@ print(     `${name} Hello, ${name}`)
 greeting = `Hello, ${name}`
 x = `hello`
 y = ``
+lists = `Hello, ${[1,2,3]}`
+print(     `${`name ${x}`} Hello, ${name}`)
