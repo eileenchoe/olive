@@ -56,6 +56,19 @@ class IntegerLiteral {
   }
 }
 
+class VariableExpression {
+  constructor(name) {
+    this.name = name;
+  }
+  analyze(context) {
+    this.referent = context.lookupVariable(this.name);
+    this.type = this.referent.type;
+  }
+  optimize() {
+    return this;
+  }
+}
+
 class VariableDeclaration {
   // During syntax analysis (parsing), all we do is collect the variable names.
   // We will make the variable objects later, because we have to add them to a
@@ -74,8 +87,10 @@ class VariableDeclaration {
     // We don't want the declared variables to come into scope until after the
     // declaration line, so we will analyze all the initializing expressions
     // first.
-    this.initializers.forEach(e => e.analyze(context));
+
     for (let i = 0; i < this.ids.length; i++) {
+        context.variableMustNotBeAlreadyDeclared(this.ids[i]);
+        this.initializers[i].analyze(context);
         context.addVariable(this.ids[i], this.initializers[i]);
     }
   }
@@ -84,19 +99,6 @@ class VariableDeclaration {
     return this;
   }
 }
-
-// class VariableDeclaration {
-//   constructor(id, type) {
-//     Object.assign(this, { id, type });
-//   }
-//   analyze(context) {
-//     context.variableMustNotBeAlreadyDeclared(this.id);
-//     context.addVariable(this.id, this);
-//   }
-//   optimize() {
-//     return this;
-//   }
-// }
 
 class AssignmentStatement {
     // a, b := 23, true
@@ -110,6 +112,9 @@ class AssignmentStatement {
     }
     this.sources.forEach(e => e.analyze(context));
     this.targets.forEach(v => v.analyze(context));
+    for (let i = 0; i < this.ids.length; i++) {
+        context.addVariable(this.ids[i], this.initializers[i]);
+    }
   }
 
   optimize() {
@@ -119,6 +124,7 @@ class AssignmentStatement {
     return this;
   }
 }
+
 //
 // class UnaryExpression {
 //   constructor(op, operand) {
@@ -346,7 +352,7 @@ module.exports = {
   Type,
   BooleanLiteral,
   IntegerLiteral,
-  // VariableExpression,
+  VariableExpression,
   // UnaryExpression,
   // BinaryExpression,
   VariableDeclaration,

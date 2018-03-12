@@ -18,6 +18,7 @@ const {
     IntegerLiteral,
     BooleanLiteral,
     VariableDeclaration,
+    VariableExpression,
     AssignmentStatement
 } = require('../ast');
 
@@ -45,7 +46,7 @@ const semantics = grammar.createSemantics().addOperation('ast', {
   // Exp4_binary(e1, op, e2) { return new BinaryExpression(op.sourceString, e1.ast(), e2.ast()); },
   // Exp5_unary(op, e) { return new UnaryExpression(op.sourceString, e.ast()); },
   // Exp6_parens(_1, e, _2) { return e.ast(); },
-  // VarExp(_) { return new VariableExpression(this.sourceString); },
+  VarExp(_) { return new VariableExpression(this.sourceString); },
   NonemptyListOf(first, _, rest) { return [first.ast(), ...rest.ast()]; },
   id(_1, _2) {return this.sourceString; }
 });
