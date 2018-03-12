@@ -1,0 +1,16 @@
+{
+  "block":{
+    "statements":[
+      {
+        "ids":[
+          "a"
+        ],
+        "initializers":[
+          {
+            "value":"'Hello, there!'"
+          }
+        ]
+      }
+    ]
+  }
+}

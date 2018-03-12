@@ -1,0 +1,30 @@
+{
+  "block":{
+    "statements":[
+      {
+        "targets":[
+          {
+            "name":"x"
+          }
+        ],
+        "sources":[
+          {
+            "value":true
+          }
+        ]
+      },
+      {
+        "targets":[
+          {
+            "name":"y"
+          }
+        ],
+        "sources":[
+          {
+            "value":"'hello'"
+          }
+        ]
+      }
+    ]
+  }
+}
