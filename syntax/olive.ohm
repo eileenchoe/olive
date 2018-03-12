@@ -49,7 +49,7 @@ Olive {
   Types       =  "int"
               |  "float"
               |  "string"
-              |  "none"
+              |  "None"
               |  "tuple"
               |  "matrix"
               |  "dictionary"
@@ -71,7 +71,7 @@ Olive {
   id          =  ~keyword letter idrest*
   idrest      =  "_" | alnum
   keyword     = ("true" | "false" | "if"
-              | "else" | "while" | "for" | "in" | "return" | "null") ~idrest
+              | "else" | "while" | "for" | "in" | "return" | "None") ~idrest
 
   assignop    =  ":=" | "="
   addop       =  "+" | "-"
