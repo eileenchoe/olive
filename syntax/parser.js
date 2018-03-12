@@ -51,6 +51,6 @@ module.exports = (text) => {
   if (!match.succeeded()) {
     throw new Error(`Syntax Error: ${match.message}`);
   }
-  return semantics(match).ast(); // TODO: Renable once .ast() is written
-  // return { success: true }; // To get unit tests running for syntax only
+  // return semantics(match).ast(); // TODO: Renable once .ast() is written
+  return { success: true }; // To get unit tests running for syntax only
 };

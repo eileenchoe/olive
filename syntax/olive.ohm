@@ -1,13 +1,13 @@
 Olive {
   Program     =  Block
   Block       =  Statement+
-  Statement   =  NonemptyListOf <VarExp, ","> assignop NonemptyListOf< (Exp | VarExp), ","> -- assign
+  Statement   =  Ids "=" Exps                     -- constdecl
+              |  VarExps ":=" Exps                -- varassign
               |  (Annotation)? Function           -- functionDeclaration
               |  "return" Exp?                    -- return
               |  "print(" Exp ")"                 -- print
-              |  VarExp "=" Exp                   -- assignment
               |  "while" Exp Suite                -- while
-              |  "for" Id "in" Exp Suite          -- for
+              |  "for" id "in" Exp Suite          -- for
               |  "if" Exp Suite
                  ("else if" Exp Suite)*
                  ("else" Suite)?                  -- if
@@ -36,6 +36,11 @@ Olive {
               |  stringlit
               |  StringInterpolation
               |  VarExp
+  Exps        =  NonemptyListOf<Exp, ",">
+  Ids         =  NonemptyListOf<id, ",">
+  VarExp      =  VarExp "[" Exp "]"               -- subscripted
+              |  id                               -- simple
+  VarExps     =  NonemptyListOf<VarExp, ",">
 
   StringInterpolation = "`" InterpolationTypes* "`"
   InterpolationTypes = (~"`" any) | Interpolation
@@ -51,24 +56,17 @@ Olive {
               |  "sets"
               |  "boolean"
 
-  Annotation  =  Id ":" (Types ("," Types)*)? "->" Types?
+  Annotation  =  id ":" (Types ("," Types)*)? "->" Types?
 
-  Function    =  Id "(" Parameters? ")" "=" Suite -- regularfuctions
+  Function    =  id "(" Parameters? ")" "=" Suite -- regularfuctions
               | "(" Unnamed ")" "=" Exp           -- anonymousfunctions
 
   Parameters  =  Named                            -- onlynamed
               |  Unnamed "," Named                -- both
               |  Unnamed                          -- onlyunnamed
 
-  Unnamed     =  Id ("," Id ~ "=")*               -- unnamedparams
-  Named       =  Id "=" Exp ("," Id "=" Exp)*     -- namedparams
-
-  Dec         =  Id assignop Exp                  -- single
-              |  Id "," Dec "," Exp               -- double
-
-  Id          =  id                               -- single
-  VarExp      =  VarExp "[" Exp "]"               -- subscripted
-              |  Id                               -- basic
+  Unnamed     =  id ("," id ~ "=")*               -- unnamedparams
+  Named       =  id "=" Exp ("," id "=" Exp)*     -- namedparams
 
   id          =  ~keyword letter idrest*
   idrest      =  "_" | alnum
