@@ -110,16 +110,17 @@ class AssignmentStatement {
     if (this.targets.length !== this.sources.length) {
       throw new Error('Number of variables does not equal number of expressions');
     }
-    this.sources.forEach(e => e.analyze(context));
-    this.targets.forEach(v => v.analyze(context));
-    for (let i = 0; i < this.ids.length; i++) {
-        context.addVariable(this.ids[i], this.initializers[i]);
+
+    for (let i = 0; i < this.targets.length; i++) {
+        // this.targets[i].analyze(context);
+        this.sources[i].analyze(context);
+        context.addVariable(this.targets[i], this.sources[i]);
     }
   }
 
   optimize() {
-    this.sources.forEach(e => e.optimize());
-    this.targets.forEach(v => v.optimize());
+    // this.sources.forEach(e => e.optimize());
+    // this.targets.forEach(v => v.optimize());
     // Suggested: Turn self-assignments without side-effects to null
     return this;
   }
@@ -356,7 +357,7 @@ module.exports = {
   // UnaryExpression,
   // BinaryExpression,
   VariableDeclaration,
-  // AssignmentStatement,
+  AssignmentStatement,
   // ReadStatement,
   // WriteStatement,
   // WhileStatement,

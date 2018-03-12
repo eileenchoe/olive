@@ -34,7 +34,7 @@ const semantics = grammar.createSemantics().addOperation('ast', {
   boollit(_) { return new BooleanLiteral(this.sourceString === 'true'); },
   intlit(_) { return new IntegerLiteral(this.sourceString); },
   Statement_constdecl(v, _, e) { return new VariableDeclaration(v.ast(), e.ast()); },
-  // Statement_varassign(v, _, e) { return new AssignmentStatement(v.ast(), e.ast()); },
+  Statement_varassign(v, _, e) { return new AssignmentStatement(v.ast(), e.ast()); },
   // Stmt_read(_1, v, _2, more) { return new ReadStatement([v.ast(), ...more.ast()]); },
   // Stmt_write(_1, e, _2, more) { return new WriteStatement([e.ast(), ...more.ast()]); },
   // Stmt_while(_1, e, _2, b, _3) { return new WhileStatement(e.ast(), b.ast()); },
