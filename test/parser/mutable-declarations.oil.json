@@ -1,12 +1,13 @@
-{
+{  
   "block":{
     "statements":[
       {
         "targets":[
           {
-            "name":"x"
+            "id":"x"
           }
         ],
+        "isMutable":true,
         "sources":[
           {
             "value":true
@@ -16,9 +17,10 @@
       {
         "targets":[
           {
-            "name":"y"
+            "id":"y"
           }
         ],
+        "isMutable":true,
         "sources":[
           {
             "value":"'hello'"

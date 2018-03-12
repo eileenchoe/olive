@@ -100,9 +100,8 @@ class IntegerLiteral {
 }
 
 class VariableExpression {
-  constructor(id, value) {
+  constructor(id) {
     this.id = id;
-    this.value = value;
   }
   analyze(context) {
     this.referent = context.lookup(this.id);
@@ -137,9 +136,9 @@ class VariableDeclaration {
       this.sources[i].analyze(context);
       let variable;
       if (this.targets[i].id) {
-        variable = new VariableExpression(this.targets[i].id, this.sources[i]);
+        variable = new VariableExpression(this.targets[i].id);
       } else {
-        variable = new VariableExpression(this.targets[i], this.sources[i]);
+        variable = new VariableExpression(this.targets[i]);
       }
       context.add(variable);
     }
