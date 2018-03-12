@@ -56,31 +56,31 @@ class IntegerLiteral {
   }
 }
 
-// class VariableDeclaration {
-//   constructor(id, type) {
-//     Object.assign(this, { id, type });
-//   }
-//   analyze(context) {
-//     context.variableMustNotBeAlreadyDeclared(this.id);
-//     context.addVariable(this.id, this);
-//   }
-//   optimize() {
-//     return this;
-//   }
-// }
-//
-// class VariableExpression {
-//   constructor(name) {
-//     this.name = name;
-//   }
-//   analyze(context) {
-//     this.referent = context.lookupVariable(this.name);
-//     this.type = this.referent.type;
-//   }
-//   optimize() {
-//     return this;
-//   }
-// }
+class VariableDeclaration {
+  constructor(id, type) {
+    Object.assign(this, { id, type });
+  }
+  analyze(context) {
+    context.variableMustNotBeAlreadyDeclared(this.id);
+    context.addVariable(this.id, this);
+  }
+  optimize() {
+    return this;
+  }
+}
+
+class VariableExpression {
+  constructor(name) {
+    this.name = name;
+  }
+  analyze(context) {
+    this.referent = context.lookupVariable(this.name);
+    this.type = this.referent.type;
+  }
+  optimize() {
+    return this;
+  }
+}
 //
 // class UnaryExpression {
 //   constructor(op, operand) {
@@ -308,10 +308,10 @@ module.exports = {
   Type,
   BooleanLiteral,
   IntegerLiteral,
-  // VariableExpression,
+  VariableExpression,
   // UnaryExpression,
   // BinaryExpression,
-  // VariableDeclaration,
+  VariableDeclaration,
   // AssignmentStatement,
   // ReadStatement,
   // WriteStatement,
