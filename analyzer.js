@@ -1,3 +1,4 @@
+/* eslint-disable no-throw-literal */
 class AnalysisContext {
   constructor(parent) {
     this.parent = parent;

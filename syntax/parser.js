@@ -12,15 +12,15 @@
  */
 
 const {
-    Program,
-    Block,
-    Type,
-    IntegerLiteral,
-    BooleanLiteral,
-    StringLiteral,
-    VariableDeclaration,
-    VariableExpression,
-    AssignmentStatement
+  Program,
+  Block,
+  // Type,
+  IntegerLiteral,
+  BooleanLiteral,
+  StringLiteral,
+  VariableDeclaration,
+  VariableExpression,
+  AssignmentStatement,
 } = require('../ast');
 
 const fs = require('fs');
@@ -29,6 +29,7 @@ const withIndentsAndDedents = require('./preparser');
 
 const grammar = ohm.grammar(fs.readFileSync('./syntax/olive.ohm'));
 
+/* eslint-disable no-unused-vars */
 const semantics = grammar.createSemantics().addOperation('ast', {
   Program(b) { return new Program(b.ast()); },
   Block(s) { return new Block(s.ast()); },
@@ -50,8 +51,9 @@ const semantics = grammar.createSemantics().addOperation('ast', {
   // Exp6_parens(_1, e, _2) { return e.ast(); },
   VarExp(_) { return new VariableExpression(this.sourceString); },
   NonemptyListOf(first, _, rest) { return [first.ast(), ...rest.ast()]; },
-  id(_1, _2) {return this.sourceString; }
+  id(_1, _2) { return this.sourceString; },
 });
+/* eslint-enable no-unused-vars */
 
 module.exports = (text) => {
   const match = grammar.match(withIndentsAndDedents(text));

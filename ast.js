@@ -54,27 +54,27 @@ Type.forName = name => Type.cache[name];
 // }
 
 class StringLiteral {
-    constructor(value) {
-      this.value = value;
-    }
-    analyze() {
-      this.type = Type.STRING;
-    }
-    optimize() {
-      return this;
-    }
+  constructor(value) {
+    this.value = value;
+  }
+  analyze() {
+    this.type = Type.STRING;
+  }
+  optimize() {
+    return this;
+  }
 }
 
 class FloatLiteral {
-    constructor(value) {
-      this.value = value;
-    }
-    analyze() {
-      this.type = Type.FLOAT;
-    }
-    optimize() {
-      return this;
-    }
+  constructor(value) {
+    this.value = value;
+  }
+  analyze() {
+    this.type = Type.FLOAT;
+  }
+  optimize() {
+    return this;
+  }
 }
 
 class BooleanLiteral {
@@ -133,10 +133,10 @@ class VariableDeclaration {
     // declaration line, so we will analyze all the initializing expressions
     // first.
 
-    for (let i = 0; i < this.ids.length; i++) {
-        context.variableMustNotBeAlreadyDeclared(this.ids[i]);
-        this.initializers[i].analyze(context);
-        context.addVariable(this.ids[i], this.initializers[i]);
+    for (let i = 0; i < this.ids.length; i += 1) {
+      context.variableMustNotBeAlreadyDeclared(this.ids[i]);
+      this.initializers[i].analyze(context);
+      context.addVariable(this.ids[i], this.initializers[i]);
     }
   }
 
@@ -146,7 +146,7 @@ class VariableDeclaration {
 }
 
 class AssignmentStatement {
-    // a, b := 23, true
+  // a, b := 23, true
   constructor(targets, sources) {
     Object.assign(this, { targets, sources });
   }
@@ -156,10 +156,10 @@ class AssignmentStatement {
       throw new Error('Number of variables does not equal number of expressions');
     }
 
-    for (let i = 0; i < this.targets.length; i++) {
-        // this.targets[i].analyze(context);
-        this.sources[i].analyze(context);
-        context.addVariable(this.targets[i], this.sources[i]);
+    for (let i = 0; i < this.targets.length; i += 1) {
+      // this.targets[i].analyze(context);
+      this.sources[i].analyze(context);
+      context.addVariable(this.targets[i], this.sources[i]);
     }
   }
 
@@ -380,25 +380,26 @@ class Program {
   }
 }
 
-function isZero(entity) {
-  return entity instanceof IntegerLiteral && entity.value === 0;
-}
-
-function isOne(entity) {
-  return entity instanceof IntegerLiteral && entity.value === 1;
-}
-
-function sameVariable(e1, e2) {
-  return e1 instanceof VariableExpression &&
-         e2 instanceof VariableExpression &&
-         e1.referent === e2.referent;
-}
+// function isZero(entity) {
+//   return entity instanceof IntegerLiteral && entity.value === 0;
+// }
+//
+// function isOne(entity) {
+//   return entity instanceof IntegerLiteral && entity.value === 1;
+// }
+//
+// function sameVariable(e1, e2) {
+//   return e1 instanceof VariableExpression &&
+//          e2 instanceof VariableExpression &&
+//          e1.referent === e2.referent;
+// }
 
 module.exports = {
   Type,
   BooleanLiteral,
   IntegerLiteral,
   StringLiteral,
+  FloatLiteral,
   VariableExpression,
   // UnaryExpression,
   // BinaryExpression,
