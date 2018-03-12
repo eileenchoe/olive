@@ -53,8 +53,8 @@ Olive {
               |  "tuple"
               |  "matrix"
               |  "dictionary"
-              |  "sets"
-              |  "boolean"
+              |  "set"
+              |  "bool"
 
   Annotation  =  id ":" (Types ("," Types)*)? "->" Types?
 

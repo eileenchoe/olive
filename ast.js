@@ -30,7 +30,52 @@ class Type {
 Type.cache = {};
 Type.BOOL = new Type('bool');
 Type.INT = new Type('int');
+Type.FLOAT = new Type('float');
+Type.STRING = new Type('string');
+Type.NONE = new Type('none');
+Type.TUPLE = new Type('tuple');
+Type.MATRIX = new Type('matrix');
+Type.DICTIONARY = new Type('dictionary');
+Type.SET = new Type('set');
+Type.TEMPLATELITERAL = new Type('templateliteral');
+
 Type.forName = name => Type.cache[name];
+
+// class NoneType {
+//     constructor () {
+//
+//     }
+//     analyze() {
+//       this.type = Type.NONE;
+//     }
+//     optimize() {
+//       return this;
+//     }
+// }
+
+class StringLiteral {
+    constructor(value) {
+      this.value = value;
+    }
+    analyze() {
+      this.type = Type.STRING;
+    }
+    optimize() {
+      return this;
+    }
+}
+
+class FloatLiteral {
+    constructor(value) {
+      this.value = value;
+    }
+    analyze() {
+      this.type = Type.FLOAT;
+    }
+    optimize() {
+      return this;
+    }
+}
 
 class BooleanLiteral {
   constructor(value) {
@@ -353,6 +398,7 @@ module.exports = {
   Type,
   BooleanLiteral,
   IntegerLiteral,
+  StringLiteral,
   VariableExpression,
   // UnaryExpression,
   // BinaryExpression,
