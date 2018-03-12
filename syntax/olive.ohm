@@ -34,6 +34,7 @@ Olive {
               |  intlit
               |  floatlit
               |  stringlit
+              |  nonelit
               |  StringInterpolation
               |  VarExp
   Exps        =  NonemptyListOf<Exp, ",">
@@ -91,7 +92,7 @@ Olive {
   boollit     = "true" | "false"
   intlit      = ~floatlit digit+
   floatlit    = digit+ "." digit+
-  nulllit     = "null"
+  nonelit     = "None"
 
   newline     =  "\n"+
   space       += comment

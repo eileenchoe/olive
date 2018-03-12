@@ -41,17 +41,14 @@ Type.TEMPLATELITERAL = new Type('templateliteral');
 
 Type.forName = name => Type.cache[name];
 
-// class NoneType {
-//     constructor () {
-//
-//     }
-//     analyze() {
-//       this.type = Type.NONE;
-//     }
-//     optimize() {
-//       return this;
-//     }
-// }
+class NoneLiteral {
+  analyze() {
+    this.type = Type.NONE;
+  }
+  optimize() {
+    return this;
+  }
+}
 
 class StringLiteral {
   constructor(value) {
@@ -400,6 +397,7 @@ module.exports = {
   IntegerLiteral,
   StringLiteral,
   FloatLiteral,
+  NoneLiteral,
   VariableExpression,
   // UnaryExpression,
   // BinaryExpression,
