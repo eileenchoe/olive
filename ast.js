@@ -1,4 +1,4 @@
-const { initialContext } = require('./analyzer');
+const { INITIAL, Context } = require('./analyzer');
 
 class Type {
   constructor(name) {
@@ -99,11 +99,12 @@ class IntegerLiteral {
 }
 
 class VariableExpression {
-  constructor(name) {
-    this.name = name;
+  constructor(id, value) {
+    this.id = id;
+    this.value = value;
   }
   analyze(context) {
-    this.referent = context.lookupVariable(this.name);
+    this.referent = context.lookup(this.id);
     this.type = this.referent.type;
   }
   optimize() {
@@ -131,9 +132,11 @@ class VariableDeclaration {
     // first.
 
     for (let i = 0; i < this.ids.length; i += 1) {
+
       context.variableMustNotBeAlreadyDeclared(this.ids[i]);
       this.initializers[i].analyze(context);
-      context.addVariable(this.ids[i], this.initializers[i]);
+      let variable = new VariableExpression(this.ids[i], this.initializers[i]);
+      context.add(variable);
     }
   }
 
@@ -156,7 +159,8 @@ class AssignmentStatement {
     for (let i = 0; i < this.targets.length; i += 1) {
       // this.targets[i].analyze(context);
       this.sources[i].analyze(context);
-      context.addVariable(this.targets[i], this.sources[i]);
+      let variable = new VariableExpression(this.targets[i], this.sources[i]);
+      context.add(variable);
     }
   }
 
@@ -164,6 +168,25 @@ class AssignmentStatement {
     // this.sources.forEach(e => e.optimize());
     // this.targets.forEach(v => v.optimize());
     // Suggested: Turn self-assignments without side-effects to null
+    return this;
+  }
+}
+
+class WhileStatement {
+  constructor(condition, body) {
+    Object.assign(this, { condition, body });
+  }
+  analyze(context) {
+    this.condition.analyze(context);
+    this.condition.type.mustBeBoolean('Condition in "while" statement must be boolean');
+    this.body.analyze(context);
+  }
+  optimize() {
+    this.condition = this.condition.optimize();
+    this.body = this.body.optimize();
+    if (this.condition instanceof BooleanLiteral && this.condition.value === false) {
+      return null;
+    }
     return this;
   }
 }
@@ -331,31 +354,14 @@ class AssignmentStatement {
 //   }
 // }
 //
-// class WhileStatement {
-//   constructor(condition, body) {
-//     Object.assign(this, { condition, body });
-//   }
-//   analyze(context) {
-//     this.condition.analyze(context);
-//     this.condition.type.mustBeBoolean('Condition in "while" statement must be boolean');
-//     this.body.analyze(context);
-//   }
-//   optimize() {
-//     this.condition = this.condition.optimize();
-//     this.body = this.body.optimize();
-//     if (this.condition instanceof BooleanLiteral && this.condition.value === false) {
-//       return null;
-//     }
-//     return this;
-//   }
-// }
+
 
 class Block {
   constructor(statements) {
     this.statements = statements;
   }
   analyze(context) {
-    const localContext = context.createChildContext();
+    const localContext = context.createChildContextForBlock();
     this.statements.forEach(s => s.analyze(localContext));
   }
   optimize() {
@@ -369,7 +375,7 @@ class Program {
     this.block = block;
   }
   analyze() {
-    this.block.analyze(initialContext());
+    this.block.analyze(INITIAL);
   }
   optimize() {
     this.block = this.block.optimize();
