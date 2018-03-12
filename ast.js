@@ -1,4 +1,5 @@
-const { INITIAL, Context } = require('./analyzer');
+const { INITIAL } = require('./analyzer');
+const util = require('util');
 
 class Type {
   constructor(name) {
@@ -118,8 +119,8 @@ class VariableDeclaration {
   // semantic analysis context.
 
   // a, b = 1, 2
-  constructor(ids, initializers) {
-    Object.assign(this, { ids, initializers });
+  constructor(ids, isMutable, initializers) {
+    Object.assign(this, { ids, isMutable, initializers });
   }
 
   analyze(context) {
@@ -132,12 +133,12 @@ class VariableDeclaration {
     // first.
 
     for (let i = 0; i < this.ids.length; i += 1) {
-
       context.variableMustNotBeAlreadyDeclared(this.ids[i]);
       this.initializers[i].analyze(context);
-      let variable = new VariableExpression(this.ids[i], this.initializers[i]);
+      const variable = new VariableExpression(this.ids[i], this.initializers[i]);
       context.add(variable);
     }
+    console.log(util.inspect(context.declarations));
   }
 
   optimize() {
@@ -145,32 +146,33 @@ class VariableDeclaration {
   }
 }
 
-class AssignmentStatement {
-  // a, b := 23, true
-  constructor(targets, sources) {
-    Object.assign(this, { targets, sources });
-  }
-
-  analyze(context) {
-    if (this.targets.length !== this.sources.length) {
-      throw new Error('Number of variables does not equal number of expressions');
-    }
-
-    for (let i = 0; i < this.targets.length; i += 1) {
-      // this.targets[i].analyze(context);
-      this.sources[i].analyze(context);
-      let variable = new VariableExpression(this.targets[i], this.sources[i]);
-      context.add(variable);
-    }
-  }
-
-  optimize() {
-    // this.sources.forEach(e => e.optimize());
-    // this.targets.forEach(v => v.optimize());
-    // Suggested: Turn self-assignments without side-effects to null
-    return this;
-  }
-}
+// class AssignmentStatement {
+//   // a, b := 23, true
+//   constructor(targets, sources) {
+//     Object.assign(this, { targets, sources });
+//   }
+//
+//   analyze(context) {
+//     if (this.targets.length !== this.sources.length) {
+//       throw new Error('Number of variables does not equal number of expressions');
+//     }
+//
+//     for (let i = 0; i < this.targets.length; i += 1) {
+//       // this.targets[i].analyze(context);
+//       this.sources[i].analyze(context);
+//       const variable = new VariableExpression(this.targets[i], this.sources[i]);
+//       context.add(variable);
+//     }
+//     console.log(util.inspect(context.declarations));
+//   }
+//
+//   optimize() {
+//     // this.sources.forEach(e => e.optimize());
+//     // this.targets.forEach(v => v.optimize());
+//     // Suggested: Turn self-assignments without side-effects to null
+//     return this;
+//   }
+// }
 
 class WhileStatement {
   constructor(condition, body) {
@@ -411,7 +413,7 @@ module.exports = {
   AssignmentStatement,
   // ReadStatement,
   // WriteStatement,
-  // WhileStatement,
+  WhileStatement,
   Block,
   Program,
 };

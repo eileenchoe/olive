@@ -22,7 +22,6 @@ const {
   NoneLiteral,
   VariableDeclaration,
   VariableExpression,
-  AssignmentStatement,
 } = require('../ast');
 
 const fs = require('fs');
@@ -40,8 +39,8 @@ const semantics = grammar.createSemantics().addOperation('ast', {
   floatlit(_1, _2, _3) { return new FloatLiteral(this.sourceString); },
   stringlit(_1, chars, _3) { return new StringLiteral(this.sourceString); },
   nonelit(_) { return new NoneLiteral(); },
-  Statement_constdecl(v, _, e) { return new VariableDeclaration(v.ast(), e.ast()); },
-  Statement_varassign(v, _, e) { return new AssignmentStatement(v.ast(), e.ast()); },
+  Statement_constdecl(v, _, e) { return new VariableDeclaration(v.ast(), false, e.ast()); },
+  Statement_varassign(v, _, e) { return new VariableDeclaration(v.ast(), true, e.ast()); },
   // Stmt_read(_1, v, _2, more) { return new ReadStatement([v.ast(), ...more.ast()]); },
   // Stmt_write(_1, e, _2, more) { return new WriteStatement([e.ast(), ...more.ast()]); },
   // Stmt_while(_1, e, _2, b, _3) { return new WhileStatement(e.ast(), b.ast()); },
