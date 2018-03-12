@@ -1,4 +1,5 @@
 const { INITIAL, Context } = require('./analyzer');
+const util = require('util');
 
 class Type {
   constructor(name) {
@@ -132,9 +133,9 @@ class VariableDeclaration {
     // first.
 
     for (let i = 0; i < this.ids.length; i += 1) {
-
       context.variableMustNotBeAlreadyDeclared(this.ids[i]);
       this.initializers[i].analyze(context);
+      console.log(`id: ${this.ids[i]} initializers: ${util.inspect(this.initializers[i])}`);
       let variable = new VariableExpression(this.ids[i], this.initializers[i]);
       context.add(variable);
     }
@@ -159,7 +160,13 @@ class AssignmentStatement {
     for (let i = 0; i < this.targets.length; i += 1) {
       // this.targets[i].analyze(context);
       this.sources[i].analyze(context);
-      let variable = new VariableExpression(this.targets[i], this.sources[i]);
+      // console.log(`id: ${util.inspect(this.targets[i].id)} initializers: ${util.inspect(this.sources[i])}`);
+      let variable;
+      if (this.targets[i].id) {
+        variable = new VariableExpression(this.targets[i].id, this.sources[i]);
+      } else {
+        variable = new VariableExpression(this.targets[i], this.sources[i]);
+      }
       context.add(variable);
     }
   }
