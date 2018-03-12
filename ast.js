@@ -119,12 +119,12 @@ class VariableDeclaration {
   // semantic analysis context.
 
   // a, b = 1, 2
-  constructor(ids, initializers) {
-    Object.assign(this, { ids, initializers });
+  constructor(targets, isMutable, sources) {
+    Object.assign(this, { targets, isMutable, sources });
   }
 
   analyze(context) {
-    if (this.ids.length !== this.initializers.length) {
+    if (this.targets.length !== this.sources.length) {
       throw new Error('Number of variables does not equal number of initializers');
     }
 
@@ -132,35 +132,9 @@ class VariableDeclaration {
     // declaration line, so we will analyze all the initializing expressions
     // first.
 
-    for (let i = 0; i < this.ids.length; i += 1) {
-      context.variableMustNotBeAlreadyDeclared(this.ids[i]);
-      this.initializers[i].analyze(context);
-      console.log(`id: ${this.ids[i]} initializers: ${util.inspect(this.initializers[i])}`);
-      let variable = new VariableExpression(this.ids[i], this.initializers[i]);
-      context.add(variable);
-    }
-  }
-
-  optimize() {
-    return this;
-  }
-}
-
-class AssignmentStatement {
-  // a, b := 23, true
-  constructor(targets, sources) {
-    Object.assign(this, { targets, sources });
-  }
-
-  analyze(context) {
-    if (this.targets.length !== this.sources.length) {
-      throw new Error('Number of variables does not equal number of expressions');
-    }
-
     for (let i = 0; i < this.targets.length; i += 1) {
-      // this.targets[i].analyze(context);
+      context.variableMustNotBeAlreadyDeclared(this.targets[i]);
       this.sources[i].analyze(context);
-      // console.log(`id: ${util.inspect(this.targets[i].id)} initializers: ${util.inspect(this.sources[i])}`);
       let variable;
       if (this.targets[i].id) {
         variable = new VariableExpression(this.targets[i].id, this.sources[i]);
@@ -169,15 +143,46 @@ class AssignmentStatement {
       }
       context.add(variable);
     }
+    console.log(util.inspect(context.declarations));
   }
 
   optimize() {
-    // this.sources.forEach(e => e.optimize());
-    // this.targets.forEach(v => v.optimize());
-    // Suggested: Turn self-assignments without side-effects to null
     return this;
   }
 }
+
+// class AssignmentStatement {
+//   // a, b := 23, true
+//   constructor(targets, sources) {
+//     Object.assign(this, { targets, sources });
+//   }
+//
+//   analyze(context) {
+//     if (this.targets.length !== this.sources.length) {
+//       throw new Error('Number of variables does not equal number of expressions');
+//     }
+//
+//     for (let i = 0; i < this.targets.length; i += 1) {
+//       // this.targets[i].analyze(context);
+//       this.sources[i].analyze(context);
+//       // console.log(`id: ${util.inspect(this.targets[i].id)} initializers: ${util.inspect(this.sources[i])}`);
+      // let variable;
+      // if (this.targets[i].id) {
+      //   variable = new VariableExpression(this.targets[i].id, this.sources[i]);
+      // } else {
+      //   variable = new VariableExpression(this.targets[i], this.sources[i]);
+      // }
+      // context.add(variable);
+//     }
+//   }
+//
+//   optimize() {
+//     // this.sources.forEach(e => e.optimize());
+//     // this.targets.forEach(v => v.optimize());
+//     // Suggested: Turn self-assignments without side-effects to null
+//     return this;
+//   }
+// }
 
 class WhileStatement {
   constructor(condition, body) {
@@ -415,10 +420,10 @@ module.exports = {
   // UnaryExpression,
   // BinaryExpression,
   VariableDeclaration,
-  AssignmentStatement,
+  // AssignmentStatement,
   // ReadStatement,
   // WriteStatement,
-  // WhileStatement,
+  WhileStatement,
   Block,
   Program,
 };

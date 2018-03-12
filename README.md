@@ -1,6 +1,11 @@
+
+
+### Learn more at Olive-Lang [Website](https://eileenchoe.github.io/olive/website)
+
 ![olive-logo](./resources/logo-new.png)
 
 ## Introduction
+
 Olive is a high-level, high-performance language for numerical computing. Olive combines the expressivity and power of Python with the first class support for matrix and array mathematics of languages like Julia and MATLAB. Olive's goal is to make programming delightful for data science and numerical computing applications. A simple syntax paired with implicit typing reduces the overhead of language-specific syntax and allows the programmer to focus on the content of their programs.
 
 ## List of Features
@@ -80,7 +85,19 @@ olive_products = ['oil', 'raw', 'pickled', 'stuffed']
 fibonacci_numbers = [0, 1, 1, 2, 3, 5, 8, 13]
 ```
 
+#### Range
+
+Like python ranges, Olive ranges iteratively produce the following value in the range until the end condition is met. Range objects can also be used as a parameter for random generators, in which case, the start, increment and end values will be used to produce a single random value.
+
+```
+evens = [0:2:10)                | range object with integers from 0 inclusive to 10 exclusive 
+delta = (-0.2:0.1:1.6]          | range object with decimal values from 0 exclusive to 1 inclusive
+really_small = [0:1^(-10):0.1]  | increments can be specified using expressions like exponents
+reversed_evens = [10:-2:0]      | increments can be negative to iterate in reverse
+```
+
 #### Matrix
+
 Matrices are single or multi-dimensional vectors.
 
 Matrices can behave as vectors
@@ -93,30 +110,30 @@ W = [[0, 1, 1], [0, 0, 1], [0, 0, 1]]  | Matrix
 
 Can be generated programmatically.
 ```
-a = ones((5, 1))                   | 5 element column vector of ones
-a = ones((1, 5))                   | 5 element row vector of ones
-b = ones((1, 3)) * 2.5             | 3 element vector of 2.5s
-c = random((1, 3))                 | 3 element vector of random numbers in [0:1)
-d = random((7), range: (0:10])     | 7 element vector of random numbers in (0:10]
+a = ones((5, 1))                      | 5 element column vector of ones
+a = ones((1, 5))                      | 5 element row vector of ones
+b = ones((1, 3)) * 2.5                | 3 element vector of 2.5s
+c = random((1, 3))                    | 3 element vector of random floats in [0:0.01:1)
+d = random((1, 7), range=(0:1:10])    | 7 element vector of random integers in [0:1:10)
 
-A = random((1, 3, 4), range: [0, 10))           | 1x3x4 matrix of random numbers in (0, 10]
-B = zeros((3,3))                                | 3x3 matrix of zeros
-I = identity(10)                                | 10x10 identity matrix
+A = random((1, 3, 4), range=[0:1:10))          | 1x3x4 matrix of random numbers in (0, 10]
+B = zeros((3, 3))                              | 3x3 matrix of zeros
+I = identity(10)                               | 10x10 identity matrix
 ```
 
 Olive supports a number of built-in operations and functions for matrices.
 
 ```
 | Multiplication
-A = random((1, 3, 4), range: (0, 10])
-B = random((1, 3, 4), range: (3, 10])
+A = random((1, 3, 4), range=(0:0.1:10])
+B = random((1, 3, 4), range=(3:0.1:10])
 C = A B
 
 | Transpose
 A_transpose = A'
 
 | Inverse
-D = random((1, 3, 4), range: [3, 10])
+D = random((1, 3, 4), range: [3:1:10])
 D_inverse = inverse(D)
 
 | Element wise operations are preceded by a dot
@@ -131,7 +148,6 @@ greeting = 'hello'
 name = 'olive'
 
 complete_greeting = `${greeting}, ${name}`
-
 ```
 #### Concatenation
 ```
@@ -161,15 +177,19 @@ for types in olive_types
 counter := 10
 while (counter >= 0)
   print(counter)
-  counter := counter - 1
+  counter := counter - 1 | we never said you should be doing this...
 ```
 
 ### Functions
+
+Functions look like immutable variables, and they can take parameters. Parameters can have default values.
+
 ```
-say_hello (name: 'Eileen') =
+say_hello (name='Eileen') =
   print(`Hello, ${name}!`)
 
-say_hello(name: 'Eddie')     | 'Hello, Eddie!' (named parameter)
+say_hello('Eddie')           | 'Hello, Eddie!'
+say_hello(name='Eddie')      | 'Hello, Eddie!' (named parameter)
 say_hello()                  | 'Hello, Eileen!' (default parameter)
 
 square (x) =
@@ -214,4 +234,3 @@ triple("10")      | Run time error
 | float | Floating point real values |
 | boolean | `true` or `false` |
 | string | `'hello'`|
-to be continued
