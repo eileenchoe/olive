@@ -57,27 +57,65 @@ class IntegerLiteral {
 }
 
 class VariableDeclaration {
-  constructor(id, type) {
-    Object.assign(this, { id, type });
+  // During syntax analysis (parsing), all we do is collect the variable names.
+  // We will make the variable objects later, because we have to add them to a
+  // semantic analysis context.
+
+  // a, b = 1, 2
+  constructor(ids, initializers) {
+    Object.assign(this, { ids, initializers });
   }
+
   analyze(context) {
-    context.variableMustNotBeAlreadyDeclared(this.id);
-    context.addVariable(this.id, this);
+    if (this.ids.length !== this.initializers.length) {
+      throw new Error('Number of variables does not equal number of initializers');
+    }
+
+    // We don't want the declared variables to come into scope until after the
+    // declaration line, so we will analyze all the initializing expressions
+    // first.
+    this.initializers.forEach(e => e.analyze(context));
+    for (let i = 0; i < this.ids.length; i++) {
+        context.addVariable(this.ids[i], this.initializers[i]);
+    }
   }
+
   optimize() {
     return this;
   }
 }
 
-class VariableExpression {
-  constructor(name) {
-    this.name = name;
+// class VariableDeclaration {
+//   constructor(id, type) {
+//     Object.assign(this, { id, type });
+//   }
+//   analyze(context) {
+//     context.variableMustNotBeAlreadyDeclared(this.id);
+//     context.addVariable(this.id, this);
+//   }
+//   optimize() {
+//     return this;
+//   }
+// }
+
+class AssignmentStatement {
+    // a, b := 23, true
+  constructor(targets, sources) {
+    Object.assign(this, { targets, sources });
   }
+
   analyze(context) {
-    this.referent = context.lookupVariable(this.name);
-    this.type = this.referent.type;
+    if (this.targets.length !== this.sources.length) {
+      throw new Error('Number of variables does not equal number of expressions');
+    }
+    this.sources.forEach(e => e.analyze(context));
+    this.targets.forEach(v => v.analyze(context));
   }
+
   optimize() {
+    this.sources.forEach(e => e.optimize());
+    this.targets.forEach(v => v.optimize());
+    // Suggested: Turn self-assignments without side-effects to null
     return this;
   }
 }
@@ -308,7 +346,7 @@ module.exports = {
   Type,
   BooleanLiteral,
   IntegerLiteral,
-  VariableExpression,
+  // VariableExpression,
   // UnaryExpression,
   // BinaryExpression,
   VariableDeclaration,

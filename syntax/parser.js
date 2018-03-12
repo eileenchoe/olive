@@ -17,6 +17,7 @@ const {
     Type,
     IntegerLiteral,
     BooleanLiteral,
+    VariableDeclaration,
     AssignmentStatement
 } = require('../ast');
 
@@ -31,7 +32,8 @@ const semantics = grammar.createSemantics().addOperation('ast', {
   Block(s) { return new Block(s.ast()); },
   boollit(_) { return new BooleanLiteral(this.sourceString === 'true'); },
   intlit(_) { return new IntegerLiteral(this.sourceString); },
-  Statement_assign(ids, assignop, values) { console.log( ids.ast(); ) },
+  Statement_constdecl(v, _, e) { return new VariableDeclaration(v.ast(), e.ast()); },
+  // Statement_varassign(v, _, e) { return new AssignmentStatement(v.ast(), e.ast()); },
   // Stmt_read(_1, v, _2, more) { return new ReadStatement([v.ast(), ...more.ast()]); },
   // Stmt_write(_1, e, _2, more) { return new WriteStatement([e.ast(), ...more.ast()]); },
   // Stmt_while(_1, e, _2, b, _3) { return new WhileStatement(e.ast(), b.ast()); },
@@ -44,6 +46,8 @@ const semantics = grammar.createSemantics().addOperation('ast', {
   // Exp5_unary(op, e) { return new UnaryExpression(op.sourceString, e.ast()); },
   // Exp6_parens(_1, e, _2) { return e.ast(); },
   // VarExp(_) { return new VariableExpression(this.sourceString); },
+  NonemptyListOf(first, _, rest) { return [first.ast(), ...rest.ast()]; },
+  id(_1, _2) {return this.sourceString; }
 });
 
 module.exports = (text) => {
@@ -51,6 +55,6 @@ module.exports = (text) => {
   if (!match.succeeded()) {
     throw new Error(`Syntax Error: ${match.message}`);
   }
-  // return semantics(match).ast(); // TODO: Renable once .ast() is written
-  return { success: true }; // To get unit tests running for syntax only
+  return semantics(match).ast(); // TODO: Renable once .ast() is written
+  // return { success: true }; // To get unit tests running for syntax only
 };
