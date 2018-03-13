@@ -22,6 +22,7 @@ const {
   NoneLiteral,
   VariableDeclaration,
   VariableExpression,
+  BinaryExpression
 } = require('../ast');
 
 const fs = require('fs');
@@ -41,6 +42,11 @@ const semantics = grammar.createSemantics().addOperation('ast', {
   nonelit(_) { return new NoneLiteral(); },
   Statement_constdecl(v, _, e) { return new VariableDeclaration(v.ast(), false, e.ast()); },
   Statement_varassign(v, _, e) { return new VariableDeclaration(v.ast(), true, e.ast()); },
+  Exp_or(left, op, right) { return new BinaryExpression(op.ast(), left.ast(), right.ast()); },
+  Exp_and(left, op, right) { return new BinaryExpression(op.ast(), left.ast(), right.ast()); },
+  Exp1_binary(left, op, right) { return new BinaryExpression(op.ast(), left.ast(), right.ast()); },
+  Exp2_binary(left, op, right) { return new BinaryExpression(op.ast(), left.ast(), right.ast()); },
+  Exp3_binary(left, op, right) { return new BinaryExpression(op.ast(), left.ast(), right.ast()); },
   // Stmt_read(_1, v, _2, more) { return new ReadStatement([v.ast(), ...more.ast()]); },
   // Stmt_write(_1, e, _2, more) { return new WriteStatement([e.ast(), ...more.ast()]); },
   // Stmt_while(_1, e, _2, b, _3) { return new WhileStatement(e.ast(), b.ast()); },
@@ -55,6 +61,7 @@ const semantics = grammar.createSemantics().addOperation('ast', {
   VarExp(_) { return new VariableExpression(this.sourceString); },
   NonemptyListOf(first, _, rest) { return [first.ast(), ...rest.ast()]; },
   id(_1, _2) { return this.sourceString; },
+  _terminal() { return this.sourceString; },
 });
 /* eslint-enable no-unused-vars */
 

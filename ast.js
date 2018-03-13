@@ -150,6 +150,33 @@ class VariableDeclaration {
   }
 }
 
+class BinaryExpression {
+  constructor(op, left, right) {
+    Object.assign(this, { op, left, right });
+  }
+  analyze(context) {
+    this.left.analyze(context);
+    this.right.analyze(context);
+    if (['<', '<=', '>=', '>'].includes(this.op)) {
+      this.mustHaveIntegerOperands();
+      this.type = Type.BOOL;
+    } else if (['==', '!='].includes(this.op)) {
+      this.mustHaveCompatibleOperands();
+      this.type = Type.BOOL;
+    } else if (['and', 'or'].includes(this.op)) {
+      this.mustHaveBooleanOperands();
+      this.type = Type.BOOL;
+    } else {
+      // All other binary operators are arithmetic
+      this.mustHaveIntegerOperands();
+      this.type = Type.INT;
+    }
+  }
+  optimize() {
+      return this;
+  }
+}
+
 // class AssignmentStatement {
 //   // a, b := 23, true
 //   constructor(targets, sources) {
@@ -417,7 +444,7 @@ module.exports = {
   NoneLiteral,
   VariableExpression,
   // UnaryExpression,
-  // BinaryExpression,
+  BinaryExpression,
   VariableDeclaration,
   // AssignmentStatement,
   // ReadStatement,
