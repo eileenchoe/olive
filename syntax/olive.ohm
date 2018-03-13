@@ -5,7 +5,6 @@ Olive {
               |  VarExps ":=" Exps                -- varassign
               |  (Annotation)? Function           -- functionDeclaration
               |  "return" Exp?                    -- return
-              |  "print(" Exp ")"                 -- print
               |  "while" Exp Suite                -- while
               |  "for" id "in" Exp Suite          -- for
               |  "if" Exp Suite
@@ -24,8 +23,8 @@ Olive {
               |  Exp4
   Exp4        =  prefixop Exp5                    -- unary
               |  Exp5
-  Exp5        =  Matrix
-              |  Dictionary
+  Exp5        =  Matrix                           -- matrix
+              |  Dictionary                       -- dictionary
               |  Immutables
               |  "(" Exp ")"                      -- parens
               |  Tuple
