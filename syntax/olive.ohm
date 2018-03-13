@@ -25,10 +25,10 @@ Olive {
   Exp4        =  prefixop Exp5                    -- unary
               |  Exp5
   Exp5        =  Matrix
-              |  Tuple
               |  Dictionary
               |  Immutables
               |  "(" Exp ")"                      -- parens
+              |  Tuple
 
   Immutables  =  boollit
               |  intlit
