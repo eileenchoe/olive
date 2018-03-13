@@ -1,0 +1,32 @@
+{
+   "block":{
+      "statements":[
+         {
+            "targets":[
+               {
+                  "id":"x"
+               }
+            ],
+            "isMutable":true,
+            "sources":[
+               {
+                  "value":"1"
+               }
+            ]
+         },
+         {
+            "targets":[
+               {
+                  "id":"x"
+               }
+            ],
+            "isMutable":true,
+            "sources":[
+               {
+                  "value":"6"
+               }
+            ]
+         }
+      ]
+   }
+}
