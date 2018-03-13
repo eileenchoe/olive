@@ -14,6 +14,7 @@
 const {
   Program,
   Block,
+  ReturnStatement,
   // Type,
   IntegerLiteral,
   BooleanLiteral,
@@ -32,6 +33,11 @@ const withIndentsAndDedents = require('./preparser');
 
 const grammar = ohm.grammar(fs.readFileSync('./syntax/olive.ohm'));
 
+// Ohm turns `x?` into either [x] or [], which we should clean up for our AST.
+function unpack(a) {
+  return a.length === 0 ? null : a[0];
+}
+
 /* eslint-disable no-unused-vars */
 const semantics = grammar.createSemantics().addOperation('ast', {
   Program(b) { return new Program(b.ast()); },
@@ -43,6 +49,7 @@ const semantics = grammar.createSemantics().addOperation('ast', {
   nonelit(_) { return new NoneLiteral(); },
   Statement_constdecl(v, _, e) { return new VariableDeclaration(v.ast(), false, e.ast()); },
   Statement_varassign(v, _, e) { return new VariableDeclaration(v.ast(), true, e.ast()); },
+  Statement_return(_, e) { return new ReturnStatement(unpack(e.ast())); },
   Exp_or(left, op, right) { return new BinaryExpression(op.ast(), left.ast(), right.ast()); },
   Exp_and(left, op, right) { return new BinaryExpression(op.ast(), left.ast(), right.ast()); },
   Exp1_binary(left, op, right) { return new BinaryExpression(op.ast(), left.ast(), right.ast()); },

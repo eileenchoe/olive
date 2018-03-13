@@ -191,6 +191,27 @@ class UnaryExpression {
   }
 }
 
+class ReturnStatement {
+  constructor(returnValue) {
+    this.returnValue = returnValue;
+  }
+
+  analyze(context) {
+    if (this.returnValue) {
+      this.returnValue.analyze(context);
+    }
+    context.assertInFunction('Return statement outside function');
+  }
+
+  optimize() {
+    if (this.returnValue) {
+      this.returnValue = this.returnValue.optimize();
+    }
+    return this;
+  }
+};
+
+
 
 // class AssignmentStatement {
 //   // a, b := 23, true
@@ -466,6 +487,7 @@ module.exports = {
   // ReadStatement,
   // WriteStatement,
   WhileStatement,
+  ReturnStatement,
   Block,
   Program,
 };

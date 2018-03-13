@@ -1,0 +1,22 @@
+{
+   "block":{
+      "statements":[
+         {
+            "targets":[
+               "x"
+            ],
+            "isMutable":false,
+            "sources":[
+               {
+                  "value":"5"
+               }
+            ]
+         },
+         {
+            "returnValue":{
+               "id":"x"
+            }
+         }
+      ]
+   }
+}
