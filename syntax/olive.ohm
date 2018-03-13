@@ -71,13 +71,13 @@ Olive {
   id          =  ~keyword letter idrest*
   idrest      =  "_" | alnum
   keyword     = ("true" | "false" | "if"
-              | "else" | "while" | "for" | "in" | "return" | "None") ~idrest
+              | "else" | "while" | "for" | "in" | "return" | "None" | "not") ~idrest
 
   assignop    =  ":=" | "="
   addop       =  "+" | "-"
   relop       =  "<=" | "<" | "==" | "!=" | ">=" | ">"
   mulop       =  "*" | "/%" | "/" | "%"
-  prefixop    =  "-"
+  prefixop    =  "-" | "not"
   indent      =  "⇨"
   dedent      =  "⇦"
 

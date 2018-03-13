@@ -265,6 +265,45 @@ class WhileStatement {
   }
 }
 
+class IfStatement {
+  constructor(cases, alternate) {
+    Object.assign(this, { cases, alternate });
+  }
+
+  analyze(context) {
+    this.cases.forEach(c => c.analyze(context.createChildContextForBlock()));
+    if (this.alternate) {
+      this.alternate.forEach(s => s.analyze(context.createChildContextForBlock()));
+    }
+  }
+
+  optimize() {
+    this.cases.map(s => s.optimize()).filter(s => s !== null);
+    this.alternate = this.alternate ? this.alternate.optimize() : null;
+    return this;
+  }
+}
+
+class Case {
+  constructor(test, body) {
+    Object.assign(this, { test, body });
+  }
+
+  analyze(context) {
+    this.test.analyze(context);
+    const bodyContext = context.createChildContextForBlock();
+    this.body.forEach(s => s.analyze(bodyContext));
+  }
+
+  optimize() {
+    this.test = this.test.optimize();
+    // Suggested: if test is false, remove case. if true, remove following cases and the alt
+    this.body.map(s => s.optimize()).filter(s => s !== null);
+    // Suggested: Look for returns/breaks in the middle of the body
+    return this;
+  }
+}
+
 //
 // class UnaryExpression {
 //   constructor(op, operand) {
@@ -479,15 +518,13 @@ module.exports = {
   FloatLiteral,
   NoneLiteral,
   VariableExpression,
-  // UnaryExpression,
   BinaryExpression,
   UnaryExpression,
   VariableDeclaration,
-  // AssignmentStatement,
-  // ReadStatement,
-  // WriteStatement,
   WhileStatement,
   ReturnStatement,
+  Case,
+  IfStatement,
   Block,
   Program,
 };

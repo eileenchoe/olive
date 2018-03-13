@@ -16,6 +16,7 @@ const {
   Block,
   ReturnStatement,
   WhileStatement,
+  IfStatement,
   // Type,
   IntegerLiteral,
   BooleanLiteral,
@@ -26,6 +27,7 @@ const {
   VariableExpression,
   BinaryExpression,
   UnaryExpression,
+  Case,
 } = require('../ast');
 
 const fs = require('fs');
@@ -52,6 +54,12 @@ const semantics = grammar.createSemantics().addOperation('ast', {
   Statement_varassign(v, _, e) { return new VariableDeclaration(v.ast(), true, e.ast()); },
   Statement_return(_, e) { return new ReturnStatement(unpack(e.ast())); },
   Statement_while(_, test, suite) { return new WhileStatement(test.ast(), suite.ast()); },
+  Statement_if(_1, firstTest, firstSuite, _2, moreTests, moreSuites, _3, lastSuite) {
+    const tests = [firstTest.ast(), ...moreTests.ast()];
+    const bodies = [firstSuite.ast(), ...moreSuites.ast()];
+    const cases = tests.map((test, index) => new Case(test, bodies[index]));
+    return new IfStatement(cases, unpack(lastSuite.ast()));
+  },
   Suite(_1, block, _2) { return block.ast(); },
   Exp_or(left, op, right) { return new BinaryExpression(op.ast(), left.ast(), right.ast()); },
   Exp_and(left, op, right) { return new BinaryExpression(op.ast(), left.ast(), right.ast()); },
