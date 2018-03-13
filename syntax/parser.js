@@ -22,7 +22,8 @@ const {
   NoneLiteral,
   VariableDeclaration,
   VariableExpression,
-  BinaryExpression
+  BinaryExpression,
+  UnaryExpression,
 } = require('../ast');
 
 const fs = require('fs');
@@ -47,15 +48,11 @@ const semantics = grammar.createSemantics().addOperation('ast', {
   Exp1_binary(left, op, right) { return new BinaryExpression(op.ast(), left.ast(), right.ast()); },
   Exp2_binary(left, op, right) { return new BinaryExpression(op.ast(), left.ast(), right.ast()); },
   Exp3_binary(left, op, right) { return new BinaryExpression(op.ast(), left.ast(), right.ast()); },
+  Exp4_unary(op, operand) { return new UnaryExpression(op.ast(), operand.ast()); },
   // Stmt_read(_1, v, _2, more) { return new ReadStatement([v.ast(), ...more.ast()]); },
   // Stmt_write(_1, e, _2, more) { return new WriteStatement([e.ast(), ...more.ast()]); },
   // Stmt_while(_1, e, _2, b, _3) { return new WhileStatement(e.ast(), b.ast()); },
   // Type(typeName) { return Type.forName(typeName.sourceString); },
-  // Exp_binary(e1, _, e2) { return new BinaryExpression('or', e1.ast(), e2.ast()); },
-  // Exp1_binary(e1, _, e2) { return new BinaryExpression('and', e1.ast(), e2.ast()); },
-  // Exp2_binary(e1, op, e2) { return new BinaryExpression(op.sourceString, e1.ast(), e2.ast()); },
-  // Exp3_binary(e1, op, e2) { return new BinaryExpression(op.sourceString, e1.ast(), e2.ast()); },
-  // Exp4_binary(e1, op, e2) { return new BinaryExpression(op.sourceString, e1.ast(), e2.ast()); },
   // Exp5_unary(op, e) { return new UnaryExpression(op.sourceString, e.ast()); },
   // Exp6_parens(_1, e, _2) { return e.ast(); },
   VarExp(_) { return new VariableExpression(this.sourceString); },

@@ -1,0 +1,34 @@
+{
+  "block":{
+    "statements":[
+      {
+        "targets":[
+          "a"
+        ],
+        "isMutable":false,
+        "sources":[
+          {
+            "op":"-",
+            "operand":{
+              "value":"5"
+            }
+          }
+        ]
+      },
+      {
+        "targets":[
+          "b"
+        ],
+        "isMutable":false,
+        "sources":[
+          {
+            "op":"-",
+            "operand":{
+              "value":"3.1415"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

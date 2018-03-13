@@ -173,9 +173,24 @@ class BinaryExpression {
     }
   }
   optimize() {
-      return this;
+    return this;
   }
 }
+
+class UnaryExpression {
+  constructor(op, operand) {
+    Object.assign(this, { op, operand });
+  }
+
+  analyze(context) {
+    this.operand.analyze(context);
+  }
+
+  optimize() {
+    return this;
+  }
+}
+
 
 // class AssignmentStatement {
 //   // a, b := 23, true
@@ -445,6 +460,7 @@ module.exports = {
   VariableExpression,
   // UnaryExpression,
   BinaryExpression,
+  UnaryExpression,
   VariableDeclaration,
   // AssignmentStatement,
   // ReadStatement,
