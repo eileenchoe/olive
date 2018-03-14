@@ -2,11 +2,11 @@
    "block":{
       "statements":[
          {
-            "targets":[
+            "names":[
                "x"
             ],
             "isMutable":false,
-            "sources":[
+            "values":[
                {
                   "value":"5"
                }

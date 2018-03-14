@@ -2,13 +2,13 @@
    "block":{
       "statements":[
          {
-            "targets":[
+            "names":[
                {
                   "id":"x"
                }
             ],
             "isMutable":true,
-            "sources":[
+            "values":[
                {
                   "value":"0"
                }
@@ -29,13 +29,13 @@
                   "body":{
                      "statements":[
                         {
-                           "targets":[
+                           "names":[
                               {
                                  "id":"x"
                               }
                            ],
                            "isMutable":true,
-                           "sources":[
+                           "values":[
                               {
                                  "op":"+",
                                  "left":{
