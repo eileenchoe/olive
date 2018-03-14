@@ -46,7 +46,7 @@ Olive {
   InterpolationTypes = (~"`" any) | Interpolation
   Interpolation = "${" StringInterpolation | Exp "}"
 
-  Types       =  "int"
+  Type       =  "int"
               |  "float"
               |  "string"
               |  "None"
@@ -56,7 +56,7 @@ Olive {
               |  "set"
               |  "bool"
 
-  Annotation  =  id ":" (Types ("," Types)*)? "->" Types?
+  Annotation  =  id ":" (Type ("," Type)*)? "->" Type?
 
   Function    =  id "(" Parameters? ")" "=" Suite -- regularfuctions
               | "(" Unnamed ")" "=" Exp           -- anonymousfunctions

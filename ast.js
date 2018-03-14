@@ -217,39 +217,6 @@ class ReturnStatement {
   }
 }
 
-// class AssignmentStatement {
-//   // a, b := 23, true
-//   constructor(targets, sources) {
-//     Object.assign(this, { targets, sources });
-//   }
-//
-//   analyze(context) {
-//     if (this.targets.length !== this.sources.length) {
-//       throw new Error('Number of variables does not equal number of expressions');
-//     }
-//
-//     for (let i = 0; i < this.targets.length; i += 1) {
-//       // this.targets[i].analyze(context);
-//       this.sources[i].analyze(context);
-//       // console.log(`id: ${util.inspect(this.targets[i].id)} initializers: ${util.inspect(this.sources[i])}`);
-      // let variable;
-      // if (this.targets[i].id) {
-      //   variable = new VariableExpression(this.targets[i].id, this.sources[i]);
-      // } else {
-      //   variable = new VariableExpression(this.targets[i], this.sources[i]);
-      // }
-      // context.add(variable);
-//     }
-//   }
-//
-//   optimize() {
-//     // this.sources.forEach(e => e.optimize());
-//     // this.targets.forEach(v => v.optimize());
-//     // Suggested: Turn self-assignments without side-effects to null
-//     return this;
-//   }
-// }
-
 class WhileStatement {
   constructor(condition, body) {
     Object.assign(this, { condition, body });
@@ -308,171 +275,6 @@ class Case {
   }
 }
 
-//
-// class UnaryExpression {
-//   constructor(op, operand) {
-//     Object.assign(this, { op, operand });
-//   }
-//   analyze(context) {
-//     this.operand.analyze(context);
-//     if (this.op === 'not') {
-//       this.operand.type.mustBeBoolean('The "not" operator requires a boolean operand', this.op);
-//       this.type = Type.BOOL;
-//     } else if (this.op === '-') {
-//       this.operand.type.mustBeInteger('Negation requires an integer operand', this.op);
-//       this.type = Type.INT;
-//     }
-//   }
-//   optimize() {
-//     this.operand = this.operand.optimize();
-//     if (this.op === 'not' && this.operand instanceof BooleanLiteral) {
-//       return new BooleanLiteral(!this.operand.value);
-//     } else if (this.op === '-' && this.operand instanceof IntegerLiteral) {
-//       return new IntegerLiteral(-this.operand.value);
-//     }
-//     return this;
-//   }
-// }
-//
-// class BinaryExpression {
-//   constructor(op, left, right) {
-//     Object.assign(this, { op, left, right });
-//   }
-//   analyze(context) {
-//     this.left.analyze(context);
-//     this.right.analyze(context);
-//     if (['<', '<=', '>=', '>'].includes(this.op)) {
-//       this.mustHaveIntegerOperands();
-//       this.type = Type.BOOL;
-//     } else if (['==', '!='].includes(this.op)) {
-//       this.mustHaveCompatibleOperands();
-//       this.type = Type.BOOL;
-//     } else if (['and', 'or'].includes(this.op)) {
-//       this.mustHaveBooleanOperands();
-//       this.type = Type.BOOL;
-//     } else {
-//       // All other binary operators are arithmetic
-//       this.mustHaveIntegerOperands();
-//       this.type = Type.INT;
-//     }
-//   }
-//   optimize() {
-//     this.left = this.left.optimize();
-//     this.right = this.right.optimize();
-//     if (this.left instanceof IntegerLiteral && this.right instanceof IntegerLiteral) {
-//       return this.foldIntegerConstants();
-//     } else if (this.left instanceof BooleanLiteral && this.right instanceof BooleanLiteral) {
-//       return this.foldBooleanConstants();
-//     } else if (this.op === '+') {
-//       if (isZero(this.right)) return this.left;
-//       if (isZero(this.left)) return this.right;
-//     } else if (this.op === '-') {
-//       if (isZero(this.right)) return this.left;
-//       if (sameVariable(this.left, this.right)) return new IntegerLiteral(0);
-//     } else if (this.op === '*') {
-//       if (isOne(this.right)) return this.left;
-//       if (isOne(this.left)) return this.right;
-//       if (isZero(this.right)) return new IntegerLiteral(0);
-//       if (isZero(this.left)) return new IntegerLiteral(0);
-//     } else if (this.op === '/') {
-//       if (isOne(this.right, 1)) return this.left;
-//       if (sameVariable(this.left, this.right)) return new IntegerLiteral(1);
-//     }
-//     return this;
-//   }
-//   mustHaveIntegerOperands() {
-//     const errorMessage = `${this.op} must have integer operands`;
-//     this.left.type.mustBeCompatibleWith(Type.INT, errorMessage, this.op);
-//     this.right.type.mustBeCompatibleWith(Type.INT, errorMessage, this.op);
-//   }
-//   mustHaveBooleanOperands() {
-//     const errorMessage = `${this.op} must have boolean operands`;
-//     this.left.type.mustBeCompatibleWith(Type.BOOL, errorMessage, this.op);
-//     this.right.type.mustBeCompatibleWith(Type.BOOL, errorMessage, this.op);
-//   }
-//   mustHaveCompatibleOperands() {
-//     const errorMessage = `${this.op} must have mutually compatible operands`;
-//     this.left.type.mustBeMutuallyCompatibleWith(this.right.type, errorMessage, this.op);
-//   }
-//   foldIntegerConstants() {
-//     switch (this.op) {
-//       case '+': return new IntegerLiteral(+this.left + this.right);
-//       case '-': return new IntegerLiteral(+this.left - this.right);
-//       case '*': return new IntegerLiteral(+this.left * this.right);
-//       case '/': return new IntegerLiteral(+this.left / this.right);
-//       case '<': return new BooleanLiteral(+this.left < this.right);
-//       case '<=': return new BooleanLiteral(+this.left <= this.right);
-//       case '==': return new BooleanLiteral(+this.left === this.right);
-//       case '!=': return new BooleanLiteral(+this.left !== this.right);
-//       case '>=': return new BooleanLiteral(+this.left >= this.right);
-//       case '>': return new BooleanLiteral(+this.left > this.right);
-//       default: return this;
-//     }
-//   }
-//   foldBooleanConstants() {
-//     switch (this.op) {
-//       case '==': return new BooleanLiteral(this.left === this.right);
-//       case '!=': return new BooleanLiteral(this.left !== this.right);
-//       case 'and': return new BooleanLiteral(this.left && this.right);
-//       case 'or': return new BooleanLiteral(this.left || this.right);
-//       default: return this;
-//     }
-//   }
-// }
-//
-// class AssignmentStatement {
-//   constructor(target, source) {
-//     Object.assign(this, { target, source });
-//   }
-//   analyze(context) {
-//     this.target.analyze(context);
-//     this.source.analyze(context);
-//     this.source.type.mustBeCompatibleWith(this.target.type, 'Type mismatch in assignment');
-//   }
-//   optimize() {
-//     this.target = this.target.optimize();
-//     this.source = this.source.optimize();
-//     if (this.source instanceof VariableExpression &&
-//         this.target.referent === this.source.referent) {
-//       return null;
-//     }
-//     return this;
-//   }
-// }
-//
-// class ReadStatement {
-//   constructor(varexps) {
-//     this.varexps = varexps;
-//   }
-//   analyze(context) {
-//     this.varexps.forEach((v) => {
-//       v.analyze(context);
-//       v.type.mustBeInteger('Variables in "read" statement must have type integer');
-//     });
-//   }
-//   optimize() {
-//     return this;
-//   }
-// }
-//
-// class WriteStatement {
-//   constructor(expressions) {
-//     this.expressions = expressions;
-//   }
-//   analyze(context) {
-//     this.expressions.forEach((e) => {
-//       e.analyze(context);
-//       e.type.mustBeInteger('Expressions in "write" statement must have type integer');
-//     });
-//   }
-//   optimize() {
-//     this.expressions = this.expressions.map(e => e.optimize());
-//     return this;
-//   }
-// }
-//
-
-
 class Block {
   constructor(statements) {
     this.statements = statements;
@@ -499,6 +301,7 @@ class Program {
     return this;
   }
 }
+
 
 // function isZero(entity) {
 //   return entity instanceof IntegerLiteral && entity.value === 0;
