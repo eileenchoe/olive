@@ -112,18 +112,18 @@ class VariableExpression {
   }
 }
 
-class VariableDeclaration {
+class Binding {
   // During syntax analysis (parsing), all we do is collect the variable names.
   // We will make the variable objects later, because we have to add them to a
   // semantic analysis context.
 
   // a, b = 1, 2
-  constructor(targets, isMutable, sources) {
-    Object.assign(this, { targets, isMutable, sources });
+  constructor(names, isMutable, values) {
+    Object.assign(this, { names, isMutable, values });
   }
 
   analyze(context) {
-    if (this.targets.length !== this.sources.length) {
+    if (this.names.length !== this.values.length) {
       throw new Error('Number of variables does not equal number of initializers');
     }
 
@@ -131,14 +131,20 @@ class VariableDeclaration {
     // declaration line, so we will analyze all the initializing expressions
     // first.
 
-    for (let i = 0; i < this.targets.length; i += 1) {
-      context.variableMustNotBeAlreadyDeclared(this.targets[i]);
-      this.sources[i].analyze(context);
+    for (let i = 0; i < this.names.length; i += 1) {
+      if (!this.isMutable) {
+        if (this.names[i].id) {
+          context.variableMustNotBeAlreadyDeclared(this.names[i].id);
+        } else {
+          context.variableMustNotBeAlreadyDeclared(this.names[i]);
+        }
+      }
+      this.values[i].analyze(context);
       let variable;
-      if (this.targets[i].id) {
-        variable = new VariableExpression(this.targets[i].id);
+      if (this.names[i].id) {
+        variable = new VariableExpression(this.names[i].id);
       } else {
-        variable = new VariableExpression(this.targets[i]);
+        variable = new VariableExpression(this.names[i]);
       }
       context.add(variable);
     }
@@ -209,9 +215,7 @@ class ReturnStatement {
     }
     return this;
   }
-};
-
-
+}
 
 // class AssignmentStatement {
 //   // a, b := 23, true
@@ -520,7 +524,7 @@ module.exports = {
   VariableExpression,
   BinaryExpression,
   UnaryExpression,
-  VariableDeclaration,
+  Binding,
   WhileStatement,
   ReturnStatement,
   Case,

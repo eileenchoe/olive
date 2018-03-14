@@ -44,7 +44,7 @@ class Context {
   // allowed. Note that if we allowed overloading, this method would have to
   // be a bit more sophisticated.
   add(entity) {
-    this.declarations[entity.id] = entity.value;
+    this.declarations[entity.id] = entity.id;
   }
 
   variableMustNotBeAlreadyDeclared(id) {
