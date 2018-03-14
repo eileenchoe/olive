@@ -49,7 +49,6 @@ pi          | Pi
 ```
 sum = 3 + 7
 difference = 10 - 3
-product = 20 5
 product = 20 * 5
 quotient = 100 / 10
 integer_division = 101 // 10
@@ -127,7 +126,7 @@ Olive supports a number of built-in operations and functions for matrices.
 | Multiplication
 A = random((1, 3, 4), range=(0:0.1:10])
 B = random((1, 3, 4), range=(3:0.1:10])
-C = A B
+C = A * B
 
 | Transpose
 A_transpose = A'
@@ -196,7 +195,7 @@ square (x) =
   return x ^ 2
 
 double (y) =
-  return 2 y
+  return 2 * y
 
 factorial (x) =
   if x < 0
@@ -206,7 +205,7 @@ factorial (x) =
   return factorial(x - 1) * x
 
 | Anonymous Functions
-((y) = 2 y)(2)
+((y) = 2 * y)(2)
 ```
 #### Type Annotations
 Functions may have type annotations.
@@ -221,7 +220,7 @@ double (x) =
 double("string")  | Compile time error
 
 triple (x) =
-  return 3 x
+  return 3 * x
 
 triple("10")      | Run time error
 
