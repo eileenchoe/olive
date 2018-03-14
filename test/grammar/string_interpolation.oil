@@ -5,3 +5,4 @@ x = `hello`
 y = ``
 lists = `Hello, ${[1,2,3]}`
 print(     `${`name ${x}`} Hello, ${name}`)
+`${0}`

@@ -1,0 +1,18 @@
+- ForLoop
+- Matrix
+- Dictionary
+- StringInterpolation
+- Function
+- Parameter
+
+Ask Toal:
+- DICTIONARY
+- StringInterpolation
+
+TODO:
+constdecl => -- mutablebinding
+varassign => -- immutablebinding
+
+- add op for exponentiation (btw mult and prefix)
+- Exp4 => Exp ?? as dictionary values?
+- Types on dictionaries and matrices

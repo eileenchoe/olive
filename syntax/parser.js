@@ -68,7 +68,7 @@ const semantics = grammar.createSemantics().addOperation('ast', {
   Exp3_binary(left, op, right) { return new BinaryExpression(op.ast(), left.ast(), right.ast()); },
   Exp4_unary(op, operand) { return new UnaryExpression(op.ast(), operand.ast()); },
   Exp5_parens(_1, expression, _2) { return expression.ast(); },
-  Type(typeName) { return Type.forName(typeName.sourceString); },
+  // Type(typeName) { return Type.forName(typeName.sourceString); },
   // Exp6_parens(_1, e, _2) { return e.ast(); },
   VarExp(_) { return new VariableExpression(this.sourceString); },
   NonemptyListOf(first, _, rest) { return [first.ast(), ...rest.ast()]; },
