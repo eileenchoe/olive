@@ -2,26 +2,26 @@
    "block":{
       "statements":[
          {
-            "targets":[
+            "names":[
                {
                   "id":"x"
                }
             ],
             "isMutable":true,
-            "sources":[
+            "values":[
                {
                   "value":"1"
                }
             ]
          },
          {
-            "targets":[
+            "names":[
                {
                   "id":"x"
                }
             ],
             "isMutable":true,
-            "sources":[
+            "values":[
                {
                   "value":"6"
                }

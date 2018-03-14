@@ -2,22 +2,22 @@
    "block":{
       "statements":[
          {
-            "targets":[
+            "names":[
                "a"
             ],
             "isMutable":false,
-            "sources":[
+            "values":[
                {
                   "value":"'hello'"
                }
             ]
          },
          {
-            "targets":[
+            "names":[
                "b"
             ],
             "isMutable":false,
-            "sources":[
+            "values":[
                {
                   "op":"*",
                   "left":{
