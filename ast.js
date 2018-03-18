@@ -266,6 +266,16 @@ class Matrix {
     }
 }
 
+class Tuple {
+    constructor(values){
+        this.type = Type.TUPLE;
+        this.values = values;
+    }
+    analyze(context) {
+      return this;
+    }
+}
+
 class Case {
   constructor(test, body) {
     Object.assign(this, { test, body });
@@ -344,6 +354,7 @@ module.exports = {
   ReturnStatement,
   Case,
   IfStatement,
+  Tuple,
   Matrix,
   Block,
   Program,
