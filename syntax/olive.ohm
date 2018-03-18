@@ -82,7 +82,7 @@ Olive {
   dedent      =  "⇦"
 
   Tuple        =  "(" (Exp4 ("," Exp4)*)? ")"
-  Matrix       =  "[" (Exp4 ("," Exp4)*)? "]"
+  Matrix       =  "[" ListOf<Exp4, ","> "]"
   Dictionary   =  "{" (KeyValuePair ("," KeyValuePair)*)? "}"
   KeyValuePair =  Immutables ":" Exp4
 

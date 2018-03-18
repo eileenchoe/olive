@@ -256,6 +256,16 @@ class IfStatement {
   }
 }
 
+class Matrix {
+    constructor(values){
+        this.type = Type.MATRIX;
+        this.values = values;
+    }
+    analyze(context) {
+      return this;
+    }
+}
+
 class Case {
   constructor(test, body) {
     Object.assign(this, { test, body });
@@ -304,6 +314,7 @@ class Program {
 }
 
 
+
 // function isZero(entity) {
 //   return entity instanceof IntegerLiteral && entity.value === 0;
 // }
@@ -333,6 +344,7 @@ module.exports = {
   ReturnStatement,
   Case,
   IfStatement,
+  Matrix,
   Block,
   Program,
 };
