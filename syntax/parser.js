@@ -29,7 +29,10 @@ const {
   UnaryExpression,
   Case,
   Matrix,
-  Tuple
+  Tuple,
+  Dictionary,
+  KeyValuePair,
+  Immutables
 } = require('../ast');
 
 const fs = require('fs');
@@ -70,8 +73,10 @@ const semantics = grammar.createSemantics().addOperation('ast', {
   Exp3_binary(left, op, right) { return new BinaryExpression(op.ast(), left.ast(), right.ast()); },
   Exp4_unary(op, operand) { return new UnaryExpression(op.ast(), operand.ast()); },
   Exp5_parens(_1, expression, _2) { return expression.ast(); },
-  Tuple(_1, v, _2){ return new Tuple([...v.ast()]); },
-  Matrix(_1, v, _2){ return new Matrix([...v.ast()]); },
+  Tuple(_1, v, _2) { return new Tuple([...v.ast()]); },
+  Matrix(_1, v, _2) { return new Matrix([...v.ast()]); },
+  Dictionary(_1, v, _2) { return new Dictionary([...v.ast()]); },
+  KeyValuePair(k, _, v) { return new KeyValuePair(k.ast(), v.ast()); },
   Type(typeName) { return Type.forName(typeName.sourceString); },
   // Exp6_parens(_1, e, _2) { return e.ast(); },
   VarExp(_) { return new VariableExpression(this.sourceString); },

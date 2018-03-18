@@ -276,6 +276,26 @@ class Tuple {
     }
 }
 
+class Dictionary {
+    constructor(values){
+        this.type = Type.DICTIONARY;
+        this.values = values;
+    }
+    analyze(context) {
+      return this;
+    }
+}
+
+class KeyValuePair {
+    constructor(key, value) {
+        this.key = key;
+        this.value = value;
+    }
+    analyze(context) {
+        return this;
+    }
+}
+
 class Case {
   constructor(test, body) {
     Object.assign(this, { test, body });
@@ -356,6 +376,8 @@ module.exports = {
   IfStatement,
   Tuple,
   Matrix,
+  Dictionary,
+  KeyValuePair,
   Block,
   Program,
 };

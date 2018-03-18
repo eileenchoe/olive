@@ -25,11 +25,11 @@ Olive {
               |  Exp5
   Exp5        =  Matrix                           -- matrix
               |  Dictionary                       -- dictionary
-              |  Immutables
+              |  Immutable
               |  "(" Exp ")"                      -- parens
               |  Tuple
 
-  Immutables  =  boollit
+  Immutable   =  boollit
               |  intlit
               |  floatlit
               |  stringlit
@@ -46,7 +46,7 @@ Olive {
   InterpolationTypes = (~"`" any) | Interpolation
   Interpolation = "${" StringInterpolation | Exp "}"
 
-  Type       =  "int"
+  Type        =  "int"
               |  "float"
               |  "string"
               |  "None"
@@ -83,8 +83,8 @@ Olive {
 
   Tuple        =  "(" NonemptyListOf<Exp4, ","> ")"
   Matrix       =  "[" ListOf<Exp4, ","> "]"
-  Dictionary   =  "{" (KeyValuePair ("," KeyValuePair)*)? "}"
-  KeyValuePair =  Immutables ":" Exp4
+  Dictionary   =  "{" ListOf<KeyValuePair, ","> "}"
+  KeyValuePair =  Immutable ":" Exp4
 
 
   stringlit   = "\'" ("\\\"" | (~"\'" any))* "\'"
