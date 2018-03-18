@@ -1,7 +1,4 @@
 - ForLoop
-- Matrix
-- Dictionary
 - StringInterpolation
 - Function
 - Parameter
--
