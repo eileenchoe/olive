@@ -1,3 +1,0 @@
-fun: int, int -> int
-fun (x, y) =
-    return x + y

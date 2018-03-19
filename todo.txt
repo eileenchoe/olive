@@ -3,3 +3,10 @@
 - ForLoop(check and make sure this is correct)
 - Function
 - Parameter
+
+First function file for safekeeping:
+<function-unnamed-annotation.oil>
+
+fun: int, int -> int
+fun (x, y) =
+    return x + y

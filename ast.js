@@ -219,8 +219,27 @@ class ReturnStatement {
 }
 
 class FunctionDeclarationStatement {
-  constructor() {
+  constructor(id, parameters, body) {
+    this.annotation = annotation;
+    this.id = id;
+    this.parameters = parameters;
+    this.body = body;
+  }
 
+  analyze(context) {
+    return this;
+  }
+
+  optimize() {
+    return this;
+  }
+}
+
+class FunctionAnnotation {
+  constructor(id, parameterTypes, returnType) {
+    this.id = id;
+    this.parameterTypes = parameterTypes;
+    this.returnType = returnType;
   }
 
   analyze(context) {
