@@ -222,7 +222,7 @@ class FunctionDeclarationStatement {
   constructor() {
 
   }
-  
+
   analyze(context) {
     return this;
   }
@@ -414,9 +414,10 @@ module.exports = {
   BinaryExpression,
   UnaryExpression,
   Binding,
+  ReturnStatement,
+  FunctionDeclarationStatement,
   WhileStatement,
   ForStatement,
-  ReturnStatement,
   Case,
   IfStatement,
   Tuple,
