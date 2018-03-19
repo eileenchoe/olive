@@ -60,7 +60,7 @@ Olive {
   Annotation  =  id ":" (Type ("," Type)*)? "->" Type?
 
   Function    =  id "(" Parameters? ")" "=" Suite -- regularfuctions
-              | "(" Unnamed ")" "=" Exp           -- anonymousfunctions
+              | "lambda" Unnamed ":" Exp          -- anonymousfunctions
 
   Parameters  =  Named                            -- onlynamedparams
               |  Unnamed "," Named                -- both
@@ -83,7 +83,8 @@ Olive {
   id          =  ~keyword letter idrest*
   idrest      =  "_" | alnum
   keyword     = ("true" | "false" | "if"
-              | "else" | "while" | "for" | "in" | "return" | "None" | "not") ~idrest
+              | "else" | "while" | "for" | "in" | "return"
+              | "None" | "not" | "break" | "pass") ~idrest
 
   assignop    =  ":=" | "="
   addop       =  "+" | "-"
