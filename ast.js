@@ -237,6 +237,12 @@ class WhileStatement {
   }
 }
 
+class ForStatement {
+  constructor(left, right, body) {
+    Object.assign(this, {left, right, body})
+  }
+}
+
 class IfStatement {
   constructor(cases, alternate) {
     Object.assign(this, { cases, alternate });
