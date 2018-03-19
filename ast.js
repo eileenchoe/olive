@@ -218,6 +218,20 @@ class ReturnStatement {
   }
 }
 
+class FunctionDeclarationStatement {
+  constructor() {
+
+  }
+  
+  analyze(context) {
+    return this;
+  }
+
+  optimize() {
+    return this;
+  }
+}
+
 class WhileStatement {
   constructor(condition, body) {
     Object.assign(this, { condition, body });
