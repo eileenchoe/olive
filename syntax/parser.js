@@ -16,6 +16,7 @@ const {
   Block,
   ReturnStatement,
   WhileStatement,
+  ForStatement,
   IfStatement,
   Type,
   IntegerLiteral,
@@ -61,6 +62,7 @@ const semantics = grammar.createSemantics().addOperation('ast', {
   Statement_varassign(v, _, e) { return new Binding(v.ast(), true, e.ast()); },
   Statement_return(_, e) { return new ReturnStatement(unpack(e.ast())); },
   Statement_while(_, test, suite) { return new WhileStatement(test.ast(), suite.ast()); },
+  Statement_for(_1, left, _2, right, suite) { return new ForStatement(left.ast(), right.ast(), suite.ast()); },
   Statement_if(_1, firstTest, firstSuite, _2, moreTests, moreSuites, _3, lastSuite) {
     const tests = [firstTest.ast(), ...moreTests.ast()];
     const bodies = [firstSuite.ast(), ...moreSuites.ast()];

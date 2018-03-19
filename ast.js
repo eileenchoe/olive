@@ -241,6 +241,12 @@ class ForStatement {
   constructor(left, right, body) {
     Object.assign(this, {left, right, body})
   }
+  analyze(context) {
+    return this;
+  }
+  optimize() {
+    return this;
+  }
 }
 
 class IfStatement {
@@ -395,6 +401,7 @@ module.exports = {
   UnaryExpression,
   Binding,
   WhileStatement,
+  ForStatement,
   ReturnStatement,
   Case,
   IfStatement,
