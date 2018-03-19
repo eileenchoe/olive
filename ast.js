@@ -296,6 +296,24 @@ class KeyValuePair {
     }
 }
 
+class StringInterpolation {
+    constructor(values) {
+        this.values = values;
+    }
+    analyze(context) {
+        return this;
+    }
+}
+
+class Interpolation {
+    constructor(v) {
+        this.value = v;
+    }
+    analyze(context) {
+        return this;
+    }
+}
+
 class Case {
   constructor(test, body) {
     Object.assign(this, { test, body });
@@ -380,4 +398,6 @@ module.exports = {
   KeyValuePair,
   Block,
   Program,
+  StringInterpolation,
+  Interpolation
 };

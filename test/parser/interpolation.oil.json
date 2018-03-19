@@ -1,0 +1,42 @@
+{
+   "block":{
+      "statements":[
+         {
+            "values":[
+               {
+                  "value":"start "
+               },
+               {
+                  "value":{
+                     "id":"var"
+                  }
+               },
+               {
+                  "value":"end"
+               }
+            ]
+         },
+         {
+            "values":[
+               {
+                  "value":"start "
+               },
+               {
+                  "value":{
+                     "values":[
+                        {
+                           "value":{
+                              "id":"var"
+                           }
+                        }
+                     ]
+                  }
+               },
+               {
+                  "value":"end"
+               }
+            ]
+         }
+      ]
+   }
+}

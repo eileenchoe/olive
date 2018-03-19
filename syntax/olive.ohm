@@ -42,9 +42,9 @@ Olive {
               |  id                               -- simple
   VarExps     =  NonemptyListOf<VarExp, ",">
 
-  StringInterpolation = "`" InterpolationTypes* "`"
-  InterpolationTypes = (~"`" any) | Interpolation
-  Interpolation = "${" StringInterpolation | Exp "}"
+  StringInterpolation = "`" (Interpolation | raw)* "`"
+  Interpolation       = "${" (StringInterpolation | Exp) "}"
+  raw                 = (~"`" ~"${" any)+
 
   Type        =  "int"
               |  "float"
