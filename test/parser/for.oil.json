@@ -33,10 +33,15 @@
                 "body": {
                     "statements": [
                         {
-                            "id": "print"
-                        },
-                        {
-                            "id": "x"
+                            "names": [
+                                "e"
+                            ],
+                            "isMutable": false,
+                            "values": [
+                                {
+                                    "value": "1"
+                                }
+                            ]
                         }
                     ]
                 }

@@ -18,7 +18,3 @@ fun (x, z=5) =
     return 'hello'
 
 (y) = y
-
-(y) = 2 + y
-
-(x, y) = x + y

@@ -218,6 +218,51 @@ class ReturnStatement {
   }
 }
 
+  // (Annotation) ? Function-- functionDeclaration
+  
+// Function = id "(" Parameters ? ")" "=" Suite-- regularfuctions
+//   | "(" Unnamed ")" "=" Exp-- anonymousfunctions
+
+// Parameters = Named-- onlynamed
+//   | Unnamed "," Named-- both
+//     | Unnamed-- onlyunnamed
+
+// Unnamed = id("," id ~ "=") * --unnamedparams
+// Named = id "=" Exp("," id "=" Exp) * --namedparams
+
+
+class FunctionAnnotation {
+  constructor(id, parameterTypes, returnType) {
+    this.id = id;
+    this.parameterTypes = parameterTypes;
+    this.returnType = returnType;
+  }
+
+  analyze(context) {
+    return this;
+  }
+
+  optimize() {
+    return this;
+  }
+}
+
+class FunctionParameter {
+  constructor(id, parameterTypes, returnType) {
+    this.id = id;
+    this.parameterTypes = parameterTypes;
+    this.returnType = returnType;
+  }
+
+  analyze(context) {
+    return this;
+  }
+
+  optimize() {
+    return this;
+  }
+}
+
 class FunctionDeclarationStatement {
   constructor(id, parameters, body) {
     this.annotation = annotation;
@@ -235,11 +280,12 @@ class FunctionDeclarationStatement {
   }
 }
 
-class FunctionAnnotation {
-  constructor(id, parameterTypes, returnType) {
+class FunctionCallStatement {
+  constructor(id, parameters, body) {
+    this.annotation = annotation;
     this.id = id;
-    this.parameterTypes = parameterTypes;
-    this.returnType = returnType;
+    this.parameters = parameters;
+    this.body = body;
   }
 
   analyze(context) {
@@ -250,6 +296,7 @@ class FunctionAnnotation {
     return this;
   }
 }
+
 
 class WhileStatement {
   constructor(condition, body) {
