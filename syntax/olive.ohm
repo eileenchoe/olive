@@ -21,9 +21,11 @@ Olive {
               |  Exp3
   Exp3        =  Exp3 mulop Exp4                  -- binary
               |  Exp4
-  Exp4        =  prefixop Exp5                    -- unary
+  Exp4        =  Exp4 "^" Exp5                    -- binary
               |  Exp5
-  Exp5        =  Matrix                           -- matrix
+  Exp5        =  prefixop Exp6                    -- unary
+              |  Exp6
+  Exp6        =  Matrix                           -- matrix
               |  Call                             -- functioncall
               |  Dictionary                       -- dictionary
               |  Set                              -- set
@@ -31,9 +33,9 @@ Olive {
               |  "(" Exp ")"                      -- parens
               |  Tuple
 
-  Tuple        =  "(" NonemptyListOf<Exp4, ","> ")"
-  Matrix       =  "[" ListOf<Exp4, ","> "]"
-  Set          =  "{" NonemptyListOf<Exp4, ","> "}"
+  Tuple        =  "(" NonemptyListOf<Exp5, ","> ")"
+  Matrix       =  "[" ListOf<Exp5, ","> "]"
+  Set          =  "{" NonemptyListOf<Exp5, ","> "}"
   Dictionary   =  "{" ListOf<KeyValuePair, ","> "}"
   KeyValuePair =  Key ":" Exp
 

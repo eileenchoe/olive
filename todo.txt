@@ -1,5 +1,4 @@
 TODO:
-- add op for exponentiation (btw mult and prefix)
 - Exp4 => Exp ?? as dictionary values?
 - Types on dictionaries and matrices
 - Set
