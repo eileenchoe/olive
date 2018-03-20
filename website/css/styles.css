@@ -1,3 +1,10 @@
+pre {
+  overflow-x:hidden;
+  align-content: left;
+  text-align: left;
+  white-space: nowrap;
+}
+
 .btn {
   padding: 9px 26px;
   background-color: #528bff;
