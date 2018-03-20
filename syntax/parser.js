@@ -92,7 +92,7 @@ const semantics = grammar.createSemantics().addOperation('ast', {
   },
   Dictionary(_1, v, _2) { return new Dictionary([...v.ast()]); },
   KeyValuePair(k, _, v) { return new KeyValuePair(k.ast(), v.ast()); },
-  Type(typeName) { return Type.forName(typeName.sourceString); },
+  Types(typeName) { return Type.forName(typeName.sourceString); },
   StringInterpolation(_1, values, _2) { return new StringInterpolation([...values.ast()]); },
   Interpolation(_1, value, _2) { return new Interpolation(value.ast()); },
   VarExp(_) { return new VariableExpression(this.sourceString); },

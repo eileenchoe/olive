@@ -1,121 +1,131 @@
 Olive {
-  Program     =  Block
-  Block       =  Statement+
-  Statement   =  Ids "=" Exps                     -- mutablebinding
-              |  VarExps ":=" Exps                -- immutablebinding
-              |  (Annotation)? Function           -- functiondeclaration
-              |  "return" Exp?                    -- return
-              |  "while" Exp Suite                -- while
-              |  "for" id "in" Exp Suite          -- for
-              |  "if" Exp Suite
-                 ("else if" Exp Suite)*
-                 ("else" Suite)?                  -- if
-              |  Exp                              -- scripting
-  Suite       =  indent Block dedent
-  Exp         =  Exp "or" Exp1                    -- or
-              |  Exp "and" Exp1                   -- and
-              |  Exp1
-  Exp1        =  Exp2 relop Exp2                  -- binary
-              |  Exp2
-  Exp2        =  Exp2 addop Exp3                  -- binary
-              |  Exp3
-  Exp3        =  Exp3 mulop Exp4                  -- binary
-              |  Exp4
-  Exp4        =  Exp4 "^" Exp5                    -- binary
-              |  Exp5
-  Exp5        =  prefixop Exp6                    -- unary
-              |  Exp6
-  Exp6        =  Matrix                           -- matrix
-              |  Call                             -- functioncall
-              |  Dictionary                       -- dictionary
-              |  Set                              -- set
-              |  Key
-              |  "(" Exp ")"                      -- parens
-              |  Tuple
-              |  Range
+  Program               =  Block
+  Block                 =  Statement+
+  Statement             =  Ids "=" Exps                                                                       -- mutablebinding
+                        |  VarExps ":=" Exps                                                                  -- immutablebinding
+                        |  FunctionDecl                                                                       -- functiondeclaration
+                        |  "return" Exp?                                                                      -- return
+                        |  "while" Exp Suite                                                                  -- while
+                        |  "for" id "in" Exp Suite                                                            -- for
+                        |  "if" Exp Suite
+                           ("else if" Exp Suite)*
+                           ("else" Suite)?                                                                    -- if
+                        |  Exp                                                                                -- scripting
+  Suite                 =  indent Block dedent
+  Exp                   =  Exp "or" Exp1                                                                      -- or
+                        |  Exp "and" Exp1                                                                     -- and
+                        |  Exp1
+  Exp1                  =  Exp2 relop Exp2                                                                    -- binary
+                        |  Exp2
+  Exp2                  =  Exp2 addop Exp3                                                                    -- binary
+                        |  Exp3
+  Exp3                  =  Exp3 mulop Exp4                                                                    -- binary
+                        |  Exp4
+  Exp4                  =  Exp4 "^" Exp5                                                                      -- binary
+                        |  Exp5
+  Exp5                  =  prefixop Exp6                                                                      -- unary
+                        |  Exp6
+  Exp6                  =  Matrix                                                                             -- matrix
+                        |  Call                                                                               -- functioncall
+                        |  Dictionary                                                                         -- dictionary
+                        |  Set                                                                                -- set
+                        |  Key
+                        |  "(" Exp ")"                                                                        -- parens
+                        |  Tuple
+                        |  Range
 
-  Range        =  ("(" | "[") RangeType ":" RangeType ":" RangeType ("]" | ")")
-  Tuple        =  "(" NonemptyListOf<Exp5, ","> ")"
-  Matrix       =  "[" ListOf<Exp5, ","> "]"
-  Set          =  "{" NonemptyListOf<Exp5, ","> "}"
-  Dictionary   =  "{" ListOf<KeyValuePair, ","> "}"
-  KeyValuePair =  Key ":" Exp
+  Range                 =  ("(" | "[") RangeType ":" RangeType ":" RangeType ("]" | ")")
+  Tuple                 =  "(" NonemptyListOf<Exp5, ","> ")"
+  Matrix                =  "[" ListOf<Exp5, ","> "]"
+  Set                   =  "{" NonemptyListOf<Exp5, ","> "}"
+  Dictionary            =  "{" ListOf<KeyValuePair, ","> "}"
+  KeyValuePair          =  Key ":" Exp
 
-  RangeType   =  VarExp
-              |  Exp
+  RangeType             =  VarExp
+                        |  Exp
 
-  Key         =  boollit
-              |  intlit
-              |  floatlit
-              |  stringlit
-              |  nonelit
-              |  StringInterpolation
-              |  VarExp
+  Key                   =  boollit
+                        |  intlit
+                        |  floatlit
+                        |  stringlit
+                        |  nonelit
+                        |  StringInterpolation
+                        |  VarExp
 
-  Exps        =  NonemptyListOf<Exp, ",">
-  Ids         =  NonemptyListOf<id, ",">
-  VarExp      =  VarExp "[" Exp "]"               -- subscripted
-              |  id                               -- simple
-  VarExps     =  NonemptyListOf<VarExp, ",">
+  Exps                  =  NonemptyListOf<Exp, ",">
+  Ids                   =  NonemptyListOf<id, ",">
+  VarExp                =  VarExp "[" Exp "]"                                                                 -- subscripted
+                        |  id                                                                                 -- simple
+  VarExps               =  NonemptyListOf<VarExp, ",">
 
-  StringInterpolation = "`" ((~"`" ~"$" any) | Interpolation)* "`"
-  Interpolation = "${" Exp "}"
+  StringInterpolation   = "`" ((~"`" ~"$" any) | Interpolation)* "`"
+  Interpolation         = "${" Exp "}"
 
-  Type        =  "int"
-              |  "float"
-              |  "string"
-              |  "bool"
-              |  "None"
-              |  "tuple"
-              |  "matrix"
-              |  "dictionary"
-              |  "set"
-              |  "range"
+  types                 =  "int"
+                        |  "float"
+                        |  "string"
+                        |  "bool"
+                        |  "None"
+                        |  "tuple"
+                        |  "matrix"
+                        |  "dictionary"
+                        |  "set"
+                        |  "range"
 
-  Annotation  =  id ":" (Type ("," Type)*)? "->" Type?
+  Types                 =  types
 
-  Function    =  id "(" Parameters? ")" "=" Suite -- regularfuctions
-              | "lambda" Unnamed ":" Exp          -- anonymousfunctions
+  basicAnnTypes         =  "None"
+                        |  "string"
+                        |  "int"
+                        |  "bool"
+                        |  "set"
+                        |  "range"
+                        |  "float"
+  complexAnnTypes       =  "matrix"
+                        |  "dictionary"
+                        |  "tuple"
+                        |  "function"
+  FunctionDecl          =  TypeAnn Function                                                                   -- functiondeclaration
+  TypeAnn               =  id ":" (ParamAnn | "_") "->" (ReturnAnn | "_")                                     -- typeannotation
+  ReturnAnn             =  complexAnnTypes "<" (ListOf<(ReturnAnn|basicAnnTypes|complexAnnTypes), ",">) ">"   -- returnannotation
+                        |  basicAnnTypes
+  ParamAnn              =  NonemptyListOf<ReturnAnn, ",">                                                     -- parameterannotation
+  Function              =  id "(" Parameters? ")" "=" Suite                                                   -- regularfuctions
+  Parameters            =  Named                                                                              -- onlynamedparams
+                        |  Unnamed "," Named                                                                  -- both
+                        |  Unnamed                                                                            -- onlyunnamedparams
+  Named                 =  id "=" Exp ("," id "=" Exp)*                                                       -- named
+  Unnamed               =  id ("," id ~ "=")*                                                                 -- unnamed
 
-  Parameters  =  Named                            -- onlynamedparams
-              |  Unnamed "," Named                -- both
-              |  Unnamed                          -- onlyunnamedparams
+  Call                  =  id "(" Arguments? ")"                                                              -- functioncall
+  Arguments             =  Named                                                                              -- onlynamedargs
+                        |  UnnamedArgs "," Named                                                              -- both
+                        |  UnnamedArgs                                                                        -- onlyunnamedargs
+  UnnamedArgs           =  Arg ("," Arg ~ "=")*                                                               -- unnamedargs
+  Arg                   = Exp
+                        | id
 
-  Named       =  id "=" Exp ("," id "=" Exp)*     -- named
-  Unnamed     =  id ("," id ~ "=")*               -- unnamed
+  id                    =  ~keyword letter idrest*
+  idrest                =  "_" | alnum
+  keyword               = ("true" | "false" | "if"
+                        | "else" | "while" | "for" | "in" | "return"
+                        | "None" | "not" | "break" | "pass" |  types) ~idrest
 
-  Call        =  id "(" Arguments? ")"             -- functioncall
+  assignop              =  ":=" | "="
+  addop                 =  "+" | "-"
+  relop                 =  "<=" | "<" | "==" | "!=" | ">=" | ">"
+  mulop                 =  "*" | "/%" | "/" | "%"
+  prefixop              =  "-" | "not"
+  indent                =  "⇨"
+  dedent                =  "⇦"
 
-  Arguments   =  Named                            -- onlynamedargs
-              |  UnnamedArgs "," Named            -- both
-              |  UnnamedArgs                      -- onlyunnamedargs
+  stringlit             = "\'" ("\\\"" | (~"\'" any))* "\'"
+  boollit               = "true" | "false"
+  intlit                = ~floatlit digit+
+  floatlit              = digit+ "." digit+
+  nonelit               = "None"
 
-  UnnamedArgs =  Arg ("," Arg ~ "=")*             -- unnamedargs
-
-  Arg         = Exp
-              | id
-
-  id          =  ~keyword letter idrest*
-  idrest      =  "_" | alnum
-  keyword     = ("true" | "false" | "if"
-              | "else" | "while" | "for" | "in" | "return"
-              | "None" | "not" | "break" | "pass") ~idrest
-
-  assignop    =  ":=" | "="
-  addop       =  "+" | "-"
-  relop       =  "<=" | "<" | "==" | "!=" | ">=" | ">"
-  mulop       =  "*" | "/%" | "/" | "%"
-  prefixop    =  "-" | "not"
-  indent      =  "⇨"
-  dedent      =  "⇦"
-
-  stringlit   = "\'" ("\\\"" | (~"\'" any))* "\'"
-  boollit     = "true" | "false"
-  intlit      = ~floatlit digit+
-  floatlit    = digit+ "." digit+
-  nonelit     = "None"
-
-  newline     =  "\n"+
-  space       += comment
-  comment     =  "|" (~"\n" any)* "\n"
+  newline               =  "\n"+
+  space                 += comment
+  comment               =  "|" (~"\n" any)* "\n"
 }

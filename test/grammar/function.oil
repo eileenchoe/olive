@@ -1,15 +1,16 @@
-fun: ->
+fun:_->_
 fun () =
-    return
+    print(1)
 
 fun: float, float, float -> float
 fun (x, y, z) =
     return x
 
-fun (x = 5) =
-    return x
+fun: bool, int -> _
+fun (x, y) =
+    print(x) 
 
-fun: int, int, int -> int
+fun: string, set, matrix<int>, tuple<tuple<string,int>> -> range
 fun (x=1, y=2, z=4) =
     return x + 2
 
@@ -17,8 +18,6 @@ fun: float, int -> string
 fun (x, z=5) =
     return 'hello'
 
-lambda y: y
-
-lambda z: z + 1
-
-lambda x, y, z: z + y + x
+fun: float, string, int -> string
+fun (x, z='yes', z=5) =
+    return 'hello'
