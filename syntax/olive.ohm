@@ -42,8 +42,7 @@ Olive {
   KeyValuePair =  Key ":" Exp
 
   RangeType   =  VarExp
-              |  intlit
-              |  floatlit
+              |  Exp
 
   Key         =  boollit
               |  intlit
