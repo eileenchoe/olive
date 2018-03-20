@@ -58,8 +58,8 @@ const semantics = grammar.createSemantics().addOperation('ast', {
   floatlit(_1, _2, _3) { return new FloatLiteral(this.sourceString); },
   stringlit(_1, chars, _3) { return new StringLiteral(this.sourceString); },
   nonelit(_) { return new NoneLiteral(); },
-  Statement_constdecl(v, _, e) { return new Binding(v.ast(), false, e.ast()); },
-  Statement_varassign(v, _, e) { return new Binding(v.ast(), true, e.ast()); },
+  Statement_mutablebinding(v, _, e) { return new Binding(v.ast(), false, e.ast()); },
+  Statement_immutablebinding(v, _, e) { return new Binding(v.ast(), true, e.ast()); },
   Statement_return(_, e) { return new ReturnStatement(unpack(e.ast())); },
   Statement_while(_, test, suite) { return new WhileStatement(test.ast(), suite.ast()); },
   Statement_for(_1, left, _2, right, suite) {
