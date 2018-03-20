@@ -21,12 +21,7 @@ Olive is a high-level, high-performance language for numerical computing. Olive 
 ### Comments
 
 ```
----
-This is a
-multi line comment
----
-
-| This is a single line comment
+| I am a comment!
 ```
 
 ### Types
@@ -108,7 +103,7 @@ fav_numbers = {13, 3, 56}
 
 #### Range
 
-Like python ranges, Olive ranges iteratively produce the following value in the range until the end condition is met. Range objects can also be used as a parameter for random generators, in which case, the start, increment and end values will be used to produce a single random value.
+Like Python 3 ranges, Olive ranges iteratively produce the following value in the range until the end condition is met. Range objects can also be used as a parameter for random generators, in which case, the start, increment and end values will be used to produce a single random value.
 
 ```
 evens = [0:2:10)                | range object with integers from 0 inclusive to 10 exclusive
@@ -129,8 +124,10 @@ u = [1, 2, 3, 4]          | Row vector
 W = [[0, 1, 1], [0, 0, 1], [0, 0, 1]]  | Matrix
 ```
 
-Can be generated programmatically.
+Olive supports a number of built-in operations and functions for matrices.
+
 ```
+| Programmatic matrix generation
 a = ones((5, 1))                      | 5 element column vector of ones
 a = ones((1, 5))                      | 5 element row vector of ones
 b = ones((1, 3)) * 2.5                | 3 element vector of 2.5s
@@ -140,18 +137,14 @@ d = random((1, 7), range=(0:1:10])    | 7 element vector of random integers in [
 A = random((1, 3, 4), range=[0:1:10))          | 1x3x4 matrix of random numbers in (0, 10]
 B = zeros((3, 3))                              | 3x3 matrix of zeros
 I = identity(10)                               | 10x10 identity matrix
-```
 
-Olive supports a number of built-in operations and functions for matrices.
-
-```
 | Multiplication
 A = random((1, 3, 4), range=(0:0.1:10])
 B = random((1, 3, 4), range=(3:0.1:10])
 C = A * B
 
 | Transpose
-A_transpose = A'
+A_transpose = transpose(A)
 
 | Inverse
 D = random((1, 3, 4), range: [3:1:10])
@@ -205,7 +198,11 @@ while (counter >= 0)
 
 Functions look like immutable variables, and they can take parameters. Parameters can have default values.
 
+Functions must have type annotations.
+The compiler will check that the function parameters and return value are of the correct type.
+
 ```
+say_hello: string -> void
 say_hello (name='Eileen') =
   print(`Hello, ${name}!`)
 
@@ -213,37 +210,29 @@ say_hello('Eddie')           | 'Hello, Eddie!'
 say_hello(name='Eddie')      | 'Hello, Eddie!' (named parameter)
 say_hello()                  | 'Hello, Eileen!' (default parameter)
 
+square: int -> int
 square (x) =
   return x ^ 2
 
+double: int -> int
 double (y) =
   return 2 * y
 
+factorial: int -> int
 factorial (x) =
   if x < 0
     throw "invalid argument"
   else if x == 0
     return 1
   return factorial(x - 1) * x
-
-| Anonymous Functions
-((y) = 2 * y)(2)
-```
-#### Type Annotations
-Functions may have type annotations.
-
-When a type annotation is provided, the compiler will check that the function parameters and return value are of the correct type.
-
-```
+  
 double: int -> int
 double (x) =
   return x + x
 
 double("string")  | Compile time error
-
-triple (x) =
-  return 3 * x
-
-triple("10")      | Run time error
-
+```
+#### Anonymous Functions
+```
+((y) = 2 * y)(2)
 ```
