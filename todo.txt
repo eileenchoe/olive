@@ -7,22 +7,12 @@ TODO:
 - Function
 - Parameter
 
-First function file for safekeeping:
+- first function file for safekeeping:
 <function-unnamed-annotation.oil>
 
 fun: int, int -> int
 fun (x, y) =
     return x + y
-
-________________________________________________________
-So I had to add function calls to the ohm syntax.
-I got them working, but not there is an issue with
-these two lines (anonymous functions) in the functions
-test file:
-    (y) = 2 + y
-    (x, y) = x + y
-
-I can't figure out what is causing it to fail. Help plz
 
 - Additional things to implement if time permits:
     String Concatenation
