@@ -23,3 +23,12 @@ test file:
     (x, y) = x + y
 
 I can't figure out what is causing it to fail. Help plz
+
+String Concatenation
+#### Concatenation
+```
+greeting = 'hello'
+name = 'olive'
+
+complete_greeting = greeting ++ ', ' ++ name
+```
