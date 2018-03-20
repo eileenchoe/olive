@@ -1,6 +1,7 @@
 TODO:
 - Exp4 => Exp ?? as dictionary values?
 - Types on dictionaries and matrices
+- Set
 
 - ForLoop(check and make sure this is correct)
 - Function

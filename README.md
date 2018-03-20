@@ -32,7 +32,7 @@ multi line comment
 ### Types
 
 - int: `3`, `897`, -32
-- float: -3.08, 9.54, 0.9
+- float: `-3.08`, `9.54`, `0.9`
 - boolean: `true`, `false`
 - string: `'hello'`, `'olive is the best language ever'`
 - None: `None`
@@ -95,6 +95,15 @@ Lists are homogeneous ordered sequences of elements.
 ```
 olive_products = ['oil', 'raw', 'pickled', 'stuffed']
 fibonacci_numbers = [0, 1, 1, 2, 3, 5, 8, 13]
+```
+
+#### Set
+
+Sets are unordered collections of unique elements.
+
+```
+friends = {'eileen', 'eddie', 'juan', 'nati'}
+fav_numbers = {13, 3, 56}
 ```
 
 #### Range
