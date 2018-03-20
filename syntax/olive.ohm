@@ -1,8 +1,8 @@
 Olive {
   Program     =  Block
   Block       =  Statement+
-  Statement   =  Ids "=" Exps                     -- constdecl
-              |  VarExps ":=" Exps                -- varassign
+  Statement   =  Ids "=" Exps                     -- mutablebinding
+              |  VarExps ":=" Exps                -- immutablebinding
               |  (Annotation)? Function           -- functiondeclaration
               |  "return" Exp?                    -- return
               |  "while" Exp Suite                -- while

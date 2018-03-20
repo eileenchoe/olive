@@ -1,4 +1,4 @@
-const { INITIAL, Context } = require('./analyzer');
+const { InitialContext } = require('./analyzer');
 const util = require('util');
 
 class Type {
@@ -218,8 +218,8 @@ class ReturnStatement {
   }
 }
 
-  // (Annotation) ? Function-- functionDeclaration
-  
+// (Annotation) ? Function-- functionDeclaration
+
 // Function = id "(" Parameters ? ")" "=" Suite-- regularfuctions
 //   | "(" Unnamed ")" "=" Exp-- anonymousfunctions
 
@@ -230,6 +230,9 @@ class ReturnStatement {
 // Unnamed = id("," id ~ "=") * --unnamedparams
 // Named = id "=" Exp("," id "=" Exp) * --namedparams
 
+
+/* eslint-disable no-unused-vars */
+// TODO: must reenable once analyze() is implemented for all classes
 
 class FunctionAnnotation {
   constructor(id, parameterTypes, returnType) {
@@ -265,7 +268,7 @@ class FunctionParameter {
 
 class FunctionDeclarationStatement {
   constructor(id, parameters, body) {
-    this.annotation = annotation;
+    // this.annotation = annotation; // TODO
     this.id = id;
     this.parameters = parameters;
     this.body = body;
@@ -282,7 +285,7 @@ class FunctionDeclarationStatement {
 
 class FunctionCallStatement {
   constructor(id, parameters, body) {
-    this.annotation = annotation;
+    // this.annotation = annotation; // TODO
     this.id = id;
     this.parameters = parameters;
     this.body = body;
@@ -319,7 +322,7 @@ class WhileStatement {
 
 class ForStatement {
   constructor(left, right, body) {
-    Object.assign(this, {left, right, body})
+    Object.assign(this, { left, right, body });
   }
   analyze(context) {
     return this;
@@ -349,61 +352,61 @@ class IfStatement {
 }
 
 class Matrix {
-    constructor(values){
-        this.type = Type.MATRIX;
-        this.values = values;
-    }
-    analyze(context) {
-      return this;
-    }
+  constructor(values) {
+    this.type = Type.MATRIX;
+    this.values = values;
+  }
+  analyze(context) {
+    return this;
+  }
 }
 
 class Tuple {
-    constructor(values){
-        this.type = Type.TUPLE;
-        this.values = values;
-    }
-    analyze(context) {
-      return this;
-    }
+  constructor(values) {
+    this.type = Type.TUPLE;
+    this.values = values;
+  }
+  analyze(context) {
+    return this;
+  }
 }
 
 class Dictionary {
-    constructor(values){
-        this.type = Type.DICTIONARY;
-        this.values = values;
-    }
-    analyze(context) {
-      return this;
-    }
+  constructor(values) {
+    this.type = Type.DICTIONARY;
+    this.values = values;
+  }
+  analyze(context) {
+    return this;
+  }
 }
 
 class KeyValuePair {
-    constructor(key, value) {
-        this.key = key;
-        this.value = value;
-    }
-    analyze(context) {
-        return this;
-    }
+  constructor(key, value) {
+    this.key = key;
+    this.value = value;
+  }
+  analyze(context) {
+    return this;
+  }
 }
 
 class StringInterpolation {
-    constructor(values) {
-        this.values = values;
-    }
-    analyze(context) {
-        return this;
-    }
+  constructor(values) {
+    this.values = values;
+  }
+  analyze(context) {
+    return this;
+  }
 }
 
 class Interpolation {
-    constructor(v) {
-        this.value = v;
-    }
-    analyze(context) {
-        return this;
-    }
+  constructor(v) {
+    this.value = v;
+  }
+  analyze(context) {
+    return this;
+  }
 }
 
 class Case {
@@ -445,15 +448,13 @@ class Program {
     this.block = block;
   }
   analyze() {
-    this.block.analyze(INITIAL);
+    this.block.analyze(InitialContext);
   }
   optimize() {
     this.block = this.block.optimize();
     return this;
   }
 }
-
-
 
 // function isZero(entity) {
 //   return entity instanceof IntegerLiteral && entity.value === 0;
@@ -493,5 +494,5 @@ module.exports = {
   Block,
   Program,
   StringInterpolation,
-  Interpolation
+  Interpolation,
 };
