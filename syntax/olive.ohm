@@ -3,7 +3,7 @@ Olive {
   Block       =  Statement+
   Statement   =  Ids "=" Exps                     -- constdecl
               |  VarExps ":=" Exps                -- varassign
-              |  (Annotation)? Function           -- functionDeclaration
+              |  (Annotation)? Function           -- functiondeclaration
               |  "return" Exp?                    -- return
               |  "while" Exp Suite                -- while
               |  "for" id "in" Exp Suite          -- for
@@ -24,14 +24,15 @@ Olive {
   Exp4        =  prefixop Exp5                    -- unary
               |  Exp5
   Exp5        =  Matrix                           -- matrix
+              |  Call                             -- functioncall
               |  Dictionary                       -- dictionary
               |  Key
               |  "(" Exp ")"                      -- parens
               |  Tuple
 
-  Tuple        =  "(" (Exp4 ("," Exp4)*)? ")"
-  Matrix       =  "[" (Exp4 ("," Exp4)*)? "]"
-  Dictionary   =  "{" (KeyValuePair ("," KeyValuePair)*)? "}"
+  Tuple        =  "(" NonemptyListOf<Exp4, ","> ")"
+  Matrix       =  "[" ListOf<Exp4, ","> "]"
+  Dictionary   =  "{" ListOf<KeyValuePair, ","> "}"
   KeyValuePair =  Key ":" Exp
 
   Key         =  boollit
@@ -63,19 +64,31 @@ Olive {
   Annotation  =  id ":" (Type ("," Type)*)? "->" Type?
 
   Function    =  id "(" Parameters? ")" "=" Suite -- regularfuctions
-              | "(" Unnamed ")" "=" Exp           -- anonymousfunctions
+              | "lambda" Unnamed ":" Exp          -- anonymousfunctions
 
-  Parameters  =  Named                            -- onlynamed
+  Parameters  =  Named                            -- onlynamedparams
               |  Unnamed "," Named                -- both
-              |  Unnamed                          -- onlyunnamed
+              |  Unnamed                          -- onlyunnamedparams
 
-  Unnamed     =  id ("," id ~ "=")*               -- unnamedparams
-  Named       =  id "=" Exp ("," id "=" Exp)*     -- namedparams
+  Named       =  id "=" Exp ("," id "=" Exp)*     -- named
+  Unnamed     =  id ("," id ~ "=")*               -- unnamed
+
+  Call        =  id "(" Arguments? ")"             -- functioncall
+
+  Arguments   =  Named                            -- onlynamedargs
+              |  UnnamedArgs "," Named            -- both
+              |  UnnamedArgs                      -- onlyunnamedargs
+
+  UnnamedArgs =  Arg ("," Arg ~ "=")*             -- unnamedargs
+
+  Arg         = Exp
+              | id
 
   id          =  ~keyword letter idrest*
   idrest      =  "_" | alnum
   keyword     = ("true" | "false" | "if"
-              | "else" | "while" | "for" | "in" | "return" | "None" | "not") ~idrest
+              | "else" | "while" | "for" | "in" | "return"
+              | "None" | "not" | "break" | "pass") ~idrest
 
   assignop    =  ":=" | "="
   addop       =  "+" | "-"
@@ -84,7 +97,6 @@ Olive {
   prefixop    =  "-" | "not"
   indent      =  "⇨"
   dedent      =  "⇦"
-
 
   stringlit   = "\'" ("\\\"" | (~"\'" any))* "\'"
   boollit     = "true" | "false"

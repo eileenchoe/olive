@@ -1,14 +1,3 @@
-- ForLoop
-- Matrix
-- Dictionary
-- StringInterpolation
-- Function
-- Parameter
-
-Ask Toal:
-- DICTIONARY
-- StringInterpolation
-
 TODO:
 constdecl => -- mutablebinding
 varassign => -- immutablebinding
@@ -16,3 +5,27 @@ varassign => -- immutablebinding
 - add op for exponentiation (btw mult and prefix)
 - Exp4 => Exp ?? as dictionary values?
 - Types on dictionaries and matrices
+
+
+- StringInterpolation (done but needs revision because of spaces)
+
+- ForLoop(check and make sure this is correct)
+- Function
+- Parameter
+
+First function file for safekeeping:
+<function-unnamed-annotation.oil>
+
+fun: int, int -> int
+fun (x, y) =
+    return x + y
+
+________________________________________________________
+So I had to add function calls to the ohm syntax.
+I got them working, but not there is an issue with
+these two lines (anonymous functions) in the functions
+test file:
+    (y) = 2 + y
+    (x, y) = x + y
+
+I can't figure out what is causing it to fail. Help plz

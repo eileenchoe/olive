@@ -1,0 +1,51 @@
+{
+    "block": {
+        "statements": [
+            {
+                "names": [
+                    "list_of_numbers"
+                ],
+                "isMutable": false,
+                "values": [
+                    {
+                        "type": {
+                            "name": "tuple"
+                        },
+                        "values": [
+                            {
+                                "value": "4"
+                            },
+                            {
+                                "value": "5"
+                            },
+                            {
+                                "value": "6"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "left": "x",
+                "right": {
+                    "id": "a"
+                },
+                "body": {
+                    "statements": [
+                        {
+                            "names": [
+                                "e"
+                            ],
+                            "isMutable": false,
+                            "values": [
+                                {
+                                    "value": "1"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}

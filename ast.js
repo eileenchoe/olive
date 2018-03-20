@@ -112,6 +112,7 @@ class VariableExpression {
   }
 }
 
+
 class Binding {
   // During syntax analysis (parsing), all we do is collect the variable names.
   // We will make the variable objects later, because we have to add them to a
@@ -217,6 +218,86 @@ class ReturnStatement {
   }
 }
 
+  // (Annotation) ? Function-- functionDeclaration
+  
+// Function = id "(" Parameters ? ")" "=" Suite-- regularfuctions
+//   | "(" Unnamed ")" "=" Exp-- anonymousfunctions
+
+// Parameters = Named-- onlynamed
+//   | Unnamed "," Named-- both
+//     | Unnamed-- onlyunnamed
+
+// Unnamed = id("," id ~ "=") * --unnamedparams
+// Named = id "=" Exp("," id "=" Exp) * --namedparams
+
+
+class FunctionAnnotation {
+  constructor(id, parameterTypes, returnType) {
+    this.id = id;
+    this.parameterTypes = parameterTypes;
+    this.returnType = returnType;
+  }
+
+  analyze(context) {
+    return this;
+  }
+
+  optimize() {
+    return this;
+  }
+}
+
+class FunctionParameter {
+  constructor(id, parameterTypes, returnType) {
+    this.id = id;
+    this.parameterTypes = parameterTypes;
+    this.returnType = returnType;
+  }
+
+  analyze(context) {
+    return this;
+  }
+
+  optimize() {
+    return this;
+  }
+}
+
+class FunctionDeclarationStatement {
+  constructor(id, parameters, body) {
+    this.annotation = annotation;
+    this.id = id;
+    this.parameters = parameters;
+    this.body = body;
+  }
+
+  analyze(context) {
+    return this;
+  }
+
+  optimize() {
+    return this;
+  }
+}
+
+class FunctionCallStatement {
+  constructor(id, parameters, body) {
+    this.annotation = annotation;
+    this.id = id;
+    this.parameters = parameters;
+    this.body = body;
+  }
+
+  analyze(context) {
+    return this;
+  }
+
+  optimize() {
+    return this;
+  }
+}
+
+
 class WhileStatement {
   constructor(condition, body) {
     Object.assign(this, { condition, body });
@@ -232,6 +313,18 @@ class WhileStatement {
     if (this.condition instanceof BooleanLiteral && this.condition.value === false) {
       return null;
     }
+    return this;
+  }
+}
+
+class ForStatement {
+  constructor(left, right, body) {
+    Object.assign(this, {left, right, body})
+  }
+  analyze(context) {
+    return this;
+  }
+  optimize() {
     return this;
   }
 }
@@ -253,6 +346,64 @@ class IfStatement {
     this.alternate = this.alternate ? this.alternate.optimize() : null;
     return this;
   }
+}
+
+class Matrix {
+    constructor(values){
+        this.type = Type.MATRIX;
+        this.values = values;
+    }
+    analyze(context) {
+      return this;
+    }
+}
+
+class Tuple {
+    constructor(values){
+        this.type = Type.TUPLE;
+        this.values = values;
+    }
+    analyze(context) {
+      return this;
+    }
+}
+
+class Dictionary {
+    constructor(values){
+        this.type = Type.DICTIONARY;
+        this.values = values;
+    }
+    analyze(context) {
+      return this;
+    }
+}
+
+class KeyValuePair {
+    constructor(key, value) {
+        this.key = key;
+        this.value = value;
+    }
+    analyze(context) {
+        return this;
+    }
+}
+
+class StringInterpolation {
+    constructor(values) {
+        this.values = values;
+    }
+    analyze(context) {
+        return this;
+    }
+}
+
+class Interpolation {
+    constructor(v) {
+        this.value = v;
+    }
+    analyze(context) {
+        return this;
+    }
 }
 
 class Case {
@@ -303,6 +454,7 @@ class Program {
 }
 
 
+
 // function isZero(entity) {
 //   return entity instanceof IntegerLiteral && entity.value === 0;
 // }
@@ -328,10 +480,18 @@ module.exports = {
   BinaryExpression,
   UnaryExpression,
   Binding,
-  WhileStatement,
   ReturnStatement,
+  FunctionDeclarationStatement,
+  WhileStatement,
+  ForStatement,
   Case,
   IfStatement,
+  Tuple,
+  Matrix,
+  Dictionary,
+  KeyValuePair,
   Block,
   Program,
+  StringInterpolation,
+  Interpolation
 };

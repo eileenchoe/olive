@@ -17,8 +17,8 @@ fun: float, int -> string
 fun (x, z=5) =
     return 'hello'
 
-(y) = y
+lambda y: y
 
-(y) = 2 + y
+lambda z: z + 1
 
-(x, y) = x + y
+lambda x, y, z: z + y + x

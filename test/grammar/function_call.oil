@@ -1,0 +1,18 @@
+function()
+
+function(x, y, z)
+function(x=1, y='dog')
+function(x, y, z=12)
+function(1, 2, 3)
+function(1, 2, 3)
+function(x, 2, z=3)
+
+function(1/4, 8*4, 90-89)
+function(((((x)))))
+function(true, false, false)
+function(true and false)
+function(false or true)
+function((1, 2, 3))
+function([1, 2, 3])
+
+function(function())
