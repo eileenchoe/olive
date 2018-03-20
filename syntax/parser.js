@@ -84,8 +84,12 @@ const semantics = grammar.createSemantics().addOperation('ast', {
   Exp6_parens(_1, expression, _2) { return expression.ast(); },
   Tuple(_1, v, _2) { return new Tuple([...v.ast()]); },
   Matrix(_1, v, _2) { return new Matrix([...v.ast()]); },
-  Set(_1, v, _2) {return new Set([...v.ast()]); },
-  Range(open, start, _1, step, _2, end, close) { return new Range(open, start.ast(), step.ast(), end.ast(), close); },
+  Set(_1, v, _2) { return new Set([...v.ast()]); },
+  Range(open, start, _1, step, _2, end, close) {
+    const openParen = open.primitiveValue;
+    const closingParen = close.primitiveValue;
+    return new Range(openParen, start.ast(), step.ast(), end.ast(), closingParen);
+  },
   Dictionary(_1, v, _2) { return new Dictionary([...v.ast()]); },
   KeyValuePair(k, _, v) { return new KeyValuePair(k.ast(), v.ast()); },
   Type(typeName) { return Type.forName(typeName.sourceString); },

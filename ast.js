@@ -394,9 +394,12 @@ class Dictionary {
 
 class Range {
   constructor(open, start, step, end, close) {
+    this.type = Type.RANGE;
     this.start = start;
     this.step = step;
     this.end = end;
+    this.inclusiveStart = open === '[';
+    this.inclusiveEnd = close === ']';
   }
   analyze(context) {
     return this;
