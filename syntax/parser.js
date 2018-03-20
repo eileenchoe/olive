@@ -33,9 +33,9 @@ const {
   Tuple,
   Dictionary,
   KeyValuePair,
-  Immutables,
+  // Immutables,
   StringInterpolation,
-  Interpolation
+  Interpolation,
 } = require('../ast');
 
 const fs = require('fs');
@@ -62,7 +62,9 @@ const semantics = grammar.createSemantics().addOperation('ast', {
   Statement_varassign(v, _, e) { return new Binding(v.ast(), true, e.ast()); },
   Statement_return(_, e) { return new ReturnStatement(unpack(e.ast())); },
   Statement_while(_, test, suite) { return new WhileStatement(test.ast(), suite.ast()); },
-  Statement_for(_1, left, _2, right, suite) { return new ForStatement(left.ast(), right.ast(), suite.ast()); },
+  Statement_for(_1, left, _2, right, suite) {
+    return new ForStatement(left.ast(), right.ast(), suite.ast());
+  },
   Statement_if(_1, firstTest, firstSuite, _2, moreTests, moreSuites, _3, lastSuite) {
     const tests = [firstTest.ast(), ...moreTests.ast()];
     const bodies = [firstSuite.ast(), ...moreSuites.ast()];
@@ -84,8 +86,6 @@ const semantics = grammar.createSemantics().addOperation('ast', {
   Type(typeName) { return Type.forName(typeName.sourceString); },
   StringInterpolation(_1, values, _2) { return new StringInterpolation([...values.ast()]); },
   Interpolation(_1, value, _2) { return new Interpolation(value.ast()); },
-  // raw(chars) { return new StringLiteral(this.sourceString); },
-  // Exp6_parens(_1, e, _2) { return e.ast(); },
   VarExp(_) { return new VariableExpression(this.sourceString); },
   NonemptyListOf(first, _, rest) { return [first.ast(), ...rest.ast()]; },
   ListOf(args) { return [...args.ast()]; },
@@ -100,6 +100,5 @@ module.exports = (text) => {
   if (!match.succeeded()) {
     throw new Error(`Syntax Error: ${match.message}`);
   }
-  return semantics(match).ast(); // TODO: Renable once .ast() is written
-  // return { success: true }; // To get unit tests running for syntax only
+  return semantics(match).ast();
 };

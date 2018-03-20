@@ -14,7 +14,9 @@
 
 class Context {
   constructor({ parent = null, currentFunction = null, inLoop = false } = {}) {
-    Object.assign(this, { parent, currentFunction, inLoop, declarations: Object.create(null) });
+    Object.assign(this, {
+      parent, currentFunction, inLoop, declarations: Object.create(null),
+    });
   }
 
   createChildContextForFunctionBody(currentFunction) {
@@ -49,6 +51,7 @@ class Context {
 
   variableMustNotBeAlreadyDeclared(id) {
     if (this.declarations[id]) {
+      /* eslint-disable no-throw-literal */
       throw `${id} already declared`;
     }
   }
@@ -70,51 +73,16 @@ class Context {
       throw new Error(message);
     }
   }
-
-  assertIsFunction(entity) { // eslint-disable-line class-methods-use-this
-    if (entity.constructor !== FunctionObject) {
-      throw new Error(`${entity.id} is not a function`);
-    }
-  }
+  // TODO: reenable once FunctionObject is defined in AST
+  // assertIsFunction(entity) { // eslint-disable-line class-methods-use-this
+  //   if (entity.constructor !== FunctionObject) {
+  //     throw new Error(`${entity.id} is not a function`);
+  //   }
+  // }
 }
 
-const INITIAL = new Context();
+const initialContext = new Context();
 // new FunctionDeclaration('print', [new Parameter('_', null)], null).analyze(Context.INITIAL);
 // new FunctionDeclaration('sqrt', [new Parameter('_', null)], null).analyze(Context.INITIAL);
 
-module.exports = { INITIAL, Context };
-
-
-
-
-
-
-// /* eslint-disable no-throw-literal */
-// class AnalysisContext {
-//   constructor(parent, inLoop) {
-//     this.parent = parent;
-//     this.symbolTable = Object.create(null);
-//   }
-//   createChildContext() {
-//     return new AnalysisContext(this);
-//   }
-//   variableMustNotBeAlreadyDeclared(name) {
-//     if (this.symbolTable[name]) {
-//       throw `Variable ${name} already declared`;
-//     }
-//   }
-//   addVariable(name, entity) {
-//     this.symbolTable[name] = entity;
-//   }
-//   lookupVariable(name) {
-//     const variable = this.symbolTable[name];
-//     if (variable) {
-//       return variable;
-//     } else if (!this.parent) {
-//       throw `Variable ${name} not found`;
-//     }
-//     return this.parent.lookupVariable(name);
-//   }
-// }
-//
-// exports.initialContext = () => new AnalysisContext(null);
+module.exports = { initialContext };
