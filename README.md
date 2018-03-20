@@ -29,6 +29,19 @@ multi line comment
 | This is a single line comment
 ```
 
+### Types
+
+-int: `3`, `897`, -32
+-float: -3.08, 9.54, 0.9
+-boolean: `true`, `false`
+-string: `'hello'`, `'olive is the best language ever'`
+-None: `None`
+-tuple: `(2, 3, 5)`, `(800, 'San Francisco', true)`
+-matrix: `[0, 4 ,5]`, `[[3, 2], [8, 7]]`
+-dictionary: `{'a': 15, 'friends': 'best'}`
+-set: `{2, 4, 7}`, `{'hello', 'friends'}`
+
+
 ### Variable Declarations
 
 ```
@@ -89,7 +102,7 @@ fibonacci_numbers = [0, 1, 1, 2, 3, 5, 8, 13]
 Like python ranges, Olive ranges iteratively produce the following value in the range until the end condition is met. Range objects can also be used as a parameter for random generators, in which case, the start, increment and end values will be used to produce a single random value.
 
 ```
-evens = [0:2:10)                | range object with integers from 0 inclusive to 10 exclusive 
+evens = [0:2:10)                | range object with integers from 0 inclusive to 10 exclusive
 delta = (-0.2:0.1:1.6]          | range object with decimal values from 0 exclusive to 1 inclusive
 really_small = [0:1^(-10):0.1]  | increments can be specified using expressions like exponents
 reversed_evens = [10:-2:0]      | increments can be negative to iterate in reverse
@@ -225,11 +238,3 @@ triple (x) =
 triple("10")      | Run time error
 
 ```
-
-### Types
-|Type| Description|
-| -- | ---------- |
-| int | Signed Integer |
-| float | Floating point real values |
-| boolean | `true` or `false` |
-| string | `'hello'`|
