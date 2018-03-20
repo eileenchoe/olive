@@ -225,7 +225,3 @@ double (x) =
 
 double("string")  | Compile time error
 ```
-#### Anonymous Functions
-```
-((y) = 2 * y)(2)
-```
