@@ -31,15 +31,15 @@ multi line comment
 
 ### Types
 
--int: `3`, `897`, -32
--float: -3.08, 9.54, 0.9
--boolean: `true`, `false`
--string: `'hello'`, `'olive is the best language ever'`
--None: `None`
--tuple: `(2, 3, 5)`, `(800, 'San Francisco', true)`
--matrix: `[0, 4 ,5]`, `[[3, 2], [8, 7]]`
--dictionary: `{'a': 15, 'friends': 'best'}`
--set: `{2, 4, 7}`, `{'hello', 'friends'}`
+- int: `3`, `897`, -32
+- float: -3.08, 9.54, 0.9
+- boolean: `true`, `false`
+- string: `'hello'`, `'olive is the best language ever'`
+- None: `None`
+- tuple: `(2, 3, 5)`, `(800, 'San Francisco', true)`
+- matrix: `[0, 4 ,5]`, `[[3, 2], [8, 7]]`
+- dictionary: `{'a': 15, 'friends': 'best'}`
+- set: `{2, 4, 7}`, `{'hello', 'friends'}`
 
 
 ### Variable Declarations
