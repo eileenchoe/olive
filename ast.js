@@ -371,6 +371,16 @@ class Tuple {
   }
 }
 
+class Set {
+  constructor(values) {
+    this.type = Type.SET;
+    this.values = values;
+  }
+  analyze(context) {
+    return this;
+  }
+}
+
 class Dictionary {
   constructor(values) {
     this.type = Type.DICTIONARY;
@@ -490,6 +500,7 @@ module.exports = {
   Tuple,
   Matrix,
   Dictionary,
+  Set,
   KeyValuePair,
   Block,
   Program,

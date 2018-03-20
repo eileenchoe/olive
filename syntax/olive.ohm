@@ -26,12 +26,14 @@ Olive {
   Exp5        =  Matrix                           -- matrix
               |  Call                             -- functioncall
               |  Dictionary                       -- dictionary
+              |  Set                              -- set
               |  Key
               |  "(" Exp ")"                      -- parens
               |  Tuple
 
   Tuple        =  "(" NonemptyListOf<Exp4, ","> ")"
   Matrix       =  "[" ListOf<Exp4, ","> "]"
+  Set          =  "{" NonemptyListOf<Exp4, ","> "}"
   Dictionary   =  "{" ListOf<KeyValuePair, ","> "}"
   KeyValuePair =  Key ":" Exp
 
