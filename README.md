@@ -163,13 +163,6 @@ name = 'olive'
 
 complete_greeting = `${greeting}, ${name}`
 ```
-#### Concatenation
-```
-greeting = 'hello'
-name = 'olive'
-
-complete_greeting = greeting ++ ', ' ++ name
-```
 
 ### Loops
 #### If
