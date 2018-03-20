@@ -39,6 +39,7 @@ Type.MATRIX = new Type('matrix');
 Type.DICTIONARY = new Type('dictionary');
 Type.SET = new Type('set');
 Type.TEMPLATELITERAL = new Type('templateliteral');
+Type.RANGE = new Type('range');
 
 Type.forName = name => Type.cache[name];
 
@@ -391,6 +392,17 @@ class Dictionary {
   }
 }
 
+class Range {
+  constructor(open, start, step, end, close) {
+    this.start = start;
+    this.step = step;
+    this.end = end;
+  }
+  analyze(context) {
+    return this;
+  }
+}
+
 class KeyValuePair {
   constructor(key, value) {
     this.key = key;
@@ -500,6 +512,7 @@ module.exports = {
   Tuple,
   Matrix,
   Dictionary,
+  Range,
   Set,
   KeyValuePair,
   Block,

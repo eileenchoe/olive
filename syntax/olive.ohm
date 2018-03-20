@@ -32,12 +32,18 @@ Olive {
               |  Key
               |  "(" Exp ")"                      -- parens
               |  Tuple
+              |  Range
 
+  Range        =  ("(" | "[") RangeType ":" RangeType ":" RangeType ("]" | ")")
   Tuple        =  "(" NonemptyListOf<Exp5, ","> ")"
   Matrix       =  "[" ListOf<Exp5, ","> "]"
   Set          =  "{" NonemptyListOf<Exp5, ","> "}"
   Dictionary   =  "{" ListOf<KeyValuePair, ","> "}"
   KeyValuePair =  Key ":" Exp
+
+  RangeType   =  VarExp
+              |  intlit
+              |  floatlit
 
   Key         =  boollit
               |  intlit
@@ -46,6 +52,7 @@ Olive {
               |  nonelit
               |  StringInterpolation
               |  VarExp
+
   Exps        =  NonemptyListOf<Exp, ",">
   Ids         =  NonemptyListOf<id, ",">
   VarExp      =  VarExp "[" Exp "]"               -- subscripted
@@ -64,6 +71,7 @@ Olive {
               |  "matrix"
               |  "dictionary"
               |  "set"
+              |  "range"
 
   Annotation  =  id ":" (Type ("," Type)*)? "->" Type?
 
