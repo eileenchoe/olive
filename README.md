@@ -189,10 +189,10 @@ while (counter >= 0)
 
 ### Functions
 
-Functions look like immutable variables, and they can take parameters. Parameters can have default values.
+Functions look like immutable variables, and they can take parameters. Olive allows named and default parameters.
 
-Functions must have type annotations.
-The compiler will check that the function parameters and return value are of the correct type.
+Functions must have type annotations. See section on type annotations for more detail about constructing a function type annotation.
+The compiler will perform static semantic analysis to ensure function parameters and return value are of the correct type.
 
 ```
 say_hello: string -> void
@@ -224,4 +224,9 @@ double (x) =
   return x + x
 
 double("string")  | Compile time error
+```
+#### Type Annotations
+Olive functions are required to have a function type annotation. Here are a few examples of more complex type annotations:
+```
+TODO
 ```
