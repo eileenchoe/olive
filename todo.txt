@@ -29,5 +29,16 @@ fun (x, y) =
     ((y) = 2 * y)(2)
     ```
 
+-update readme
+    sets are homogenous
+    dictionaries: the key must all be of the same type
+                  same for values
+    tuples are the only hetergeneous type we have
 
-
+Fix function syntax in type annotation
+Function AST
+    - Function Declaration
+    - Function Call
+    - Annotation
+    - Parameter
+    - Argument
