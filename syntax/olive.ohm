@@ -78,12 +78,12 @@ Olive {
                         |  "string"
                         |  "int"
                         |  "bool"
-                        |  "set"
                         |  "range"
                         |  "float"
   complexAnnTypes       =  "matrix"
                         |  "dictionary"
                         |  "tuple"
+                        |  "set"
                         |  "function"
   FunctionDecl          =  TypeAnn Function                                                                   -- functiondeclaration
   TypeAnn               =  id ":" (ParamAnn | "_") "->" (ReturnAnn | "_")                                     -- typeannotation

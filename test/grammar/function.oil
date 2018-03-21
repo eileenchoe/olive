@@ -10,7 +10,7 @@ fun: bool, int -> _
 fun (x, y) =
     print(x) 
 
-fun: string, set, matrix<int>, tuple<tuple<string,int>> -> range
+fun: string, set<string>, matrix<int>, tuple<tuple<string,int>> -> range
 fun (x=1, y=2, z=4) =
     return x + 2
 
@@ -21,3 +21,7 @@ fun (x, z=5) =
 fun: float, string, int -> string
 fun (x, z='yes', z=5) =
     return 'hello'
+
+fun: function<int, int>, int -> int
+fun (x, y) =
+    return x(y)
