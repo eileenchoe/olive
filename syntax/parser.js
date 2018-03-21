@@ -63,6 +63,17 @@ const semantics = grammar.createSemantics().addOperation('ast', {
   Statement_mutablebinding(v, _, e) { return new Binding(v.ast(), false, e.ast()); },
   Statement_immutablebinding(v, _, e) { return new Binding(v.ast(), true, e.ast()); },
   Statement_return(_, e) { return new ReturnStatement(unpack(e.ast())); },
+
+  // Function_declaration(ann, id, _1, params, _2, _3, suite) {
+  //   return new FunctionDeclaration(ann.ast(), id.ast(), params.ast(), suite.ast());
+  // },
+  // TypeAnnotation(id, _1, paramAnn, _2, returnAnn) {
+  //   return new TypeAnnotation(id.ast());
+  // },
+  // Param() {},
+  // Function_call(callee, _1, args, _2) { return new Call(callee.ast(), args.ast()); },
+  // Arg() {},
+
   Statement_while(_, test, suite) { return new WhileStatement(test.ast(), suite.ast()); },
   Statement_for(_1, left, _2, right, suite) {
     return new ForStatement(left.ast(), right.ast(), suite.ast());

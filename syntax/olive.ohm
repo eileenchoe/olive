@@ -98,8 +98,7 @@ Olive {
 
   Call                  =  id "(" Arguments? ")"                                                              -- functioncall
   Arguments             =  Named                                                                              -- onlynamedargs
-                        |  UnnamedArgs "," Named                                                              -- both
-                        |  UnnamedArgs                                                                        -- onlyunnamedargs
+                        |  UnnamedArgs ("," Named)?                                                           -- onlyunnamedargs
   UnnamedArgs           =  Arg ("," Arg ~ "=")*                                                               -- unnamedargs
   Arg                   = Exp
                         | id

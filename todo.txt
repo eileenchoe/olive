@@ -39,6 +39,8 @@ Fix function syntax in type annotation
 Function AST
     - Function Declaration
     - Function Call
+        * I don't know how to deal with the (Argument)?
     - Annotation
+        * I'm not sure what to do about ParamAnn and ReturnAnn
     - Parameter
     - Argument
