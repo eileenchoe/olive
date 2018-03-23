@@ -84,11 +84,11 @@ Olive {
                         |  "dictionary"
                         |  "tuple"
                         |  "set"
-                        |  "function"
   FunctionDecl          =  TypeAnn id "(" Parameters? ")" "=" Suite                                                                    -- functiondeclaration
   TypeAnn               =  id ":" (ParamAnn | "_") "->" (ReturnAnn | "_")                                     -- typeannotation
-  ReturnAnn             =  complexAnnTypes "<" (ListOf<(ReturnAnn|basicAnnTypes|complexAnnTypes), ",">) ">"   -- returnannotation
-                        |  basicAnnTypes
+  ReturnAnn             =  complexAnnTypes "<" (ListOf<(ReturnAnn|basicAnnTypes|complexAnnTypes), ",">) ">"   -- complextypeann
+                        |  "(" (ParamAnn | "_") "->" (ReturnAnn | "_") ")"                                    -- functionann
+                        |  basicAnnTypes                                                                      -- basictypeann
   ParamAnn              =  NonemptyListOf<ReturnAnn, ",">                                                     -- parameterannotation
   Parameters            =  Named                                                                              -- onlynamedparams
                         |  Unnamed "," Named                                                                  -- both
