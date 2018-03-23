@@ -91,14 +91,13 @@ Olive {
                         |  basicAnnTypes                                                                      -- basictypeann
   ParamAnn              =  NonemptyListOf<ReturnAnn, ",">                                                     -- parameterannotation
   Parameters            =  Named                                                                              -- onlynamedparams
-                        |  Unnamed "," Named                                                                  -- both
-                        |  Unnamed                                                                            -- onlyunnamedparams
+                        |  Unnamed ("," Named)?                                                               -- onlyunnamedorboth
   Named                 =  id "=" Exp ("," id "=" Exp)*                                                       -- named
   Unnamed               =  id ("," id ~ "=")*                                                                 -- unnamed
 
   Call                  =  id "(" Arguments? ")"                                                              -- functioncall
   Arguments             =  Named                                                                              -- onlynamedargs
-                        |  UnnamedArgs ("," Named)?                                                           -- onlyunnamedargs
+                        |  UnnamedArgs ("," Named)?                                                           -- onlyunnamedargsorboth
   UnnamedArgs           =  Arg ("," Arg ~ "=")*                                                               -- unnamedargs
   Arg                   = Exp
                         | id
