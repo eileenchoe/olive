@@ -69,7 +69,7 @@
                 <h3><strong>.oil extensions</strong></h3>
                 <pre><code>
                     +-- yarn.lock<br>
-                    +-- Project<br>
+                    +-- Extracts<br>
                     + &nbsp +-- corn.oil<br>
                     + &nbsp +-- truffle.oil<br>
                     + &nbsp +-- olive.oil
@@ -79,7 +79,11 @@
               <div class="col-12 col-sm-4 col-lg-3 m-auto pt-4 pt-sm-0">
                 <img alt="image" class="fdb-icon" src="./imgs/Circle-comment.svg">
                 <h3><strong>Stylish comments</strong></h3>
-                <pre><code>| Have you ever seen such<br>| stylish comments?<br>| ...<br>| I didn't think so</code></pre>
+                <pre><code>
+                  | Have you ever seen such<br>
+                  | stylish comments?<br><br>
+                  | ...<br>
+                  | We didn't think so</code></pre>
               </div>
       
               <div class="col-12 col-sm-4 col-lg-3 m-auto pt-4 pt-sm-0">
@@ -88,8 +92,8 @@
                 <pre><code>
                     | built in matrix support<br>
                     A, B := [0, 4 ,5], [[3], [7]]<br><br>
-                    | and what we call ranges<br>
-                    decimals = [0:1:10)
+                    | and something we call ranges<br>
+                    evens = [0:2:10)
                   </code></pre>
               </div>
 
@@ -112,23 +116,35 @@
       <div class="row text-center justify-content-sm-center no-gutters">
         <div class="col-12 col-sm-10 col-md-8 col-lg-7 col-xl-3 m-auto">
           <div class="fdb-box fdb-touch">
-            <h2>Feature 1</h2>
-            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia.</p>
-            <p class="mt-4"><a href="#">Learn More &gt;</a></p>
+            <h2>Variable Declarations</h2>
+            <pre><code>
+              | immutable<br>
+              x = 2.5<br>
+              | mutable<br>
+              y := 2.3
+            </code></pre>
+          
           </div>
         </div>
         <div class="col-12 col-sm-10 col-md-8 col-lg-7 col-xl-3 m-auto pt-5 pt-xl-0">
           <div class="fdb-box fdb-touch">
-            <h2>Feature 2</h2>
-            <p>Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-            <p class="mt-4"><a href="#">Learn More &gt;</a></p>
+            <h2>Built in Constants</h2>
+            <pre><code>
+                | 2.71828182845...<br>
+                print(e)<br>
+                | 3.14159265359...<br>
+                print(pi)<br>
+              </code></pre>
           </div>
         </div>
         <div class="col-12 col-sm-10 col-md-8 col-lg-7 col-xl-3 m-auto pt-5 pt-xl-0">
           <div class="fdb-box fdb-touch">
-            <h2>Feature 3</h2>
-            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-            <p class="mt-4"><a href="#">Learn More &gt;</a></p>
+            <h2>Yes, divmod is <code>/%</code></h2>
+            <pre><code>
+                integer_division = 7 // 2<br>
+                modulus = 7 % 2<br>
+                (div, mod) = 7 /% 2<br>
+              </code></pre>
           </div>
         </div>
       </div>
@@ -136,53 +152,74 @@
       <div class="row-70"></div>
 
       <div class="row text-center justify-content-sm-center no-gutters">
-        <div class="col-12 col-sm-10 col-md-8 col-lg-7 col-xl-3 m-auto">
-          <div class="fdb-box fdb-touch">
-            <h2>Feature 1</h2>
-            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia.</p>
-            <p class="mt-4"><a href="#">Learn More &gt;</a></p>
-          </div>
-        </div>
-        <div class="col-12 col-sm-10 col-md-8 col-lg-7 col-xl-3 m-auto pt-5 pt-xl-0">
-          <div class="fdb-box fdb-touch">
-            <h2>Feature 2</h2>
-            <p>Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-            <p class="mt-4"><a href="#">Learn More &gt;</a></p>
-          </div>
-        </div>
-        <div class="col-12 col-sm-10 col-md-8 col-lg-7 col-xl-3 m-auto pt-5 pt-xl-0">
-          <div class="fdb-box fdb-touch">
-            <h2>Feature 3</h2>
-            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-            <p class="mt-4"><a href="#">Learn More &gt;</a></p>
-          </div>
-        </div>
+          <div class="col-12 col-sm-10 col-md-8 col-lg-7 col-xl-3 m-auto pt-5 pt-xl-0">
+              <div class="fdb-box fdb-touch">
+                <h2>Sets and Dictionaries</h2>
+                <pre><code>
+                    color = {'r': 0, 'g': 12, 'b': -3}<br>
+                    friends = {'mom'}<br>
+                  </code></pre>
+              </div>
+            </div>
+            <div class="col-12 col-sm-10 col-md-8 col-lg-7 col-xl-3 m-auto pt-5 pt-xl-0">
+                <div class="fdb-box fdb-touch">
+                  <h2>Matrix and Tuples</h2>
+                  <pre><code>
+                      stuff = (True, 'yo', 10)<br>
+                      W = [[0, 1, 1], [0, 0, 1], [0, 0, 1]]<br>
+                      v = [1, 2, 3, 4] <br>
+                    </code></pre>
+                </div>
+              </div>
+              <div class="col-12 col-sm-10 col-md-8 col-lg-7 col-xl-3 m-auto pt-5 pt-xl-0">
+                  <div class="fdb-box fdb-touch">
+                    <h2>String interpolation</h2>
+                    <pre><code>
+                        greeting = 'hello'<br>
+                        name = 'olive'<br>
+                        print(`${greeting}, ${name}`)<br>
+                      </code></pre>
+                  </div>
+                </div>
       </div>
 
       <div class="row-70"></div>
-
       <div class="row text-center justify-content-sm-center no-gutters">
-        <div class="col-12 col-sm-10 col-md-8 col-lg-7 col-xl-3 m-auto">
+      <div class="col-12 col-sm-10 col-md-8 col-lg-7 col-xl-3 m-auto pt-5 pt-xl-0">
           <div class="fdb-box fdb-touch">
-            <h2>Feature 1</h2>
-            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia.</p>
-            <p class="mt-4"><a href="#">Learn More &gt;</a></p>
+            <h2>If</h2>
+            <pre><code>
+                so = False<br>
+                if (so)<br>
+                &nbsp print('please')<br>
+                else<br>
+                &nbsp print('dont')
+              </code></pre>
           </div>
         </div>
         <div class="col-12 col-sm-10 col-md-8 col-lg-7 col-xl-3 m-auto pt-5 pt-xl-0">
-          <div class="fdb-box fdb-touch">
-            <h2>Feature 2</h2>
-            <p>Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-            <p class="mt-4"><a href="#">Learn More &gt;</a></p>
-          </div>
+            <div class="fdb-box fdb-touch">
+              <h2>For</h2>
+              <pre><code>
+                  for i in [0:1:10)<br>
+                  &nbsp print(i)<br><br>
+                  W = [[1, 2, 3],[4, 5, 6]]<br>
+                  for row in W<br>
+                  &nbsp print(max(row))<br>
+                </code></pre>
+            </div>
         </div>
         <div class="col-12 col-sm-10 col-md-8 col-lg-7 col-xl-3 m-auto pt-5 pt-xl-0">
-          <div class="fdb-box fdb-touch">
-            <h2>Feature 3</h2>
-            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-            <p class="mt-4"><a href="#">Learn More &gt;</a></p>
+            <div class="fdb-box fdb-touch">
+              <h2>While</h2>
+              <pre><code>
+                  i := 10<br>
+                  while (i >= 0)<br>
+                  &nbsp print(i)<br>
+                  &nbsp i := i - 1 | you should not do this...
+                </code></pre>
+            </div>
           </div>
-        </div>
       </div>
     </div>
   </section>
