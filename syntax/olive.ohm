@@ -26,7 +26,7 @@ Olive {
   Exp5                  =  prefixop Exp6                                                                      -- unary
                         |  Exp6
   Exp6                  =  Matrix                                                                             -- matrix
-                        |  Call                                                                               -- functioncall
+                        |  FunctionCall                                                                               -- functioncall
                         |  Dictionary                                                                         -- dictionary
                         |  Set                                                                                -- set
                         |  Key
@@ -72,35 +72,26 @@ Olive {
                         |  "set"
                         |  "range"
 
-  Types                 =  types
-
   basicAnnTypes         =  "None"
                         |  "string"
                         |  "int"
                         |  "bool"
                         |  "range"
                         |  "float"
-  complexAnnTypes       =  "matrix"
-                        |  "dictionary"
-                        |  "tuple"
-                        |  "set"
-  FunctionDecl          =  TypeAnn id "(" Parameters? ")" "=" Suite                                                                    -- functiondeclaration
-  TypeAnn               =  id ":" (ParamAnn | "_") "->" (ReturnAnn | "_")                                     -- typeannotation
-  ReturnAnn             =  complexAnnTypes "<" (ListOf<(ReturnAnn|basicAnnTypes|complexAnnTypes), ",">) ">"   -- complextypeann
-                        |  "(" (ParamAnn | "_") "->" (ReturnAnn | "_") ")"                                    -- functionann
-                        |  basicAnnTypes                                                                      -- basictypeann
-  ParamAnn              =  NonemptyListOf<ReturnAnn, ",">                                                     -- parameterannotation
-  Parameters            =  Named                                                                              -- onlynamedparams
-                        |  Unnamed ("," Named)?                                                               -- onlyunnamedorboth
-  Named                 =  id "=" Exp ("," id "=" Exp)*                                                       -- named
-  Unnamed               =  id ("," id ~ "=")*                                                                 -- unnamed
 
-  Call                  =  id "(" Arguments? ")"                                                              -- functioncall
-  Arguments             =  Named                                                                              -- onlynamedargs
-                        |  UnnamedArgs ("," Named)?                                                           -- onlyunnamedargsorboth
-  UnnamedArgs           =  Arg ("," Arg ~ "=")*                                                               -- unnamedargs
-  Arg                   = Exp
-                        | id
+  FunctionDecl          =  TypeAnn id "(" ListOf<id, ","> ") =" Suite
+  TypeAnn               =  id ":" ("_" | ParamAnn) "->" ("_" | Annotation)
+  Annotation            =  "matrix<" (Annotation | basicAnnTypes) ">"                                         -- matrix
+                        |  "dictionary<" (Annotation | basicAnnTypes) "," (Annotation | basicAnnTypes) ">"    -- dictionary
+                        |  "tuple<" NonemptyListOf<(Annotation | basicAnnTypes), ","> ">"                     -- tuple
+                        |  "list<" (Annotation | basicAnnTypes) ">"                                           -- list
+                        |  "set<" (Annotation | basicAnnTypes) ">"                                            -- set
+                        |  "(" ("_" | ParamAnn) "->" ( "_" | Annotation) ")"                                  -- function
+                        |  basicAnnTypes                                                                      -- basic
+  ParamAnn              =  ListOf<Annotation, ",">
+  FunctionCall          =  id "(" ListOf <Arg, ","> ")"
+  Arg                   =  Exp
+                        |  id
 
   id                    =  ~keyword letter idrest*
   idrest                =  "_" | alnum

@@ -1,4 +1,4 @@
-fun:_->_
+fun: _->_
 fun () =
     print(1)
 
@@ -8,18 +8,18 @@ fun (x, y, z) =
 
 fun: bool, int -> _
 fun (x, y) =
-    print(x) 
+    print(x)
 
 fun: string, set<string>, matrix<int>, tuple<tuple<string,int>> -> range
-fun (x=1, y=2, z=4) =
+fun (x, y, z) =
     return x + 2
 
 fun: float, int -> string
-fun (x, z=5) =
+fun (x, z) =
     return 'hello'
 
 fun: float, string, int -> string
-fun (x, z='yes', z=5) =
+fun (x, z, z) =
     return 'hello'
 
 fun: (int -> int), int -> int
