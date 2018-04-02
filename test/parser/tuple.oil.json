@@ -1,110 +1,118 @@
 {
-   "block":{
-      "statements":[
-         {
-            "type":{
-               "name":"tuple"
+    "block": {
+        "statements": [
+            {
+                "body": {
+                    "type": {
+                        "name": "tuple"
+                    },
+                    "values": [
+                        {
+                            "value": "1"
+                        },
+                        {
+                            "value": "2"
+                        },
+                        {
+                            "value": "3"
+                        }
+                    ]
+                }
             },
-            "values":[
-               {
-                  "value":"1"
-               },
-               {
-                  "value":"2"
-               },
-               {
-                  "value":"3"
-               }
-            ]
-         },
-         {
-            "type":{
-               "name":"tuple"
+            {
+                "body": {
+                    "type": {
+                        "name": "tuple"
+                    },
+                    "values": [
+                        {
+                            "value": "'hallo'"
+                        },
+                        {
+                            "value": "'wie'"
+                        },
+                        {
+                            "value": "'gehts'"
+                        }
+                    ]
+                }
             },
-            "values":[
-               {
-                  "value":"'hallo'"
-               },
-               {
-                  "value":"'wie'"
-               },
-               {
-                  "value":"'gehts'"
-               }
-            ]
-         },
-         {
-            "type":{
-               "name":"tuple"
+            {
+                "body": {
+                    "type": {
+                        "name": "tuple"
+                    },
+                    "values": [
+                        {
+                            "type": {
+                                "name": "tuple"
+                            },
+                            "values": [
+                                {
+                                    "value": "'U'"
+                                },
+                                {
+                                    "value": "'R'"
+                                }
+                            ]
+                        },
+                        {
+                            "type": {
+                                "name": "tuple"
+                            },
+                            "values": [
+                                {
+                                    "value": "'U'"
+                                },
+                                {
+                                    "value": "'G'"
+                                },
+                                {
+                                    "value": "'U'"
+                                }
+                            ]
+                        },
+                        {
+                            "type": {
+                                "name": "tuple"
+                            },
+                            "values": [
+                                {
+                                    "value": "'A'"
+                                },
+                                {
+                                    "value": "'Y'"
+                                }
+                            ]
+                        }
+                    ]
+                }
             },
-            "values":[
-               {
-                  "type":{
-                     "name":"tuple"
-                  },
-                  "values":[
-                     {
-                        "value":"'U'"
-                     },
-                     {
-                        "value":"'R'"
-                     }
-                  ]
-               },
-               {
-                  "type":{
-                     "name":"tuple"
-                  },
-                  "values":[
-                     {
-                        "value":"'U'"
-                     },
-                     {
-                        "value":"'G'"
-                     },
-                     {
-                        "value":"'U'"
-                     }
-                  ]
-               },
-               {
-                  "type":{
-                     "name":"tuple"
-                  },
-                  "values":[
-                     {
-                        "value":"'A'"
-                     },
-                     {
-                        "value":"'Y'"
-                     }
-                  ]
-               }
-            ]
-         },
-         {
-            "type":{
-               "name":"tuple"
-            },
-            "values":[
-               {
-                  "value":"'semántica'"
-               },
-               {
-                  "type":{
-                     "name":"tuple"
-                  },
-                  "values":[
-                     {
-                        "value":"'es'"
-                     },
-                     {
-                        "value":"'cool'"
-                     }
-                  ]
-               }
-            ]
-         }
-      ]
-   }
+            {
+                "body": {
+                    "type": {
+                        "name": "tuple"
+                    },
+                    "values": [
+                        {
+                            "value": "'semántica'"
+                        },
+                        {
+                            "type": {
+                                "name": "tuple"
+                            },
+                            "values": [
+                                {
+                                    "value": "'es'"
+                                },
+                                {
+                                    "value": "'cool'"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        ]
+    }
 }

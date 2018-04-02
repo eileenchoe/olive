@@ -1,45 +1,49 @@
 {
-  "block":{
-    "statements":[
+  "block": {
+    "statements": [
       {
-        "values":[
-          "s",
-          "t",
-          "a",
-          "r",
-          "t",
-          {
-            "value":{
-              "id":"var"
-            }
-          },
-          "e",
-          "n",
-          "d"
-        ]
+        "body": {
+          "values": [
+            "s",
+            "t",
+            "a",
+            "r",
+            "t",
+            {
+              "value": {
+                "id": "var"
+              }
+            },
+            "e",
+            "n",
+            "d"
+          ]
+        }
       },
       {
-        "values":[
-          "s",
-          "t",
-          "a",
-          "r",
-          "t",
-          {
-            "value":{
-              "values":[
-                {
-                  "value":{
-                    "id":"var"
+        "body": {
+          "values": [
+            "s",
+            "t",
+            "a",
+            "r",
+            "t",
+            {
+              "value": {
+                "values": [
+                  {
+                    "value": {
+                      "id": "var"
+                    }
                   }
-                }
-              ]
-            }
-          },
-          "e",
-          "n",
-          "d"
-        ]
+                ]
+              }
+            },
+            "e",
+            "n",
+            "d"
+          ]
+        }
       }
     ]
   }

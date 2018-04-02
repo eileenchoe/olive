@@ -235,7 +235,7 @@ class ReturnStatement {
   }
 }
 
-class SimpleStatement {
+class ExpressionStatement {
   constructor(body) {
     this.body = body;
   }
@@ -535,7 +535,7 @@ module.exports = {
   ReturnStatement,
   WhileStatement,
   ForStatement,
-  SimpleStatement,
+  ExpressionStatement,
   Case,
   IfStatement,
   Tuple,

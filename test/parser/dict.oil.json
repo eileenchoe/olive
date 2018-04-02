@@ -1,52 +1,56 @@
 {
-   "block":{
-      "statements":[
-         {
-            "type":{
-               "name":"dictionary"
+    "block": {
+        "statements": [
+            {
+                "body": {
+                    "type": {
+                        "name": "dictionary"
+                    },
+                    "values": [
+                        {
+                            "key": {
+                                "value": "1"
+                            },
+                            "value": {
+                                "value": "2"
+                            }
+                        }
+                    ]
+                }
             },
-            "values":[
-               {
-                  "key":{
-                     "value":"1"
-                  },
-                  "value":{
-                     "value":"2"
-                  }
-               }
-            ]
-         },
-         {
-            "type":{
-               "name":"dictionary"
+            {
+                "body": {
+                    "type": {
+                        "name": "dictionary"
+                    },
+                    "values": [
+                        {
+                            "key": {
+                                "value": "'a'"
+                            },
+                            "value": {
+                                "value": "1"
+                            }
+                        },
+                        {
+                            "key": {
+                                "value": "'b'"
+                            },
+                            "value": {
+                                "value": "2"
+                            }
+                        }
+                    ]
+                }
             },
-            "values":[
-               {
-                  "key":{
-                     "value":"'a'"
-                  },
-                  "value":{
-                     "value":"1"
-                  }
-               },
-               {
-                  "key":{
-                     "value":"'b'"
-                  },
-                  "value":{
-                     "value":"2"
-                  }
-               }
-            ]
-         },
-         {
-            "type":{
-               "name":"dictionary"
-            },
-            "values":[
-
-            ]
-         }
-      ]
-   }
+            {
+                "body": {
+                    "type": {
+                        "name": "dictionary"
+                    },
+                    "values": []
+                }
+            }
+        ]
+    }
 }

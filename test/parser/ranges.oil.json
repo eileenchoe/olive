@@ -1,54 +1,60 @@
 {
-   "block":{
-      "statements":[
-         {
-            "type":{
-               "name":"range"
+    "block": {
+        "statements": [
+            {
+                "body": {
+                    "type": {
+                        "name": "range"
+                    },
+                    "start": {
+                        "value": "0"
+                    },
+                    "step": {
+                        "value": "1"
+                    },
+                    "end": {
+                        "value": "10"
+                    },
+                    "inclusiveStart": true,
+                    "inclusiveEnd": false
+                }
             },
-            "start":{
-               "value":"0"
+            {
+                "body": {
+                    "type": {
+                        "name": "range"
+                    },
+                    "start": {
+                        "value": "0.1"
+                    },
+                    "step": {
+                        "value": "2"
+                    },
+                    "end": {
+                        "value": "99.999999"
+                    },
+                    "inclusiveStart": false,
+                    "inclusiveEnd": false
+                }
             },
-            "step":{
-               "value":"1"
-            },
-            "end":{
-               "value":"10"
-            },
-            "inclusiveStart":true,
-            "inclusiveEnd":false
-         },
-         {
-            "type":{
-               "name":"range"
-            },
-            "start":{
-               "value":"0.1"
-            },
-            "step":{
-               "value":"2"
-            },
-            "end":{
-               "value":"99.999999"
-            },
-            "inclusiveStart":false,
-            "inclusiveEnd":false
-         },
-         {
-            "type":{
-               "name":"range"
-            },
-            "start":{
-               "value":"1"
-            },
-            "step":{
-               "value":"10.2"
-            },
-            "end":{
-               "value":"1010010"
-            },
-            "inclusiveStart":true,
-            "inclusiveEnd":true
-         }
-      ]
-   }
+            {
+                "body": {
+                    "type": {
+                        "name": "range"
+                    },
+                    "start": {
+                        "value": "1"
+                    },
+                    "step": {
+                        "value": "10.2"
+                    },
+                    "end": {
+                        "value": "1010010"
+                    },
+                    "inclusiveStart": true,
+                    "inclusiveEnd": true
+                }
+            }
+        ]
+    }
 }

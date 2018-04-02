@@ -18,7 +18,7 @@ const {
   WhileStatement,
   ForStatement,
   IfStatement,
-  SimpleStatement,
+  ExpressionStatement,
   Type,
   IntegerLiteral,
   BooleanLiteral,
@@ -109,8 +109,8 @@ const semantics = grammar.createSemantics().addOperation('ast', {
     const cases = tests.map((test, index) => new Case(test, bodies[index]));
     return new IfStatement(cases, unpack(lastSuite.ast()));
   },
-  Statement_simple(body) {
-    return new SimpleStatement(body.ast());
+  Statement_expression(body) {
+    return new ExpressionStatement(body.ast());
   },
   Suite(_1, block, _2) { return block.ast(); },
   Exp_or(left, op, right) { return new BinaryExpression(op.ast(), left.ast(), right.ast()); },
