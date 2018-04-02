@@ -235,6 +235,18 @@ class ReturnStatement {
   }
 }
 
+class SimpleStatement {
+  constructor(body) {
+    this.body = body;
+  }
+  analyze() {
+    return this;
+  }
+  optimize() {
+    return this;
+  }
+}
+
 // (Annotation) ? Function-- functionDeclaration
 
 // Function = id "(" Parameters ? ")" "=" Suite-- regularfuctions
@@ -523,6 +535,7 @@ module.exports = {
   ReturnStatement,
   WhileStatement,
   ForStatement,
+  SimpleStatement,
   Case,
   IfStatement,
   Tuple,

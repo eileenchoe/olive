@@ -10,7 +10,7 @@ Olive {
                         |  "if" Exp Suite
                            ("else if" Exp Suite)*
                            ("else" Suite)?                                                                    -- if
-                        |  Exp                                                                                -- scripting
+                        |  Exp                                                                                -- simple
   Suite                 =  indent Block dedent
   Exp                   =  Exp "or" Exp1                                                                      -- or
                         |  Exp "and" Exp1                                                                     -- and

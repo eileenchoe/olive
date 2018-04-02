@@ -1,0 +1,27 @@
+{
+  "block":{
+    "statements":[
+      {
+        "body":{
+          "op":"+",
+          "left":{
+            "id":"x"
+          },
+          "right":{
+            "value":"3"
+          }
+        }
+      },
+      {
+        "body":{
+          "id":"y"
+        }
+      },
+      {
+        "body":{
+          "value":true
+        }
+      }
+    ]
+  }
+}
