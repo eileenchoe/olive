@@ -28,6 +28,22 @@ class Type {
   }
 }
 
+class ComplexType extends Type {
+  constructor(name, type) {
+    super(name);
+    this.type = type;
+  }
+}
+
+class DictionaryType extends Type {
+  constructor(name, keyType, valueType) {
+    super(name);
+    this.keyType = keyType;
+    this.valueType = valueType;
+  }
+}
+
+
 Type.cache = {};
 Type.BOOL = new Type('bool');
 Type.INT = new Type('int');
@@ -251,7 +267,7 @@ class FunctionAnnotation {
   }
 }
 
-class FunctionParameter {
+class FunctionTypeAnnotation {
   constructor(id, parameterTypes, returnType) {
     this.id = id;
     this.parameterTypes = parameterTypes;
@@ -268,8 +284,8 @@ class FunctionParameter {
 }
 
 class FunctionDeclarationStatement {
-  constructor(id, parameters, body) {
-    // this.annotation = annotation; // TODO
+  constructor(annotation, id, parameters, body) {
+    this.annotation = annotation;
     this.id = id;
     this.parameters = parameters;
     this.body = body;
@@ -285,11 +301,9 @@ class FunctionDeclarationStatement {
 }
 
 class FunctionCallStatement {
-  constructor(id, parameters, body) {
-    // this.annotation = annotation; // TODO
+  constructor(id, args) {
     this.id = id;
-    this.parameters = parameters;
-    this.body = body;
+    this.args = args;
   }
 
   analyze(context) {
@@ -507,7 +521,6 @@ module.exports = {
   UnaryExpression,
   Binding,
   ReturnStatement,
-  FunctionDeclarationStatement,
   WhileStatement,
   ForStatement,
   Case,
@@ -522,4 +535,9 @@ module.exports = {
   Program,
   StringInterpolation,
   Interpolation,
+  FunctionCallStatement,
+  FunctionDeclarationStatement,
+  FunctionTypeAnnotation,
+  ComplexType,
+  DictionaryType,
 };

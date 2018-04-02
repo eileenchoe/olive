@@ -87,7 +87,7 @@ Olive {
                         |  "list<" (Annotation | basicAnnTypes) ">"                                           -- list
                         |  "set<" (Annotation | basicAnnTypes) ">"                                            -- set
                         |  "(" ("_" | ParamAnn) "->" ( "_" | Annotation) ")"                                  -- function
-                        |  basicAnnTypes                                                                      -- basic
+                        |  basicAnnTypes                                                                      -- simple
   ParamAnn              =  ListOf<Annotation, ",">
   FunctionCall          =  id "(" ListOf <Arg, ","> ")"
   Arg                   =  Exp

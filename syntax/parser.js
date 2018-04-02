@@ -37,7 +37,12 @@ const {
   // Immutables,
   StringInterpolation,
   Interpolation,
-  Range
+  Range,
+  FunctionCallStatement,
+  FunctionDeclarationStatement,
+  FunctionTypeAnnotation,
+  ComplexType,
+  DictionaryType,
 } = require('../ast');
 
 const fs = require('fs');
@@ -63,29 +68,35 @@ const semantics = grammar.createSemantics().addOperation('ast', {
   Statement_mutablebinding(v, _, e) { return new Binding(v.ast(), false, e.ast()); },
   Statement_immutablebinding(v, _, e) { return new Binding(v.ast(), true, e.ast()); },
   Statement_return(_, e) { return new ReturnStatement(unpack(e.ast())); },
-  FunctionDecl(ann, id, _1, params, _2, suite) {
-    return new FunctionDeclaration(ann.ast(), id.ast(), params.ast(), suite.ast());
+  FunctionDecl(ann, id, _1, params, _2, body) {
+    return new FunctionDeclarationStatement(ann.ast(), id.ast(), params.ast(), body.ast());
   },
   TypeAnn(id, _1, param, _2, ret) {
-    return new TypeAnnotation(id.ast(), param.ast(), ret.ast());
+    return new FunctionTypeAnnotation(id.ast(), param.ast(), ret.ast());
   },
   Annotation_matrix(_1, t, _2) {
-    return new MatrixAnn(t.ast());
+    return new ComplexType('matrix', t.ast());
   },
   Annotation_dictionary(_1, key, _2, value, _3) {
-    return new DictionaryAnn(key.ast(), value.ast());
+    return new DictionaryType('dictionary', key.ast(), value.ast());
   },
   Annotation_tuple(_1, t, _2) {
-    return new TupleAnn(t.ast());
+    return new ComplexType('tuple', t.ast());
   },
   Annotation_list(_1, t, _2) {
-    return new ListAnn(t.ast());
+    return new ComplexType('list', t.ast());
   },
   Annotation_set(_1, t, _2) {
-    return new SetAnn(t.ast());
+    return new ComplexType('set', t.ast());
+  },
+  Annotation_simple(t) {
+    return new Type(this.sourceString);
+  },
+  Annotation_function(_1, paramType, _2, retType, _3) {
+    return new FunctionTypeAnnotation(null, paramType.ast(), retType.ast());
   },
   FunctionCall(id, _1, args, _2) {
-    return new FunctionCall(id.ast(), args.ast());
+    return new FunctionCallStatement(id.ast(), args.ast());
   },
   Statement_while(_, test, suite) { return new WhileStatement(test.ast(), suite.ast()); },
   Statement_for(_1, left, _2, right, suite) {
@@ -116,7 +127,6 @@ const semantics = grammar.createSemantics().addOperation('ast', {
   },
   Dictionary(_1, v, _2) { return new Dictionary([...v.ast()]); },
   KeyValuePair(k, _, v) { return new KeyValuePair(k.ast(), v.ast()); },
-  // Types(typeName) { return Type.forName(typeName.sourceString); },
   StringInterpolation(_1, values, _2) { return new StringInterpolation([...values.ast()]); },
   Interpolation(_1, value, _2) { return new Interpolation(value.ast()); },
   VarExp(_) { return new VariableExpression(this.sourceString); },
