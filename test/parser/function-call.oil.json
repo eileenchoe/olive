@@ -1,0 +1,89 @@
+{
+    "block": {
+        "statements": [
+            {
+                "body": {
+                    "id": "dog",
+                    "args": []
+                }
+            },
+            {
+                "body": {
+                    "id": "fun",
+                    "args": [
+                        {
+                            "value": "1"
+                        },
+                        {
+                            "value": "2"
+                        }
+                    ]
+                }
+            },
+            {
+                "body": {
+                    "id": "yes",
+                    "args": [
+                        {
+                            "type": {
+                                "name": "tuple"
+                            },
+                            "values": [
+                                {
+                                    "value": "1"
+                                },
+                                {
+                                    "value": "2"
+                                },
+                                {
+                                    "value": "'eddie'"
+                                }
+                            ]
+                        },
+                        {
+                            "type": {
+                                "name": "dictionary"
+                            },
+                            "values": [
+                                {
+                                    "key": {
+                                        "value": "'hello'"
+                                    },
+                                    "value": {
+                                        "value": "3"
+                                    }
+                                },
+                                {
+                                    "key": {
+                                        "value": "'dog'"
+                                    },
+                                    "value": {
+                                        "value": "5"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "value": "1000"
+                        }
+                    ]
+                }
+            },
+            {
+                "body": {
+                    "id": "yes",
+                    "args": [
+                        {
+                            "id": "smile",
+                            "args": [
+                                {
+                                    "value": "21"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}

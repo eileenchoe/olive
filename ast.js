@@ -312,7 +312,7 @@ class FunctionDeclarationStatement {
   }
 }
 
-class FunctionCallStatement {
+class FunctionCallExpression {
   constructor(id, args) {
     this.id = id;
     this.args = args;
@@ -548,7 +548,7 @@ module.exports = {
   Program,
   StringInterpolation,
   Interpolation,
-  FunctionCallStatement,
+  FunctionCallExpression,
   FunctionDeclarationStatement,
   FunctionTypeAnnotation,
   ComplexType,

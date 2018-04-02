@@ -39,7 +39,7 @@ const {
   StringInterpolation,
   Interpolation,
   Range,
-  FunctionCallStatement,
+  FunctionCallExpression,
   FunctionDeclarationStatement,
   FunctionTypeAnnotation,
   ComplexType,
@@ -97,7 +97,7 @@ const semantics = grammar.createSemantics().addOperation('ast', {
     return new FunctionTypeAnnotation(null, paramType.ast(), retType.ast());
   },
   FunctionCall(id, _1, args, _2) {
-    return new FunctionCallStatement(id.ast(), args.ast());
+    return new FunctionCallExpression(id.ast(), args.ast());
   },
   Statement_while(_, test, suite) { return new WhileStatement(test.ast(), suite.ast()); },
   Statement_for(_1, left, _2, right, suite) {
