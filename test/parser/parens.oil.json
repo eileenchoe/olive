@@ -1,40 +1,52 @@
 {
-   "block":{
-      "statements":[
-         {
-            "names":[
-               "a"
-            ],
-            "isMutable":false,
-            "values":[
-               {
-                  "value":"'hello'"
-               }
-            ]
-         },
-         {
-            "names":[
-               "b"
-            ],
-            "isMutable":false,
-            "values":[
-               {
-                  "op":"*",
-                  "left":{
-                     "op":"+",
-                     "left":{
-                        "value":"3"
-                     },
-                     "right":{
-                        "value":"5"
-                     }
-                  },
-                  "right":{
-                     "value":"8"
-                  }
-               }
-            ]
-         }
-      ]
-   }
+    "block": {
+        "statements": [
+            {
+                "names": [
+                    "a"
+                ],
+                "isMutable": false,
+                "values": [
+                    {
+                        "value": "'hello'",
+                        "type": {
+                            "name": "string"
+                        }
+                    }
+                ]
+            },
+            {
+                "names": [
+                    "b"
+                ],
+                "isMutable": false,
+                "values": [
+                    {
+                        "op": "*",
+                        "left": {
+                            "op": "+",
+                            "left": {
+                                "value": "3",
+                                "type": {
+                                    "name": "int"
+                                }
+                            },
+                            "right": {
+                                "value": "5",
+                                "type": {
+                                    "name": "int"
+                                }
+                            }
+                        },
+                        "right": {
+                            "value": "8",
+                            "type": {
+                                "name": "int"
+                            }
+                        }
+                    }
+                ]
+            }
+        ]
+    }
 }

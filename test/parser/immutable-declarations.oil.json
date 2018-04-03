@@ -1,14 +1,17 @@
 {
-  "block":{
-    "statements":[
+  "block": {
+    "statements": [
       {
-        "names":[
+        "names": [
           "a"
         ],
-        "isMutable":false,
-        "values":[
+        "isMutable": false,
+        "values": [
           {
-            "value":"'Hello, there!'"
+            "value": "'Hello, there!'",
+            "type": {
+              "name": "string"
+            }
           }
         ]
       }

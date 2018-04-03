@@ -5,10 +5,16 @@
                 "body": {
                     "op": "and",
                     "left": {
-                        "value": "1"
+                        "value": "1",
+                        "type": {
+                            "name": "int"
+                        }
                     },
                     "right": {
-                        "value": "3"
+                        "value": "3",
+                        "type": {
+                            "name": "int"
+                        }
                     }
                 }
             },
@@ -16,10 +22,16 @@
                 "body": {
                     "op": "or",
                     "left": {
-                        "value": true
+                        "value": true,
+                        "type": {
+                            "name": "bool"
+                        }
                     },
                     "right": {
-                        "value": false
+                        "value": false,
+                        "type": {
+                            "name": "bool"
+                        }
                     }
                 }
             },
@@ -27,10 +39,16 @@
                 "body": {
                     "op": "+",
                     "left": {
-                        "value": "1"
+                        "value": "1",
+                        "type": {
+                            "name": "int"
+                        }
                     },
                     "right": {
-                        "value": "6"
+                        "value": "6",
+                        "type": {
+                            "name": "int"
+                        }
                     }
                 }
             },
@@ -38,10 +56,16 @@
                 "body": {
                     "op": "-",
                     "left": {
-                        "value": "1"
+                        "value": "1",
+                        "type": {
+                            "name": "int"
+                        }
                     },
                     "right": {
-                        "value": "7"
+                        "value": "7",
+                        "type": {
+                            "name": "int"
+                        }
                     }
                 }
             },
@@ -49,10 +73,16 @@
                 "body": {
                     "op": "<",
                     "left": {
-                        "value": "1"
+                        "value": "1",
+                        "type": {
+                            "name": "int"
+                        }
                     },
                     "right": {
-                        "value": "2"
+                        "value": "2",
+                        "type": {
+                            "name": "int"
+                        }
                     }
                 }
             },
@@ -60,10 +90,16 @@
                 "body": {
                     "op": ">",
                     "left": {
-                        "value": "2"
+                        "value": "2",
+                        "type": {
+                            "name": "int"
+                        }
                     },
                     "right": {
-                        "value": "3"
+                        "value": "3",
+                        "type": {
+                            "name": "int"
+                        }
                     }
                 }
             },
@@ -71,10 +107,16 @@
                 "body": {
                     "op": "<=",
                     "left": {
-                        "value": "1"
+                        "value": "1",
+                        "type": {
+                            "name": "int"
+                        }
                     },
                     "right": {
-                        "value": "33"
+                        "value": "33",
+                        "type": {
+                            "name": "int"
+                        }
                     }
                 }
             },
@@ -82,10 +124,16 @@
                 "body": {
                     "op": ">=",
                     "left": {
-                        "value": "3"
+                        "value": "3",
+                        "type": {
+                            "name": "int"
+                        }
                     },
                     "right": {
-                        "value": "4"
+                        "value": "4",
+                        "type": {
+                            "name": "int"
+                        }
                     }
                 }
             },
@@ -93,10 +141,16 @@
                 "body": {
                     "op": "==",
                     "left": {
-                        "value": "1"
+                        "value": "1",
+                        "type": {
+                            "name": "int"
+                        }
                     },
                     "right": {
-                        "value": "3"
+                        "value": "3",
+                        "type": {
+                            "name": "int"
+                        }
                     }
                 }
             },
@@ -104,10 +158,16 @@
                 "body": {
                     "op": "!=",
                     "left": {
-                        "value": "1"
+                        "value": "1",
+                        "type": {
+                            "name": "int"
+                        }
                     },
                     "right": {
-                        "value": "3"
+                        "value": "3",
+                        "type": {
+                            "name": "int"
+                        }
                     }
                 }
             },
@@ -115,10 +175,16 @@
                 "body": {
                     "op": "*",
                     "left": {
-                        "value": "5"
+                        "value": "5",
+                        "type": {
+                            "name": "int"
+                        }
                     },
                     "right": {
-                        "value": "6"
+                        "value": "6",
+                        "type": {
+                            "name": "int"
+                        }
                     }
                 }
             },
@@ -126,10 +192,16 @@
                 "body": {
                     "op": "/",
                     "left": {
-                        "value": "5"
+                        "value": "5",
+                        "type": {
+                            "name": "int"
+                        }
                     },
                     "right": {
-                        "value": "5"
+                        "value": "5",
+                        "type": {
+                            "name": "int"
+                        }
                     }
                 }
             },
@@ -137,10 +209,16 @@
                 "body": {
                     "op": "%",
                     "left": {
-                        "value": "5"
+                        "value": "5",
+                        "type": {
+                            "name": "int"
+                        }
                     },
                     "right": {
-                        "value": "34"
+                        "value": "34",
+                        "type": {
+                            "name": "int"
+                        }
                     }
                 }
             },
@@ -148,10 +226,16 @@
                 "body": {
                     "op": "/%",
                     "left": {
-                        "value": "6"
+                        "value": "6",
+                        "type": {
+                            "name": "int"
+                        }
                     },
                     "right": {
-                        "value": "545"
+                        "value": "545",
+                        "type": {
+                            "name": "int"
+                        }
                     }
                 }
             },
@@ -159,10 +243,16 @@
                 "body": {
                     "op": "^",
                     "left": {
-                        "value": "6"
+                        "value": "6",
+                        "type": {
+                            "name": "int"
+                        }
                     },
                     "right": {
-                        "value": "3"
+                        "value": "3",
+                        "type": {
+                            "name": "int"
+                        }
                     }
                 }
             }

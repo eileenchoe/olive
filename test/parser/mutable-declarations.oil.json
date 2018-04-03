@@ -1,29 +1,35 @@
-{  
-  "block":{
-    "statements":[
+{
+  "block": {
+    "statements": [
       {
-        "names":[
+        "names": [
           {
-            "id":"x"
+            "id": "x"
           }
         ],
-        "isMutable":true,
-        "values":[
+        "isMutable": true,
+        "values": [
           {
-            "value":true
+            "value": true,
+            "type": {
+              "name": "bool"
+            }
           }
         ]
       },
       {
-        "names":[
+        "names": [
           {
-            "id":"y"
+            "id": "y"
           }
         ],
-        "isMutable":true,
-        "values":[
+        "isMutable": true,
+        "values": [
           {
-            "value":"'hello'"
+            "value": "'hello'",
+            "type": {
+              "name": "string"
+            }
           }
         ]
       }

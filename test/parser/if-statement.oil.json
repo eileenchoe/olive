@@ -1,58 +1,67 @@
 {
-   "block":{
-      "statements":[
-         {
-            "names":[
-               {
-                  "id":"x"
-               }
-            ],
-            "isMutable":true,
-            "values":[
-               {
-                  "value":"0"
-               }
-            ]
-         },
-         {
-            "cases":[
-               {
-                  "test":{
-                     "op":"<",
-                     "left":{
-                        "id":"x"
-                     },
-                     "right":{
-                        "value":"10"
-                     }
-                  },
-                  "body":{
-                     "statements":[
-                        {
-                           "names":[
-                              {
-                                 "id":"x"
-                              }
-                           ],
-                           "isMutable":true,
-                           "values":[
-                              {
-                                 "op":"+",
-                                 "left":{
-                                    "id":"x"
-                                 },
-                                 "right":{
-                                    "value":"1"
-                                 }
-                              }
-                           ]
+    "block": {
+        "statements": [
+            {
+                "names": [
+                    {
+                        "id": "x"
+                    }
+                ],
+                "isMutable": true,
+                "values": [
+                    {
+                        "value": "0",
+                        "type": {
+                            "name": "int"
                         }
-                     ]
-                  }
-               }
-            ],
-            "alternate":null
-         }
-      ]
-   }
+                    }
+                ]
+            },
+            {
+                "cases": [
+                    {
+                        "test": {
+                            "op": "<",
+                            "left": {
+                                "id": "x"
+                            },
+                            "right": {
+                                "value": "10",
+                                "type": {
+                                    "name": "int"
+                                }
+                            }
+                        },
+                        "body": {
+                            "statements": [
+                                {
+                                    "names": [
+                                        {
+                                            "id": "x"
+                                        }
+                                    ],
+                                    "isMutable": true,
+                                    "values": [
+                                        {
+                                            "op": "+",
+                                            "left": {
+                                                "id": "x"
+                                            },
+                                            "right": {
+                                                "value": "1",
+                                                "type": {
+                                                    "name": "int"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "alternate": null
+            }
+        ]
+    }
 }

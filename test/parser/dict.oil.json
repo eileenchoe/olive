@@ -9,10 +9,16 @@
                     "values": [
                         {
                             "key": {
-                                "value": "1"
+                                "value": "1",
+                                "type": {
+                                    "name": "int"
+                                }
                             },
                             "value": {
-                                "value": "2"
+                                "value": "2",
+                                "type": {
+                                    "name": "int"
+                                }
                             }
                         }
                     ]
@@ -26,18 +32,30 @@
                     "values": [
                         {
                             "key": {
-                                "value": "'a'"
+                                "value": "'a'",
+                                "type": {
+                                    "name": "string"
+                                }
                             },
                             "value": {
-                                "value": "1"
+                                "value": "1",
+                                "type": {
+                                    "name": "int"
+                                }
                             }
                         },
                         {
                             "key": {
-                                "value": "'b'"
+                                "value": "'b'",
+                                "type": {
+                                    "name": "string"
+                                }
                             },
                             "value": {
-                                "value": "2"
+                                "value": "2",
+                                "type": {
+                                    "name": "int"
+                                }
                             }
                         }
                     ]

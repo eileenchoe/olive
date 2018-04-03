@@ -1,63 +1,66 @@
 {
-  "block":{
-    "statements":[
+  "block": {
+    "statements": [
       {
-        "annotation":{
-          "id":"fun",
-          "parameterTypes":[
+        "annotation": {
+          "id": "fun",
+          "parameterTypes": [
             {
-              "name":"matrix",
-              "type":{
-                "name":"int"
+              "name": "matrix",
+              "type": {
+                "name": "int"
               }
             },
             {
-              "name":"tuple",
-              "type":[
+              "name": "tuple",
+              "type": [
                 {
-                  "name":"float"
+                  "name": "float"
                 },
                 {
-                  "name":"int"
+                  "name": "int"
                 },
                 {
-                  "name":"string"
+                  "name": "string"
                 }
               ]
             }
           ],
-          "returnType":{
-            "id":null,
-            "parameterTypes":[
+          "returnType": {
+            "id": null,
+            "parameterTypes": [
               {
-                "name":"int"
+                "name": "int"
               }
             ],
-            "returnType":{
-              "name":"dictionary",
-              "keyType":{
-                "name":"int"
+            "returnType": {
+              "name": "dictionary",
+              "keyType": {
+                "name": "int"
               },
-              "valueType":{
-                "name":"string"
+              "valueType": {
+                "name": "string"
               }
             }
           }
         },
-        "id":"fun",
-        "parameters":[
+        "id": "fun",
+        "parameters": [
           "y"
         ],
-        "body":{
-          "statements":[
+        "body": {
+          "statements": [
             {
-              "returnValue":{
-                "op":"*",
-                "left":{
-                  "value":"2"
+              "returnValue": {
+                "op": "*",
+                "left": {
+                  "value": "2",
+                  "type": {
+                    "name": "int"
+                  }
                 },
-                "right":{
-                  "id":"y"
+                "right": {
+                  "id": "y"
                 }
               }
             }

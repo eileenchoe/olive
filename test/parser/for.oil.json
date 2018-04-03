@@ -13,13 +13,22 @@
                         },
                         "values": [
                             {
-                                "value": "4"
+                                "value": "4",
+                                "type": {
+                                    "name": "int"
+                                }
                             },
                             {
-                                "value": "5"
+                                "value": "5",
+                                "type": {
+                                    "name": "int"
+                                }
                             },
                             {
-                                "value": "6"
+                                "value": "6",
+                                "type": {
+                                    "name": "int"
+                                }
                             }
                         ]
                     }
@@ -39,7 +48,10 @@
                             "isMutable": false,
                             "values": [
                                 {
-                                    "value": "1"
+                                    "value": "1",
+                                    "type": {
+                                        "name": "int"
+                                    }
                                 }
                             ]
                         }

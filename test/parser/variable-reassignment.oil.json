@@ -1,32 +1,38 @@
 {
-   "block":{
-      "statements":[
-         {
-            "names":[
-               {
-                  "id":"x"
-               }
-            ],
-            "isMutable":true,
-            "values":[
-               {
-                  "value":"1"
-               }
-            ]
-         },
-         {
-            "names":[
-               {
-                  "id":"x"
-               }
-            ],
-            "isMutable":true,
-            "values":[
-               {
-                  "value":"6"
-               }
-            ]
-         }
-      ]
-   }
+    "block": {
+        "statements": [
+            {
+                "names": [
+                    {
+                        "id": "x"
+                    }
+                ],
+                "isMutable": true,
+                "values": [
+                    {
+                        "value": "1",
+                        "type": {
+                            "name": "int"
+                        }
+                    }
+                ]
+            },
+            {
+                "names": [
+                    {
+                        "id": "x"
+                    }
+                ],
+                "isMutable": true,
+                "values": [
+                    {
+                        "value": "6",
+                        "type": {
+                            "name": "int"
+                        }
+                    }
+                ]
+            }
+        ]
+    }
 }

@@ -1,101 +1,134 @@
 {
-   "block":{
-      "statements":[
-         {
-            "names":[
-               "colors"
-            ],
-            "isMutable":false,
-            "values":[
-               {
-                  "type":{
-                     "name":"set"
-                  },
-                  "values":[
-                     {
-                        "value":"'green'"
-                     },
-                     {
-                        "value":"'red'"
-                     },
-                     {
-                        "value":"'blue'"
-                     }
-                  ]
-               }
-            ]
-         },
-         {
-            "names":[
-               "numbers"
-            ],
-            "isMutable":false,
-            "values":[
-               {
-                  "type":{
-                     "name":"set"
-                  },
-                  "values":[
-                     {
-                        "value":"2"
-                     },
-                     {
-                        "value":"4"
-                     },
-                     {
-                        "op":"-",
-                        "operand":{
-                           "value":"3"
-                        }
-                     }
-                  ]
-               }
-            ]
-         },
-         {
-            "names":[
-               "set_of_tuples"
-            ],
-            "isMutable":false,
-            "values":[
-               {
-                  "type":{
-                     "name":"set"
-                  },
-                  "values":[
-                     {
-                        "type":{
-                           "name":"tuple"
+    "block": {
+        "statements": [
+            {
+                "names": [
+                    "colors"
+                ],
+                "isMutable": false,
+                "values": [
+                    {
+                        "type": {
+                            "name": "set"
                         },
-                        "values":[
-                           {
-                              "value":"2"
-                           },
-                           {
-                              "value":"3"
-                           }
+                        "values": [
+                            {
+                                "value": "'green'",
+                                "type": {
+                                    "name": "string"
+                                }
+                            },
+                            {
+                                "value": "'red'",
+                                "type": {
+                                    "name": "string"
+                                }
+                            },
+                            {
+                                "value": "'blue'",
+                                "type": {
+                                    "name": "string"
+                                }
+                            }
                         ]
-                     },
-                     {
-                        "type":{
-                           "name":"tuple"
+                    }
+                ]
+            },
+            {
+                "names": [
+                    "numbers"
+                ],
+                "isMutable": false,
+                "values": [
+                    {
+                        "type": {
+                            "name": "set"
                         },
-                        "values":[
-                           {
-                              "value":"4"
-                           },
-                           {
-                              "value":"8"
-                           }
+                        "values": [
+                            {
+                                "value": "2",
+                                "type": {
+                                    "name": "int"
+                                }
+                            },
+                            {
+                                "value": "4",
+                                "type": {
+                                    "name": "int"
+                                }
+                            },
+                            {
+                                "op": "-",
+                                "operand": {
+                                    "value": "3",
+                                    "type": {
+                                        "name": "int"
+                                    }
+                                }
+                            }
                         ]
-                     },
-                     {
-                        "value":"'hi'"
-                     }
-                  ]
-               }
-            ]
-         }
-      ]
-   }
+                    }
+                ]
+            },
+            {
+                "names": [
+                    "set_of_tuples"
+                ],
+                "isMutable": false,
+                "values": [
+                    {
+                        "type": {
+                            "name": "set"
+                        },
+                        "values": [
+                            {
+                                "type": {
+                                    "name": "tuple"
+                                },
+                                "values": [
+                                    {
+                                        "value": "2",
+                                        "type": {
+                                            "name": "int"
+                                        }
+                                    },
+                                    {
+                                        "value": "3",
+                                        "type": {
+                                            "name": "int"
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                "type": {
+                                    "name": "tuple"
+                                },
+                                "values": [
+                                    {
+                                        "value": "4",
+                                        "type": {
+                                            "name": "int"
+                                        }
+                                    },
+                                    {
+                                        "value": "8",
+                                        "type": {
+                                            "name": "int"
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                "value": "'hi'",
+                                "type": {
+                                    "name": "string"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
 }

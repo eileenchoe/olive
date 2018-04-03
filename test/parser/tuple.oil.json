@@ -8,13 +8,22 @@
                     },
                     "values": [
                         {
-                            "value": "1"
+                            "value": "1",
+                            "type": {
+                                "name": "int"
+                            }
                         },
                         {
-                            "value": "2"
+                            "value": "2",
+                            "type": {
+                                "name": "int"
+                            }
                         },
                         {
-                            "value": "3"
+                            "value": "3",
+                            "type": {
+                                "name": "int"
+                            }
                         }
                     ]
                 }
@@ -26,13 +35,22 @@
                     },
                     "values": [
                         {
-                            "value": "'hallo'"
+                            "value": "'hallo'",
+                            "type": {
+                                "name": "string"
+                            }
                         },
                         {
-                            "value": "'wie'"
+                            "value": "'wie'",
+                            "type": {
+                                "name": "string"
+                            }
                         },
                         {
-                            "value": "'gehts'"
+                            "value": "'gehts'",
+                            "type": {
+                                "name": "string"
+                            }
                         }
                     ]
                 }
@@ -49,10 +67,16 @@
                             },
                             "values": [
                                 {
-                                    "value": "'U'"
+                                    "value": "'U'",
+                                    "type": {
+                                        "name": "string"
+                                    }
                                 },
                                 {
-                                    "value": "'R'"
+                                    "value": "'R'",
+                                    "type": {
+                                        "name": "string"
+                                    }
                                 }
                             ]
                         },
@@ -62,13 +86,22 @@
                             },
                             "values": [
                                 {
-                                    "value": "'U'"
+                                    "value": "'U'",
+                                    "type": {
+                                        "name": "string"
+                                    }
                                 },
                                 {
-                                    "value": "'G'"
+                                    "value": "'G'",
+                                    "type": {
+                                        "name": "string"
+                                    }
                                 },
                                 {
-                                    "value": "'U'"
+                                    "value": "'U'",
+                                    "type": {
+                                        "name": "string"
+                                    }
                                 }
                             ]
                         },
@@ -78,10 +111,16 @@
                             },
                             "values": [
                                 {
-                                    "value": "'A'"
+                                    "value": "'A'",
+                                    "type": {
+                                        "name": "string"
+                                    }
                                 },
                                 {
-                                    "value": "'Y'"
+                                    "value": "'Y'",
+                                    "type": {
+                                        "name": "string"
+                                    }
                                 }
                             ]
                         }
@@ -95,7 +134,10 @@
                     },
                     "values": [
                         {
-                            "value": "'semántica'"
+                            "value": "'semántica'",
+                            "type": {
+                                "name": "string"
+                            }
                         },
                         {
                             "type": {
@@ -103,10 +145,16 @@
                             },
                             "values": [
                                 {
-                                    "value": "'es'"
+                                    "value": "'es'",
+                                    "type": {
+                                        "name": "string"
+                                    }
                                 },
                                 {
-                                    "value": "'cool'"
+                                    "value": "'cool'",
+                                    "type": {
+                                        "name": "string"
+                                    }
                                 }
                             ]
                         }

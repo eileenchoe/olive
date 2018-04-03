@@ -1,25 +1,31 @@
 {
-  "block":{
-    "statements":[
+  "block": {
+    "statements": [
       {
-        "body":{
-          "op":"+",
-          "left":{
-            "id":"x"
+        "body": {
+          "op": "+",
+          "left": {
+            "id": "x"
           },
-          "right":{
-            "value":"3"
+          "right": {
+            "value": "3",
+            "type": {
+              "name": "int"
+            }
           }
         }
       },
       {
-        "body":{
-          "id":"y"
+        "body": {
+          "id": "y"
         }
       },
       {
-        "body":{
-          "value":true
+        "body": {
+          "value": true,
+          "type": {
+            "name": "bool"
+          }
         }
       }
     ]

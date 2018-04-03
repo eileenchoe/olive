@@ -71,9 +71,9 @@ class NoneLiteral {
 class StringLiteral {
   constructor(value) {
     this.value = value;
+    this.type = Type.STRING;
   }
   analyze() {
-    this.type = Type.STRING;
   }
   optimize() {
     return this;
@@ -83,9 +83,9 @@ class StringLiteral {
 class FloatLiteral {
   constructor(value) {
     this.value = value;
+    this.type = Type.FLOAT;
   }
   analyze() {
-    this.type = Type.FLOAT;
   }
   optimize() {
     return this;
@@ -95,9 +95,9 @@ class FloatLiteral {
 class BooleanLiteral {
   constructor(value) {
     this.value = value;
+    this.type = Type.BOOL;
   }
   analyze() {
-    this.type = Type.BOOL;
   }
   optimize() {
     return this;
@@ -107,9 +107,10 @@ class BooleanLiteral {
 class IntegerLiteral {
   constructor(value) {
     this.value = value;
+    this.type = Type.INT;
   }
   analyze() {
-    this.type = Type.INT;
+    return this;
   }
   optimize() {
     return this;
@@ -145,7 +146,7 @@ class Binding {
       throw new Error('Number of variables does not equal number of initializers');
     }
 
-    // We don't want the declared variables to come into scope until after the
+    // We don't want the declasetred variables to come into scope until after the
     // declaration line, so we will analyze all the initializing expressions
     // first.
 
@@ -209,7 +210,7 @@ class UnaryExpression {
   analyze(context) {
     this.operand.analyze(context);
   }
-
+  
   optimize() {
     return this;
   }
@@ -219,14 +220,14 @@ class ReturnStatement {
   constructor(returnValue) {
     this.returnValue = returnValue;
   }
-
+  
   analyze(context) {
     if (this.returnValue) {
       this.returnValue.analyze(context);
     }
     context.assertInFunction('Return statement outside function');
   }
-
+  
   optimize() {
     if (this.returnValue) {
       this.returnValue = this.returnValue.optimize();
@@ -239,8 +240,8 @@ class ExpressionStatement {
   constructor(body) {
     this.body = body;
   }
-  analyze() {
-    return this;
+  analyze(context) {
+    this.body.analyze(context);
   }
   optimize() {
     return this;
@@ -363,14 +364,14 @@ class IfStatement {
   constructor(cases, alternate) {
     Object.assign(this, { cases, alternate });
   }
-
+  
   analyze(context) {
     this.cases.forEach(c => c.analyze(context.createChildContextForBlock()));
     if (this.alternate) {
       this.alternate.forEach(s => s.analyze(context.createChildContextForBlock()));
     }
   }
-
+  
   optimize() {
     this.cases.map(s => s.optimize()).filter(s => s !== null);
     this.alternate = this.alternate ? this.alternate.optimize() : null;
@@ -404,7 +405,14 @@ class Set {
     this.values = values;
   }
   analyze(context) {
-    return this;
+    this.values.forEach(value => value.analyze(context));
+    const setType = this.values[0].type;
+    this.values.forEach((value, index) => {
+      if(value.type !== setType) {
+        throw new Error(`Type mismatch among members of set`)
+      }
+    });
+    this.type = new ComplexType('set', setType);
   }
 }
 
@@ -464,13 +472,13 @@ class Case {
   constructor(test, body) {
     Object.assign(this, { test, body });
   }
-
+  
   analyze(context) {
     this.test.analyze(context);
     const bodyContext = context.createChildContextForBlock();
     this.body.forEach(s => s.analyze(bodyContext));
   }
-
+  
   optimize() {
     this.test = this.test.optimize();
     // Suggested: if test is false, remove case. if true, remove following cases and the alt

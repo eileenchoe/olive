@@ -1,22 +1,25 @@
 {
-   "block":{
-      "statements":[
-         {
-            "names":[
-               "x"
-            ],
-            "isMutable":false,
-            "values":[
-               {
-                  "value":"5"
-               }
-            ]
-         },
-         {
-            "returnValue":{
-               "id":"x"
+    "block": {
+        "statements": [
+            {
+                "names": [
+                    "x"
+                ],
+                "isMutable": false,
+                "values": [
+                    {
+                        "value": "5",
+                        "type": {
+                            "name": "int"
+                        }
+                    }
+                ]
+            },
+            {
+                "returnValue": {
+                    "id": "x"
+                }
             }
-         }
-      ]
-   }
+        ]
+    }
 }

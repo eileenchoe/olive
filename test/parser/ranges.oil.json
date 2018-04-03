@@ -7,13 +7,22 @@
                         "name": "range"
                     },
                     "start": {
-                        "value": "0"
+                        "value": "0",
+                        "type": {
+                            "name": "int"
+                        }
                     },
                     "step": {
-                        "value": "1"
+                        "value": "1",
+                        "type": {
+                            "name": "int"
+                        }
                     },
                     "end": {
-                        "value": "10"
+                        "value": "10",
+                        "type": {
+                            "name": "int"
+                        }
                     },
                     "inclusiveStart": true,
                     "inclusiveEnd": false
@@ -25,13 +34,22 @@
                         "name": "range"
                     },
                     "start": {
-                        "value": "0.1"
+                        "value": "0.1",
+                        "type": {
+                            "name": "float"
+                        }
                     },
                     "step": {
-                        "value": "2"
+                        "value": "2",
+                        "type": {
+                            "name": "int"
+                        }
                     },
                     "end": {
-                        "value": "99.999999"
+                        "value": "99.999999",
+                        "type": {
+                            "name": "float"
+                        }
                     },
                     "inclusiveStart": false,
                     "inclusiveEnd": false
@@ -43,13 +61,22 @@
                         "name": "range"
                     },
                     "start": {
-                        "value": "1"
+                        "value": "1",
+                        "type": {
+                            "name": "int"
+                        }
                     },
                     "step": {
-                        "value": "10.2"
+                        "value": "10.2",
+                        "type": {
+                            "name": "float"
+                        }
                     },
                     "end": {
-                        "value": "1010010"
+                        "value": "1010010",
+                        "type": {
+                            "name": "int"
+                        }
                     },
                     "inclusiveStart": true,
                     "inclusiveEnd": true
