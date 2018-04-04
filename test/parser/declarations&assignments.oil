@@ -1,0 +1,10 @@
+a = 'Hello, there!'
+
+x, y = 1, 2
+a, b := 6, 7
+
+x := true
+y := 'hello'
+
+x := 1
+x := 6

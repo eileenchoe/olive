@@ -1,3 +1,0 @@
-colors = {'green', 'red', 'blue'}
-numbers = {2, 4, -3}
-set_of_tuples = {(2, 3), (4, 8), 'hi'}

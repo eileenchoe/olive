@@ -1,3 +1,8 @@
 fun: matrix<int>, tuple<float, int, string> -> (int -> dictionary<int, string>)
 fun (y) =
   return 2 * y
+
+dog()
+fun(1, 2)
+yes((1,2,'eddie'), {'hello': 3, 'dog': 5}, 1000)
+yes(smile(21))

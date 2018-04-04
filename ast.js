@@ -28,16 +28,30 @@ class Type {
   }
 }
 
-class ComplexType extends Type {
+class MatrixType extends Type {
+  constructor(type) {
+    super("matrix");
+    this.elementType = type;
+  }
+}
+
+class TupleType extends Type {
+  constructor(type) {
+    super("tuple");
+    this.elementType = type;
+  }
+}
+
+class SetType extends Type {
   constructor(name, type) {
-    super(name);
-    this.type = type;
+    super("set");
+    this.elementType = type;
   }
 }
 
 class DictionaryType extends Type {
-  constructor(name, keyType, valueType) {
-    super(name);
+  constructor(keyType, valueType) {
+    super("dictionary");
     this.keyType = keyType;
     this.valueType = valueType;
   }
@@ -385,7 +399,14 @@ class Matrix {
     this.values = values;
   }
   analyze(context) {
-    return this;
+    this.values.forEach(value => value.analyze(context));
+    const memberType = this.values[0].type;
+    this.values.forEach((value, index) => {
+      if (!sameType(value.type, memberType)) {
+        throw new Error(`Type mismatch among members of set`)
+      }
+    });
+    this.type = new MatrixType(memberType);
   }
 }
 
@@ -395,7 +416,12 @@ class Tuple {
     this.values = values;
   }
   analyze(context) {
-    return this;
+    const memberTypes = [];
+    this.values.forEach(value => {
+      value.analyze(context);
+      memberTypes.push(value.type)
+    });
+    this.type = new TupleType(memberTypes);
   }
 }
 
@@ -406,13 +432,13 @@ class Set {
   }
   analyze(context) {
     this.values.forEach(value => value.analyze(context));
-    const setType = this.values[0].type;
-    this.values.forEach((value, index) => {
-      if(!sameType(value.type, setType)) {
+    const memberType = this.values[0].type;
+    this.values.forEach(value => {
+      if(!sameType(value.type, memberType)) {
         throw new Error(`Type mismatch among members of set`)
       }
     });
-    this.type = new ComplexType('set', setType);
+    this.type = new SetType(memberType);
   }
 }
 
@@ -422,7 +448,15 @@ class Dictionary {
     this.values = values;
   }
   analyze(context) {
-    return this;
+    this.values.forEach(value => value.analyze(context));
+    const memberKeyType = this.values[0].key.type;
+    const memberValueType = this.values[0].value.type;
+    this.values.forEach(value => {
+      if (!sameType(value.key.type, memberKeyType) || !sameType(value.value.type, memberValueType)) {
+        throw new Error(`Type mismatch among members of set`)
+      }
+    });
+    this.type = new DictionaryType(memberKeyType, memberValueType);
   }
 }
 
@@ -563,6 +597,8 @@ module.exports = {
   FunctionCallExpression,
   FunctionDeclarationStatement,
   FunctionTypeAnnotation,
-  ComplexType,
+  MatrixType,
+  SetType,
+  TupleType,
   DictionaryType,
 };

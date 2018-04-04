@@ -42,7 +42,9 @@ const {
   FunctionCallExpression,
   FunctionDeclarationStatement,
   FunctionTypeAnnotation,
-  ComplexType,
+  MatrixType,
+  TupleType,
+  SetType,
   DictionaryType,
 } = require('../ast');
 
@@ -76,19 +78,16 @@ const semantics = grammar.createSemantics().addOperation('ast', {
     return new FunctionTypeAnnotation(id.ast(), param.ast(), ret.ast());
   },
   Annotation_matrix(_1, t, _2) {
-    return new ComplexType('matrix', t.ast());
+    return new MatrixType(t.ast());
   },
   Annotation_dictionary(_1, key, _2, value, _3) {
-    return new DictionaryType('dictionary', key.ast(), value.ast());
+    return new DictionaryType(key.ast(), value.ast());
   },
   Annotation_tuple(_1, t, _2) {
-    return new ComplexType('tuple', t.ast());
-  },
-  Annotation_list(_1, t, _2) {
-    return new ComplexType('list', t.ast());
+    return new TupleType(t.ast());
   },
   Annotation_set(_1, t, _2) {
-    return new ComplexType('set', t.ast());
+    return new SetType(t.ast());
   },
   Annotation_simple(t) {
     return new Type(this.sourceString);
