@@ -408,7 +408,7 @@ class Set {
     this.values.forEach(value => value.analyze(context));
     const setType = this.values[0].type;
     this.values.forEach((value, index) => {
-      if(value.type !== setType) {
+      if(!sameType(value.type, setType)) {
         throw new Error(`Type mismatch among members of set`)
       }
     });
@@ -528,6 +528,10 @@ class Program {
 //          e2 instanceof VariableExpression &&
 //          e1.referent === e2.referent;
 // }
+
+const sameType = (a, b) => {
+  return JSON.stringify(a) === JSON.stringify(b);
+}
 
 module.exports = {
   Type,
