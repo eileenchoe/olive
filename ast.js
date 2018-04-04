@@ -1,6 +1,7 @@
 const { InitialContext } = require('./analyzer');
 const util = require('util');
 
+const sameType = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 class Type {
   constructor(name) {
     this.name = name;
@@ -74,6 +75,7 @@ class StringLiteral {
     this.type = Type.STRING;
   }
   analyze() {
+    return this;
   }
   optimize() {
     return this;
@@ -86,6 +88,7 @@ class FloatLiteral {
     this.type = Type.FLOAT;
   }
   analyze() {
+    return this;
   }
   optimize() {
     return this;
@@ -98,6 +101,7 @@ class BooleanLiteral {
     this.type = Type.BOOL;
   }
   analyze() {
+    return this;
   }
   optimize() {
     return this;
@@ -210,7 +214,7 @@ class UnaryExpression {
   analyze(context) {
     this.operand.analyze(context);
   }
-  
+
   optimize() {
     return this;
   }
@@ -220,14 +224,14 @@ class ReturnStatement {
   constructor(returnValue) {
     this.returnValue = returnValue;
   }
-  
+
   analyze(context) {
     if (this.returnValue) {
       this.returnValue.analyze(context);
     }
     context.assertInFunction('Return statement outside function');
   }
-  
+
   optimize() {
     if (this.returnValue) {
       this.returnValue = this.returnValue.optimize();
@@ -364,14 +368,14 @@ class IfStatement {
   constructor(cases, alternate) {
     Object.assign(this, { cases, alternate });
   }
-  
+
   analyze(context) {
     this.cases.forEach(c => c.analyze(context.createChildContextForBlock()));
     if (this.alternate) {
       this.alternate.forEach(s => s.analyze(context.createChildContextForBlock()));
     }
   }
-  
+
   optimize() {
     this.cases.map(s => s.optimize()).filter(s => s !== null);
     this.alternate = this.alternate ? this.alternate.optimize() : null;
@@ -408,8 +412,8 @@ class Set {
     this.values.forEach(value => value.analyze(context));
     const setType = this.values[0].type;
     this.values.forEach((value, index) => {
-      if(!sameType(value.type, setType)) {
-        throw new Error(`Type mismatch among members of set`)
+      if (!sameType(value.type, setType)) {
+        throw new Error('Type mismatch among members of set');
       }
     });
     this.type = new ComplexType('set', setType);
@@ -472,13 +476,13 @@ class Case {
   constructor(test, body) {
     Object.assign(this, { test, body });
   }
-  
+
   analyze(context) {
     this.test.analyze(context);
     const bodyContext = context.createChildContextForBlock();
     this.body.forEach(s => s.analyze(bodyContext));
   }
-  
+
   optimize() {
     this.test = this.test.optimize();
     // Suggested: if test is false, remove case. if true, remove following cases and the alt
@@ -529,9 +533,6 @@ class Program {
 //          e1.referent === e2.referent;
 // }
 
-const sameType = (a, b) => {
-  return JSON.stringify(a) === JSON.stringify(b);
-}
 
 module.exports = {
   Type,
