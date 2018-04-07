@@ -2,6 +2,7 @@ const { InitialContext } = require('./analyzer');
 const util = require('util');
 
 const sameType = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+
 class Type {
   constructor(name) {
     this.name = name;
@@ -135,13 +136,54 @@ class IntegerLiteral {
   }
 }
 
-class VariableExpression {
+// class VariableExpression {
+//   constructor(id) {
+//     this.id = id;
+//   }
+//   analyze(context) {
+//     this.referent = context.lookup(this.id);
+//     this.type = this.referent.type;
+//   }
+//   optimize() {
+//     return this;
+//   }
+// }
+
+class SubscriptExpression {
+  constructor(array, subscript) {
+    Object.assign(this, {array, subscript});
+    this.level = 1;
+  }
+
+  analyze(context) {
+    this.array.analyze(context);
+    this.test = this.subscript;
+    if (this.array instanceof IdExpression) {
+      let lookedUpValue = context.lookup(this.array.id);
+      if (lookedUpValue === null) {
+        throw new Error(`${this.array.id} has not been defined yet.`);
+      }
+      this.type = lookedUpValue.type;
+    }  else {
+      this.level++;
+    }
+    this.subscript.analyze(context);
+  }
+
+  optimize() {
+    return this;
+  }
+}
+
+class IdExpression {
   constructor(id) {
-    this.id = id;
+    Object.assign(this, {id}); // id is ALWAYS a string
   }
   analyze(context) {
-    this.referent = context.lookup(this.id);
-    this.type = this.referent.type;
+    // this.referent = context.lookup(this.id);
+    // console.log(this.referent);
+    // this.type = this.referent.type;
+    return this;
   }
   optimize() {
     return this;
@@ -149,48 +191,138 @@ class VariableExpression {
 }
 
 
-class Binding {
-  // During syntax analysis (parsing), all we do is collect the variable names.
-  // We will make the variable objects later, because we have to add them to a
-  // semantic analysis context.
+// class Binding {
+//   // During syntax analysis (parsing), all we do is collect the variable names.
+//   // We will make the variable objects later, because we have to add them to a
+//   // semantic analysis context.
+//
+//   // a, b = 1, 2
+//   constructor(names, isMutable, values) {
+//     Object.assign(this, { names, isMutable, values });
+//   }
+//
+//   analyze(context) {
+//     if (this.names.length !== this.values.length) {
+//       throw new Error('Number of variables does not equal number of initializers');
+//     }
+//
+//     // We don't want the declasetred variables to come into scope until after the
+//     // declaration line, so we will analyze all the initializing expressions
+//     // first.
+//
+//     for (let i = 0; i < this.names.length; i += 1) {
+//       if (!this.isMutable) {
+//         if (this.names[i].id) {
+//           context.variableMustNotBeAlreadyDeclared(this.names[i].id);
+//         } else {
+//           context.variableMustNotBeAlreadyDeclared(this.names[i]);
+//         }
+//       }
+//       this.values[i].analyze(context);
+//       let variable;
+//       if (this.names[i].id) {
+//         variable = new VariableExpression(this.names[i].id);
+//       } else {
+//         variable = new VariableExpression(this.names[i]);
+//       }
+//       context.add(variable);
+//     }
+//     console.log(util.inspect(context.declarations));
+//   }
+//
+//   optimize() {
+//     return this;
+//   }
+// }
 
-  // a, b = 1, 2
-  constructor(names, isMutable, values) {
-    Object.assign(this, { names, isMutable, values });
+const lastSubscriptType = (exp) => {
+  while (exp.array instanceof SubscriptExpression) {
+    exp = exp.array;
   }
+  return exp.type;
+}
 
-  analyze(context) {
-    if (this.names.length !== this.values.length) {
-      throw new Error('Number of variables does not equal number of initializers');
+class Variable {
+    constructor(id, type) {
+        Object.assign(this, {id, type});
     }
+    analyze() {
+        return this;
+    }
+    optimize() {
+        return this;
+    }
+}
 
-    // We don't want the declasetred variables to come into scope until after the
-    // declaration line, so we will analyze all the initializing expressions
-    // first.
+const assertSameType = (value, test) => {
+    if (!sameType(value, test)) {
+        throw new Error('Type mismatch error');
+    }
+}
 
-    for (let i = 0; i < this.names.length; i += 1) {
-      if (!this.isMutable) {
-        if (this.names[i].id) {
-          context.variableMustNotBeAlreadyDeclared(this.names[i].id);
-        } else {
-          context.variableMustNotBeAlreadyDeclared(this.names[i]);
+const matchTypeDepth = (target, sourceType) => {
+  let targetType = lastSubscriptType(target);
+  let depthOfSubscripts = target.level;
+
+  while (depthOfSubscripts > 0) {
+    targetType = targetType.elementType;
+    depthOfSubscripts--;
+  }
+  assertSameType(targetType, sourceType);
+}
+
+class MutableBinding {
+    constructor(target, source) {
+        Object.assign(this, {target, source}); // target is either a IdExpression or SubscriptExpression
+    }
+    analyze(context) {
+        if (this.target.length !== this.source.length) {
+            throw new Error('Number of variables does not equal number of initializers');
         }
-      }
-      this.values[i].analyze(context);
-      let variable;
-      if (this.names[i].id) {
-        variable = new VariableExpression(this.names[i].id);
-      } else {
-        variable = new VariableExpression(this.names[i]);
-      }
-      context.add(variable);
-    }
-    console.log(util.inspect(context.declarations));
-  }
+        this.source.forEach(s => s.analyze(context));
+        this.target.forEach(t => t.analyze(context));
 
-  optimize() {
-    return this;
-  }
+        this.source.forEach((s, i) => {
+            // TODO: we only have this hardcoded, expecting just a IdExpression
+            // TODO: what happens if its a subscript expression coming in?! => need to have different case
+            if (this.target[i] instanceof IdExpression) {
+              let lookedUpValue = context.lookup(this.target[i].id);
+              if (!lookedUpValue) {
+                var v = new Variable(this.target[i].id, s.type);
+                context.add(v);
+              } else {
+                assertSameType(lookedUpValue.type, s.type);
+              }
+            } else if (this.target[i] instanceof SubscriptExpression) {
+              matchTypeDepth(this.target[i], s.type);
+            }
+        });
+
+    }
+    optimize() {
+
+    }
+}
+
+class ImmutableBinding {
+    constructor(target, source) {
+        Object.assign(this, {target, source}); // target is a string
+    }
+    analyze(context) {
+        if (this.target.length !== this.source.length) {
+            throw new Error('Number of variables does not equal number of initializers');
+        }
+        this.source.forEach(s => s.analyze(context));
+        this.source.forEach((s, i) => {
+            context.variableMustNotBeAlreadyDeclared(this.target[i]);
+            var v = new Variable(this.target[i], s.type);
+            context.add(v);
+        });
+        console.log(context.declarations);
+    }
+    optimize() {
+        return this;
+    }
 }
 
 class BinaryExpression {
@@ -576,10 +708,12 @@ module.exports = {
   StringLiteral,
   FloatLiteral,
   NoneLiteral,
-  VariableExpression,
+  IdExpression,
+  SubscriptExpression,
   BinaryExpression,
   UnaryExpression,
-  Binding,
+  MutableBinding,
+  ImmutableBinding,
   ReturnStatement,
   WhileStatement,
   ForStatement,

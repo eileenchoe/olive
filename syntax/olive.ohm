@@ -1,8 +1,8 @@
 Olive {
   Program               =  Block
   Block                 =  Statement+
-  Statement             =  Ids "=" Exps                                                                       -- mutablebinding
-                        |  VarExps ":=" Exps                                                                  -- immutablebinding
+  Statement             =  Ids "=" Exps                                                                       -- immutable
+                        |  VarExps ":=" Exps                                                                  -- mutable
                         |  FunctionDecl                                                                       -- functiondeclaration
                         |  "return" Exp?                                                                      -- return
                         |  "while" Exp Suite                                                                  -- while
@@ -54,8 +54,8 @@ Olive {
 
   Exps                  =  NonemptyListOf<Exp, ",">
   Ids                   =  NonemptyListOf<id, ",">
-  VarExp                =  VarExp "[" Exp "]"                                                                 -- subscripted
-                        |  id                                                                                 -- simple
+  VarExp                =  VarExp "[" Exp "]"                                                                 -- subscript
+                        |  id                                                                                 -- id
   VarExps               =  NonemptyListOf<VarExp, ",">
 
   StringInterpolation   = "`" ((~"`" ~"$" any) | Interpolation)* "`"
@@ -99,7 +99,6 @@ Olive {
                         | "else" | "while" | "for" | "in" | "return"
                         | "None" | "not" | "break" | "pass" |  types) ~idrest
 
-  assignop              =  ":=" | "="
   addop                 =  "+" | "-"
   relop                 =  "<=" | "<" | "==" | "!=" | ">=" | ">"
   mulop                 =  "*" | "/%" | "/" | "%"

@@ -46,7 +46,7 @@ class Context {
   // allowed. Note that if we allowed overloading, this method would have to
   // be a bit more sophisticated.
   add(entity) {
-    this.declarations[entity.id] = entity.id;
+    this.declarations[entity.id] = entity;
   }
 
   variableMustNotBeAlreadyDeclared(id) {
@@ -58,11 +58,11 @@ class Context {
 
   // Returns the entity bound to the given identifier, starting from this
   // context and searching "outward" through enclosing contexts if necessary.
-  lookup(id) {
+  lookup(id) { // either returns the variable if found, else return null
     if (id in this.declarations) {
-      return this.declarations[id];
+      return this.declarations[id]; // type Variable
     } else if (this.parent === null) {
-      throw new Error(`Identifier ${id} has not been declared`);
+      return this.parent; // type null
     } else {
       return this.parent.lookup(id);
     }
