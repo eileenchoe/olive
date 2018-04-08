@@ -52,6 +52,7 @@ const {
 const fs = require('fs');
 const ohm = require('ohm-js');
 const withIndentsAndDedents = require('./preparser');
+const util = require('util');
 
 const grammar = ohm.grammar(fs.readFileSync('./syntax/olive.ohm'));
 
@@ -106,6 +107,7 @@ const semantics = grammar.createSemantics().addOperation('ast', {
     const tests = [firstTest.ast(), ...moreTests.ast()];
     const bodies = [firstSuite.ast(), ...moreSuites.ast()];
     const cases = tests.map((test, index) => new Case(test, bodies[index]));
+    console.log(util.inspect(cases));
     return new IfStatement(cases, unpack(lastSuite.ast()));
   },
   Statement_expression(body) {

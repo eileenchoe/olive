@@ -1,4 +1,6 @@
-x = 'hi'
-y := 6
-while y < 15
-  x =  1
+if x > 3
+  y := 3
+else if x < 4
+  y := 5
+else
+  y := 9

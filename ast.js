@@ -495,7 +495,7 @@ class IfStatement {
   analyze(context) {
     this.cases.forEach(c => c.analyze(context.createChildContextForBlock()));
     if (this.alternate) {
-      this.alternate.forEach(s => s.analyze(context.createChildContextForBlock()));
+      this.alternate.analyze(context.createChildContextForBlock());
     }
   }
 
@@ -624,7 +624,9 @@ class Case {
   analyze(context) {
     this.test.analyze(context);
     const bodyContext = context.createChildContextForBlock();
-    this.body.forEach(s => s.analyze(bodyContext));
+    // console.log(this.body);
+    // this.body.forEach(s => s.analyze(bodyContext));
+    this.body.analyze(bodyContext);
   }
 
   optimize() {
