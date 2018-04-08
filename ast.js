@@ -1,5 +1,4 @@
 const { InitialContext } = require('./analyzer');
-// const util = require('util');
 
 const sameType = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 
@@ -191,51 +190,6 @@ class SubscriptExpression {
   }
 }
 
-
-// class Binding {
-//   // During syntax analysis (parsing), all we do is collect the variable names.
-//   // We will make the variable objects later, because we have to add them to a
-//   // semantic analysis context.
-//
-//   // a, b = 1, 2
-//   constructor(names, isMutable, values) {
-//     Object.assign(this, { names, isMutable, values });
-//   }
-//
-//   analyze(context) {
-//     if (this.names.length !== this.values.length) {
-//       throw new Error('Number of variables does not equal number of initializers');
-//     }
-//
-//     // We don't want the declasetred variables to come into scope until after the
-//     // declaration line, so we will analyze all the initializing expressions
-//     // first.
-//
-//     for (let i = 0; i < this.names.length; i += 1) {
-//       if (!this.isMutable) {
-//         if (this.names[i].id) {
-//           context.variableMustNotBeAlreadyDeclared(this.names[i].id);
-//         } else {
-//           context.variableMustNotBeAlreadyDeclared(this.names[i]);
-//         }
-//       }
-//       this.values[i].analyze(context);
-//       let variable;
-//       if (this.names[i].id) {
-//         variable = new VariableExpression(this.names[i].id);
-//       } else {
-//         variable = new VariableExpression(this.names[i]);
-//       }
-//       context.add(variable);
-//     }
-//     console.log(util.inspect(context.declarations));
-//   }
-//
-//   optimize() {
-//     return this;
-//   }
-// }
-
 const lastSubscriptType = (exp) => {
   let expression = exp;
   while (expression.array instanceof SubscriptExpression) {
@@ -399,21 +353,7 @@ class ExpressionStatement {
   }
 }
 
-// (Annotation) ? Function-- functionDeclaration
-
-// Function = id "(" Parameters ? ")" "=" Suite-- regularfuctions
-//   | "(" Unnamed ")" "=" Exp-- anonymousfunctions
-
-// Parameters = Named-- onlynamed
-//   | Unnamed "," Named-- both
-//     | Unnamed-- onlyunnamed
-
-// Unnamed = id("," id ~ "=") * --unnamedparams
-// Named = id "=" Exp("," id "=" Exp) * --namedparams
-
-
 /* eslint-disable no-unused-vars */
-// TODO: must reenable once analyze() is implemented for all classes
 
 class FunctionAnnotation {
   constructor(id, parameterTypes, returnType) {
@@ -530,7 +470,7 @@ class IfStatement {
   }
 }
 
-class Matrix {
+class MatrixExpression {
   constructor(values) {
     this.type = Type.MATRIX;
     this.values = values;
@@ -540,14 +480,14 @@ class Matrix {
     const memberType = this.values[0].type;
     this.values.forEach((value, index) => {
       if (!sameType(value.type, memberType)) {
-        throw new Error('Type mismatch among members of set');
+        throw new Error('Type mismatch among members of matrix');
       }
     });
     this.type = new MatrixType(memberType);
   }
 }
 
-class Tuple {
+class TupleExpression {
   constructor(values) {
     this.type = Type.TUPLE;
     this.values = values;
@@ -562,7 +502,7 @@ class Tuple {
   }
 }
 
-class Set {
+class SetExpression {
   constructor(values) {
     this.type = Type.SET;
     this.values = values;
@@ -579,7 +519,7 @@ class Set {
   }
 }
 
-class Dictionary {
+class DictionaryExpression {
   constructor(values) {
     this.type = Type.DICTIONARY;
     this.values = values;
@@ -591,7 +531,7 @@ class Dictionary {
     this.values.forEach((value) => {
       if (!sameType(value.key.type, memberKeyType)
       || !sameType(value.value.type, memberValueType)) {
-        throw new Error('Type mismatch among members of set');
+        throw new Error('Type mismatch among members of dictionary');
       }
     });
     this.type = new DictionaryType(memberKeyType, memberValueType);
@@ -721,11 +661,11 @@ module.exports = {
   ExpressionStatement,
   Case,
   IfStatement,
-  Tuple,
-  Matrix,
-  Dictionary,
+  TupleExpression,
+  MatrixExpression,
+  DictionaryExpression,
   Range,
-  Set,
+  SetExpression,
   KeyValuePair,
   Block,
   Program,
