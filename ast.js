@@ -7,8 +7,8 @@ class Type {
     this.name = name;
     Type.cache[name] = this;
   }
-  mustBeInteger(message) {
-    return this.mustBeCompatibleWith(Type.INT, message);
+  mustBeNumber(message) {
+    return this.mustBeCompatibleWith(Type.NUM, message);
   }
   mustBeBoolean(message) {
     return this.mustBeCompatibleWith(Type.BOOL, message);
@@ -25,7 +25,7 @@ class Type {
   }
   isCompatibleWith(otherType) {
     // In more sophisticated languages, comapatibility would be more complex
-    return this === otherType;
+    return sameType(this, otherType);
   }
 }
 
@@ -100,7 +100,7 @@ class NumberLiteral {
     this.value = value;
     this.type = Type.NUM;
   }
-  analyze() {
+  analyze(context) {
     return this;
   }
   optimize() {
@@ -139,11 +139,12 @@ class IdExpression {
   constructor(id) {
     Object.assign(this, { id }); // id is ALWAYS a string
   }
-  analyze() {
-    // this.referent = context.lookup(this.id);
-    // console.log(this.referent);
-    // this.type = this.referent.type;
-    return this;
+  analyze(context) {
+    const referent = context.lookup(this.id);
+    if (referent) {
+      this.referent = referent;
+      this.type = this.referent.type;
+    }
   }
   optimize() {
     return this;
@@ -229,7 +230,7 @@ class MutableBinding {
       // TODO: what happens if its a subscript expression coming in?! => need to have different case
       if (this.target[i] instanceof IdExpression) {
         const lookedUpValue = context.lookup(this.target[i].id);
-        if (!lookedUpValue) {
+        if (lookedUpValue === null) {
           const v = new Variable(this.target[i].id, s.type);
           context.add(v);
         } else {
@@ -259,7 +260,6 @@ class ImmutableBinding {
       const v = new Variable(this.target[i], s.type);
       context.add(v);
     });
-    console.log(context.declarations);
   }
   optimize() {
     return this;
@@ -285,11 +285,50 @@ class BinaryExpression {
     } else {
       // All other binary operators are arithmetic
       this.mustHaveNumericOperands();
-      this.type = Type.INT;
+      this.type = Type.NUM;
     }
   }
   optimize() {
     return this;
+  }
+
+  mustHaveNumericOperands() {
+    const errorMessage = `${this.op} must have numeric operands`;
+    this.left.type.mustBeCompatibleWith(Type.NUM, errorMessage, this.op);
+    this.right.type.mustBeCompatibleWith(Type.NUM, errorMessage, this.op);
+  }
+  mustHaveBooleanOperands() {
+    const errorMessage = `${this.op} must have boolean operands`;
+    this.left.type.mustBeCompatibleWith(Type.BOOL, errorMessage, this.op);
+    this.right.type.mustBeCompatibleWith(Type.BOOL, errorMessage, this.op);
+  }
+  mustHaveCompatibleOperands() {
+    const errorMessage = `${this.op} must have mutually compatible operands`;
+    this.left.type.mustBeMutuallyCompatibleWith(this.right.type, errorMessage, this.op);
+  }
+  foldIntegerConstants() {
+    switch (this.op) {
+      case '+': return new NumberLiteral(+this.left + this.right);
+      case '-': return new NumberLiteral(+this.left - this.right);
+      case '*': return new NumberLiteral(+this.left * this.right);
+      case '/': return new NumberLiteral(+this.left / this.right);
+      case '<': return new BooleanLiteral(+this.left < this.right);
+      case '<=': return new BooleanLiteral(+this.left <= this.right);
+      case '==': return new BooleanLiteral(+this.left === this.right);
+      case '!=': return new BooleanLiteral(+this.left !== this.right);
+      case '>=': return new BooleanLiteral(+this.left >= this.right);
+      case '>': return new BooleanLiteral(+this.left > this.right);
+      default: return this;
+    }
+  }
+  foldBooleanConstants() {
+    switch (this.op) {
+      case '==': return new BooleanLiteral(this.left === this.right);
+      case '!=': return new BooleanLiteral(this.left !== this.right);
+      case 'and': return new BooleanLiteral(this.left && this.right);
+      case 'or': return new BooleanLiteral(this.left || this.right);
+      default: return this;
+    }
   }
 }
 
@@ -614,11 +653,11 @@ class Program {
 }
 
 // function isZero(entity) {
-//   return entity instanceof IntegerLiteral && entity.value === 0;
+//   return entity instanceof NumberLiteral && entity.value === 0;
 // }
 //
 // function isOne(entity) {
-//   return entity instanceof IntegerLiteral && entity.value === 1;
+//   return entity instanceof NumberLiteral && entity.value === 1;
 // }
 //
 // function sameVariable(e1, e2) {
