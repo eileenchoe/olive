@@ -139,12 +139,20 @@ class IdExpression {
   constructor(id) {
     Object.assign(this, { id }); // id is ALWAYS a string
   }
-  analyze(context) {
+  analyze(context, inBinding) {
     const referent = context.lookup(this.id);
-    if (referent) {
-      this.referent = referent;
-      this.type = this.referent.type;
+    if (inBinding) {
+      if (referent) {
+        this.referent = referent;
+        this.type = this.referent.type;
+      }
+      return;
     }
+    if (!referent) {
+      throw new Error(`Variable with id ${this.id} not declared`);
+    }
+    this.referent = referent;
+    this.type = this.referent.type;
   }
   optimize() {
     return this;
@@ -223,12 +231,13 @@ class MutableBinding {
       throw new Error('Number of variables does not equal number of initializers');
     }
     this.source.forEach(s => s.analyze(context));
-    this.target.forEach(t => t.analyze(context));
+    this.target.forEach(t => t.analyze(context, true));
 
     this.source.forEach((s, i) => {
       // TODO: we only have this hardcoded, expecting just a IdExpression
       // TODO: what happens if its a subscript expression coming in?! => need to have different case
       if (this.target[i] instanceof IdExpression) {
+        // this.target[i].analyze(context, true);
         const lookedUpValue = context.lookup(this.target[i].id);
         if (lookedUpValue === null) {
           const v = new Variable(this.target[i].id, s.type);
@@ -271,6 +280,7 @@ class BinaryExpression {
     Object.assign(this, { op, left, right });
   }
   analyze(context) {
+    console.log(this.left);
     this.left.analyze(context);
     this.right.analyze(context);
     if (['<', '<=', '>=', '>'].includes(this.op)) {
@@ -454,6 +464,7 @@ class WhileStatement {
     this.condition.type.mustBeBoolean('Condition in "while" statement must be boolean');
     this.body.analyze(context);
   }
+
   optimize() {
     this.condition = this.condition.optimize();
     this.body = this.body.optimize();
