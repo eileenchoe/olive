@@ -63,9 +63,8 @@ class Context {
       return this.declarations[id]; // type Variable
     } else if (this.parent === null) {
       return this.parent; // type null
-    } else {
-      return this.parent.lookup(id);
     }
+    return this.parent.lookup(id);
   }
 
   assertInFunction(message) {

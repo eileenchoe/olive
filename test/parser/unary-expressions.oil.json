@@ -1,57 +1,54 @@
 {
-    "block": {
-        "statements": [
-            {
-                "names": [
-                    "a"
-                ],
-                "isMutable": false,
-                "values": [
-                    {
-                        "op": "-",
-                        "operand": {
-                            "value": "5",
-                            "type": {
-                                "name": "int"
-                            }
-                        }
-                    }
-                ]
-            },
-            {
-                "names": [
-                    "b"
-                ],
-                "isMutable": false,
-                "values": [
-                    {
-                        "op": "-",
-                        "operand": {
-                            "value": "3.1415",
-                            "type": {
-                                "name": "float"
-                            }
-                        }
-                    }
-                ]
-            },
-            {
-                "names": [
-                    "c"
-                ],
-                "isMutable": false,
-                "values": [
-                    {
-                        "op": "not",
-                        "operand": {
-                            "value": false,
-                            "type": {
-                                "name": "bool"
-                            }
-                        }
-                    }
-                ]
+  "block":{
+    "statements":[
+      {
+        "target":[
+          "a"
+        ],
+        "source":[
+          {
+            "op":"-",
+            "operand":{
+              "value":"5",
+              "type":{
+                "name":"int"
+              }
             }
+          }
         ]
-    }
+      },
+      {
+        "target":[
+          "b"
+        ],
+        "source":[
+          {
+            "op":"-",
+            "operand":{
+              "value":"3.1415",
+              "type":{
+                "name":"float"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "target":[
+          "c"
+        ],
+        "source":[
+          {
+            "op":"not",
+            "operand":{
+              "value":false,
+              "type":{
+                "name":"bool"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
 }

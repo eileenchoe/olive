@@ -1,180 +1,174 @@
 {
-    "block": {
-        "statements": [
-            {
-                "names": [
-                    "list_of_numbers"
-                ],
-                "isMutable": false,
-                "values": [
-                    {
-                        "type": {
-                            "name": "tuple"
-                        },
-                        "values": [
-                            {
-                                "value": "4",
-                                "type": {
-                                    "name": "int"
-                                }
-                            },
-                            {
-                                "value": "5",
-                                "type": {
-                                    "name": "int"
-                                }
-                            },
-                            {
-                                "value": "6",
-                                "type": {
-                                    "name": "int"
-                                }
-                            }
-                        ]
-                    }
-                ]
+  "block":{
+    "statements":[
+      {
+        "target":[
+          "list_of_numbers"
+        ],
+        "source":[
+          {
+            "type":{
+              "name":"tuple"
             },
-            {
-                "left": "x",
-                "right": {
-                    "id": "a"
-                },
-                "body": {
-                    "statements": [
-                        {
-                            "names": [
-                                "e"
-                            ],
-                            "isMutable": false,
-                            "values": [
-                                {
-                                    "value": "1",
-                                    "type": {
-                                        "name": "int"
-                                    }
-                                }
-                            ]
-                        }
-                    ]
+            "values":[
+              {
+                "value":"4",
+                "type":{
+                  "name":"int"
                 }
-            },
-            {
-                "names": [
-                    {
-                        "id": "x"
-                    }
-                ],
-                "isMutable": true,
-                "values": [
-                    {
-                        "value": "0",
-                        "type": {
-                            "name": "int"
-                        }
-                    }
-                ]
-            },
-            {
-                "cases": [
-                    {
-                        "test": {
-                            "op": "<",
-                            "left": {
-                                "id": "x"
-                            },
-                            "right": {
-                                "value": "10",
-                                "type": {
-                                    "name": "int"
-                                }
-                            }
-                        },
-                        "body": {
-                            "statements": [
-                                {
-                                    "names": [
-                                        {
-                                            "id": "x"
-                                        }
-                                    ],
-                                    "isMutable": true,
-                                    "values": [
-                                        {
-                                            "op": "+",
-                                            "left": {
-                                                "id": "x"
-                                            },
-                                            "right": {
-                                                "value": "1",
-                                                "type": {
-                                                    "name": "int"
-                                                }
-                                            }
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    }
-                ],
-                "alternate": null
-            },
-            {
-                "names": [
-                    {
-                        "id": "x"
-                    }
-                ],
-                "isMutable": true,
-                "values": [
-                    {
-                        "value": "0",
-                        "type": {
-                            "name": "int"
-                        }
-                    }
-                ]
-            },
-            {
-                "condition": {
-                    "op": "<",
-                    "left": {
-                        "id": "x"
-                    },
-                    "right": {
-                        "value": "5",
-                        "type": {
-                            "name": "int"
-                        }
-                    }
-                },
-                "body": {
-                    "statements": [
-                        {
-                            "names": [
-                                {
-                                    "id": "x"
-                                }
-                            ],
-                            "isMutable": true,
-                            "values": [
-                                {
-                                    "op": "+",
-                                    "left": {
-                                        "id": "x"
-                                    },
-                                    "right": {
-                                        "value": "1",
-                                        "type": {
-                                            "name": "int"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    ]
+              },
+              {
+                "value":"5",
+                "type":{
+                  "name":"int"
                 }
-            }
+              },
+              {
+                "value":"6",
+                "type":{
+                  "name":"int"
+                }
+              }
+            ]
+          }
         ]
-    }
+      },
+      {
+        "left":"x",
+        "right":{
+          "id":"a"
+        },
+        "body":{
+          "statements":[
+            {
+              "target":[
+                "e"
+              ],
+              "source":[
+                {
+                  "value":"1",
+                  "type":{
+                    "name":"int"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "target":[
+          {
+            "id":"x"
+          }
+        ],
+        "source":[
+          {
+            "value":"0",
+            "type":{
+              "name":"int"
+            }
+          }
+        ]
+      },
+      {
+        "cases":[
+          {
+            "test":{
+              "op":"<",
+              "left":{
+                "id":"x"
+              },
+              "right":{
+                "value":"10",
+                "type":{
+                  "name":"int"
+                }
+              }
+            },
+            "body":{
+              "statements":[
+                {
+                  "target":[
+                    {
+                      "id":"x"
+                    }
+                  ],
+                  "source":[
+                    {
+                      "op":"+",
+                      "left":{
+                        "id":"x"
+                      },
+                      "right":{
+                        "value":"1",
+                        "type":{
+                          "name":"int"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "alternate":null
+      },
+      {
+        "target":[
+          {
+            "id":"x"
+          }
+        ],
+        "source":[
+          {
+            "value":"0",
+            "type":{
+              "name":"int"
+            }
+          }
+        ]
+      },
+      {
+        "condition":{
+          "op":"<",
+          "left":{
+            "id":"x"
+          },
+          "right":{
+            "value":"5",
+            "type":{
+              "name":"int"
+            }
+          }
+        },
+        "body":{
+          "statements":[
+            {
+              "target":[
+                {
+                  "id":"x"
+                }
+              ],
+              "source":[
+                {
+                  "op":"+",
+                  "left":{
+                    "id":"x"
+                  },
+                  "right":{
+                    "value":"1",
+                    "type":{
+                      "name":"int"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  }
 }

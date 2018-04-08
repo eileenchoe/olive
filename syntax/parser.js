@@ -71,7 +71,7 @@ const semantics = grammar.createSemantics().addOperation('ast', {
   stringlit(_1, chars, _3) { return new StringLiteral(this.sourceString); },
   nonelit(_) { return new NoneLiteral(); },
   Statement_mutable(s, _, t) { return new MutableBinding(s.ast(), t.ast()); },
-  Statement_immutable(s, _, t) {return new ImmutableBinding(s.ast(), t.ast());},
+  Statement_immutable(s, _, t) { return new ImmutableBinding(s.ast(), t.ast()); },
   Statement_return(_, e) { return new ReturnStatement(unpack(e.ast())); },
   FunctionDecl(ann, id, _1, params, _2, body) {
     return new FunctionDeclarationStatement(ann.ast(), id.ast(), params.ast(), body.ast());

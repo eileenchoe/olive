@@ -1,586 +1,589 @@
 {
-    "block": {
-        "statements": [
-            {
-                "names": [
-                    "colors"
-                ],
-                "isMutable": false,
-                "values": [
-                    {
-                        "type": {
-                            "name": "set"
-                        },
-                        "values": [
-                            {
-                                "value": "'green'",
-                                "type": {
-                                    "name": "string"
-                                }
-                            },
-                            {
-                                "value": "'red'",
-                                "type": {
-                                    "name": "string"
-                                }
-                            },
-                            {
-                                "value": "'blue'",
-                                "type": {
-                                    "name": "string"
-                                }
-                            }
-                        ]
-                    }
-                ]
+  "block":{
+    "statements":[
+      {
+        "target":[
+          "colors"
+        ],
+        "source":[
+          {
+            "type":{
+              "name":"set"
             },
-            {
-                "names": [
-                    "numbers"
-                ],
-                "isMutable": false,
-                "values": [
-                    {
-                        "type": {
-                            "name": "set"
-                        },
-                        "values": [
-                            {
-                                "value": "2",
-                                "type": {
-                                    "name": "int"
-                                }
-                            },
-                            {
-                                "value": "4",
-                                "type": {
-                                    "name": "int"
-                                }
-                            },
-                            {
-                                "op": "-",
-                                "operand": {
-                                    "value": "3",
-                                    "type": {
-                                        "name": "int"
-                                    }
-                                }
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "names": [
-                    "set_of_tuples"
-                ],
-                "isMutable": false,
-                "values": [
-                    {
-                        "type": {
-                            "name": "set"
-                        },
-                        "values": [
-                            {
-                                "type": {
-                                    "name": "tuple"
-                                },
-                                "values": [
-                                    {
-                                        "value": "2",
-                                        "type": {
-                                            "name": "int"
-                                        }
-                                    },
-                                    {
-                                        "value": "3",
-                                        "type": {
-                                            "name": "int"
-                                        }
-                                    }
-                                ]
-                            },
-                            {
-                                "type": {
-                                    "name": "tuple"
-                                },
-                                "values": [
-                                    {
-                                        "value": "4",
-                                        "type": {
-                                            "name": "int"
-                                        }
-                                    },
-                                    {
-                                        "value": "8",
-                                        "type": {
-                                            "name": "int"
-                                        }
-                                    }
-                                ]
-                            },
-                            {
-                                "value": "'hi'",
-                                "type": {
-                                    "name": "string"
-                                }
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "body": {
-                    "type": {
-                        "name": "dictionary"
-                    },
-                    "values": [
-                        {
-                            "key": {
-                                "value": "1",
-                                "type": {
-                                    "name": "int"
-                                }
-                            },
-                            "value": {
-                                "value": "2",
-                                "type": {
-                                    "name": "int"
-                                }
-                            }
-                        }
-                    ]
+            "values":[
+              {
+                "value":"'green'",
+                "type":{
+                  "name":"string"
                 }
-            },
-            {
-                "body": {
-                    "type": {
-                        "name": "dictionary"
-                    },
-                    "values": [
-                        {
-                            "key": {
-                                "value": "'a'",
-                                "type": {
-                                    "name": "string"
-                                }
-                            },
-                            "value": {
-                                "value": "1",
-                                "type": {
-                                    "name": "int"
-                                }
-                            }
-                        },
-                        {
-                            "key": {
-                                "value": "'b'",
-                                "type": {
-                                    "name": "string"
-                                }
-                            },
-                            "value": {
-                                "value": "2",
-                                "type": {
-                                    "name": "int"
-                                }
-                            }
-                        }
-                    ]
+              },
+              {
+                "value":"'red'",
+                "type":{
+                  "name":"string"
                 }
-            },
-            {
-                "body": {
-                    "type": {
-                        "name": "dictionary"
-                    },
-                    "values": []
+              },
+              {
+                "value":"'blue'",
+                "type":{
+                  "name":"string"
                 }
-            },
-            {
-                "body": {
-                    "type": {
-                        "name": "matrix"
-                    },
-                    "values": [
-                        {
-                            "value": "1",
-                            "type": {
-                                "name": "int"
-                            }
-                        },
-                        {
-                            "value": "2",
-                            "type": {
-                                "name": "int"
-                            }
-                        },
-                        {
-                            "value": "3",
-                            "type": {
-                                "name": "int"
-                            }
-                        }
-                    ]
-                }
-            },
-            {
-                "body": {
-                    "type": {
-                        "name": "matrix"
-                    },
-                    "values": [
-                        {
-                            "value": "'dog'",
-                            "type": {
-                                "name": "string"
-                            }
-                        },
-                        {
-                            "value": "'nati'",
-                            "type": {
-                                "name": "string"
-                            }
-                        },
-                        {
-                            "value": "'hello'",
-                            "type": {
-                                "name": "string"
-                            }
-                        }
-                    ]
-                }
-            },
-            {
-                "body": {
-                    "type": {
-                        "name": "matrix"
-                    },
-                    "values": [
-                        {
-                            "type": {
-                                "name": "matrix"
-                            },
-                            "values": [
-                                {
-                                    "value": "1",
-                                    "type": {
-                                        "name": "int"
-                                    }
-                                },
-                                {
-                                    "value": "2",
-                                    "type": {
-                                        "name": "int"
-                                    }
-                                },
-                                {
-                                    "value": "3",
-                                    "type": {
-                                        "name": "int"
-                                    }
-                                }
-                            ]
-                        },
-                        {
-                            "type": {
-                                "name": "matrix"
-                            },
-                            "values": [
-                                {
-                                    "value": "4",
-                                    "type": {
-                                        "name": "int"
-                                    }
-                                },
-                                {
-                                    "value": "5",
-                                    "type": {
-                                        "name": "int"
-                                    }
-                                },
-                                {
-                                    "value": "6",
-                                    "type": {
-                                        "name": "int"
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                }
-            },
-            {
-                "body": {
-                    "type": {
-                        "name": "matrix"
-                    },
-                    "values": []
-                }
-            },
-            {
-                "body": {
-                    "type": {
-                        "name": "matrix"
-                    },
-                    "values": [
-                        {
-                            "type": {
-                                "name": "matrix"
-                            },
-                            "values": [
-                                {
-                                    "type": {
-                                        "name": "matrix"
-                                    },
-                                    "values": []
-                                }
-                            ]
-                        }
-                    ]
-                }
-            },
-            {
-                "body": {
-                    "type": {
-                        "name": "tuple"
-                    },
-                    "values": [
-                        {
-                            "value": "1",
-                            "type": {
-                                "name": "int"
-                            }
-                        },
-                        {
-                            "value": "2",
-                            "type": {
-                                "name": "int"
-                            }
-                        },
-                        {
-                            "value": "3",
-                            "type": {
-                                "name": "int"
-                            }
-                        }
-                    ]
-                }
-            },
-            {
-                "body": {
-                    "type": {
-                        "name": "tuple"
-                    },
-                    "values": [
-                        {
-                            "value": "'hallo'",
-                            "type": {
-                                "name": "string"
-                            }
-                        },
-                        {
-                            "value": "'wie'",
-                            "type": {
-                                "name": "string"
-                            }
-                        },
-                        {
-                            "value": "'gehts'",
-                            "type": {
-                                "name": "string"
-                            }
-                        }
-                    ]
-                }
-            },
-            {
-                "body": {
-                    "type": {
-                        "name": "tuple"
-                    },
-                    "values": [
-                        {
-                            "type": {
-                                "name": "tuple"
-                            },
-                            "values": [
-                                {
-                                    "value": "'U'",
-                                    "type": {
-                                        "name": "string"
-                                    }
-                                },
-                                {
-                                    "value": "'R'",
-                                    "type": {
-                                        "name": "string"
-                                    }
-                                }
-                            ]
-                        },
-                        {
-                            "type": {
-                                "name": "tuple"
-                            },
-                            "values": [
-                                {
-                                    "value": "'U'",
-                                    "type": {
-                                        "name": "string"
-                                    }
-                                },
-                                {
-                                    "value": "'G'",
-                                    "type": {
-                                        "name": "string"
-                                    }
-                                },
-                                {
-                                    "value": "'U'",
-                                    "type": {
-                                        "name": "string"
-                                    }
-                                }
-                            ]
-                        },
-                        {
-                            "type": {
-                                "name": "tuple"
-                            },
-                            "values": [
-                                {
-                                    "value": "'A'",
-                                    "type": {
-                                        "name": "string"
-                                    }
-                                },
-                                {
-                                    "value": "'Y'",
-                                    "type": {
-                                        "name": "string"
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                }
-            },
-            {
-                "body": {
-                    "type": {
-                        "name": "tuple"
-                    },
-                    "values": [
-                        {
-                            "value": "'semántica'",
-                            "type": {
-                                "name": "string"
-                            }
-                        },
-                        {
-                            "type": {
-                                "name": "tuple"
-                            },
-                            "values": [
-                                {
-                                    "value": "'es'",
-                                    "type": {
-                                        "name": "string"
-                                    }
-                                },
-                                {
-                                    "value": "'cool'",
-                                    "type": {
-                                        "name": "string"
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                }
-            },
-            {
-                "body": {
-                    "type": {
-                        "name": "range"
-                    },
-                    "start": {
-                        "value": "0",
-                        "type": {
-                            "name": "int"
-                        }
-                    },
-                    "step": {
-                        "value": "1",
-                        "type": {
-                            "name": "int"
-                        }
-                    },
-                    "end": {
-                        "value": "10",
-                        "type": {
-                            "name": "int"
-                        }
-                    },
-                    "inclusiveStart": true,
-                    "inclusiveEnd": false
-                }
-            },
-            {
-                "body": {
-                    "type": {
-                        "name": "range"
-                    },
-                    "start": {
-                        "value": "0.1",
-                        "type": {
-                            "name": "float"
-                        }
-                    },
-                    "step": {
-                        "value": "2",
-                        "type": {
-                            "name": "int"
-                        }
-                    },
-                    "end": {
-                        "value": "99.999999",
-                        "type": {
-                            "name": "float"
-                        }
-                    },
-                    "inclusiveStart": false,
-                    "inclusiveEnd": false
-                }
-            },
-            {
-                "body": {
-                    "type": {
-                        "name": "range"
-                    },
-                    "start": {
-                        "value": "1",
-                        "type": {
-                            "name": "int"
-                        }
-                    },
-                    "step": {
-                        "value": "10.2",
-                        "type": {
-                            "name": "float"
-                        }
-                    },
-                    "end": {
-                        "value": "1010010",
-                        "type": {
-                            "name": "int"
-                        }
-                    },
-                    "inclusiveStart": true,
-                    "inclusiveEnd": true
-                }
-            }
+              }
+            ]
+          }
         ]
-    }
+      },
+      {
+        "target":[
+          "numbers"
+        ],
+        "source":[
+          {
+            "type":{
+              "name":"set"
+            },
+            "values":[
+              {
+                "value":"2",
+                "type":{
+                  "name":"int"
+                }
+              },
+              {
+                "value":"4",
+                "type":{
+                  "name":"int"
+                }
+              },
+              {
+                "op":"-",
+                "operand":{
+                  "value":"3",
+                  "type":{
+                    "name":"int"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "target":[
+          "set_of_tuples"
+        ],
+        "source":[
+          {
+            "type":{
+              "name":"set"
+            },
+            "values":[
+              {
+                "type":{
+                  "name":"tuple"
+                },
+                "values":[
+                  {
+                    "value":"2",
+                    "type":{
+                      "name":"int"
+                    }
+                  },
+                  {
+                    "value":"3",
+                    "type":{
+                      "name":"int"
+                    }
+                  }
+                ]
+              },
+              {
+                "type":{
+                  "name":"tuple"
+                },
+                "values":[
+                  {
+                    "value":"4",
+                    "type":{
+                      "name":"int"
+                    }
+                  },
+                  {
+                    "value":"8",
+                    "type":{
+                      "name":"int"
+                    }
+                  }
+                ]
+              },
+              {
+                "value":"'hi'",
+                "type":{
+                  "name":"string"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "body":{
+          "type":{
+            "name":"dictionary"
+          },
+          "values":[
+            {
+              "key":{
+                "value":"1",
+                "type":{
+                  "name":"int"
+                }
+              },
+              "value":{
+                "value":"2",
+                "type":{
+                  "name":"int"
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "body":{
+          "type":{
+            "name":"dictionary"
+          },
+          "values":[
+            {
+              "key":{
+                "value":"'a'",
+                "type":{
+                  "name":"string"
+                }
+              },
+              "value":{
+                "value":"1",
+                "type":{
+                  "name":"int"
+                }
+              }
+            },
+            {
+              "key":{
+                "value":"'b'",
+                "type":{
+                  "name":"string"
+                }
+              },
+              "value":{
+                "value":"2",
+                "type":{
+                  "name":"int"
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "body":{
+          "type":{
+            "name":"dictionary"
+          },
+          "values":[
+
+          ]
+        }
+      },
+      {
+        "body":{
+          "type":{
+            "name":"matrix"
+          },
+          "values":[
+            {
+              "value":"1",
+              "type":{
+                "name":"int"
+              }
+            },
+            {
+              "value":"2",
+              "type":{
+                "name":"int"
+              }
+            },
+            {
+              "value":"3",
+              "type":{
+                "name":"int"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "body":{
+          "type":{
+            "name":"matrix"
+          },
+          "values":[
+            {
+              "value":"'dog'",
+              "type":{
+                "name":"string"
+              }
+            },
+            {
+              "value":"'nati'",
+              "type":{
+                "name":"string"
+              }
+            },
+            {
+              "value":"'hello'",
+              "type":{
+                "name":"string"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "body":{
+          "type":{
+            "name":"matrix"
+          },
+          "values":[
+            {
+              "type":{
+                "name":"matrix"
+              },
+              "values":[
+                {
+                  "value":"1",
+                  "type":{
+                    "name":"int"
+                  }
+                },
+                {
+                  "value":"2",
+                  "type":{
+                    "name":"int"
+                  }
+                },
+                {
+                  "value":"3",
+                  "type":{
+                    "name":"int"
+                  }
+                }
+              ]
+            },
+            {
+              "type":{
+                "name":"matrix"
+              },
+              "values":[
+                {
+                  "value":"4",
+                  "type":{
+                    "name":"int"
+                  }
+                },
+                {
+                  "value":"5",
+                  "type":{
+                    "name":"int"
+                  }
+                },
+                {
+                  "value":"6",
+                  "type":{
+                    "name":"int"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "body":{
+          "type":{
+            "name":"matrix"
+          },
+          "values":[
+
+          ]
+        }
+      },
+      {
+        "body":{
+          "type":{
+            "name":"matrix"
+          },
+          "values":[
+            {
+              "type":{
+                "name":"matrix"
+              },
+              "values":[
+                {
+                  "type":{
+                    "name":"matrix"
+                  },
+                  "values":[
+
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "body":{
+          "type":{
+            "name":"tuple"
+          },
+          "values":[
+            {
+              "value":"1",
+              "type":{
+                "name":"int"
+              }
+            },
+            {
+              "value":"2",
+              "type":{
+                "name":"int"
+              }
+            },
+            {
+              "value":"3",
+              "type":{
+                "name":"int"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "body":{
+          "type":{
+            "name":"tuple"
+          },
+          "values":[
+            {
+              "value":"'hallo'",
+              "type":{
+                "name":"string"
+              }
+            },
+            {
+              "value":"'wie'",
+              "type":{
+                "name":"string"
+              }
+            },
+            {
+              "value":"'gehts'",
+              "type":{
+                "name":"string"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "body":{
+          "type":{
+            "name":"tuple"
+          },
+          "values":[
+            {
+              "type":{
+                "name":"tuple"
+              },
+              "values":[
+                {
+                  "value":"'U'",
+                  "type":{
+                    "name":"string"
+                  }
+                },
+                {
+                  "value":"'R'",
+                  "type":{
+                    "name":"string"
+                  }
+                }
+              ]
+            },
+            {
+              "type":{
+                "name":"tuple"
+              },
+              "values":[
+                {
+                  "value":"'U'",
+                  "type":{
+                    "name":"string"
+                  }
+                },
+                {
+                  "value":"'G'",
+                  "type":{
+                    "name":"string"
+                  }
+                },
+                {
+                  "value":"'U'",
+                  "type":{
+                    "name":"string"
+                  }
+                }
+              ]
+            },
+            {
+              "type":{
+                "name":"tuple"
+              },
+              "values":[
+                {
+                  "value":"'A'",
+                  "type":{
+                    "name":"string"
+                  }
+                },
+                {
+                  "value":"'Y'",
+                  "type":{
+                    "name":"string"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "body":{
+          "type":{
+            "name":"tuple"
+          },
+          "values":[
+            {
+              "value":"'semántica'",
+              "type":{
+                "name":"string"
+              }
+            },
+            {
+              "type":{
+                "name":"tuple"
+              },
+              "values":[
+                {
+                  "value":"'es'",
+                  "type":{
+                    "name":"string"
+                  }
+                },
+                {
+                  "value":"'cool'",
+                  "type":{
+                    "name":"string"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "body":{
+          "type":{
+            "name":"range"
+          },
+          "start":{
+            "value":"0",
+            "type":{
+              "name":"int"
+            }
+          },
+          "step":{
+            "value":"1",
+            "type":{
+              "name":"int"
+            }
+          },
+          "end":{
+            "value":"10",
+            "type":{
+              "name":"int"
+            }
+          },
+          "inclusiveStart":true,
+          "inclusiveEnd":false
+        }
+      },
+      {
+        "body":{
+          "type":{
+            "name":"range"
+          },
+          "start":{
+            "value":"0.1",
+            "type":{
+              "name":"float"
+            }
+          },
+          "step":{
+            "value":"2",
+            "type":{
+              "name":"int"
+            }
+          },
+          "end":{
+            "value":"99.999999",
+            "type":{
+              "name":"float"
+            }
+          },
+          "inclusiveStart":false,
+          "inclusiveEnd":false
+        }
+      },
+      {
+        "body":{
+          "type":{
+            "name":"range"
+          },
+          "start":{
+            "value":"1",
+            "type":{
+              "name":"int"
+            }
+          },
+          "step":{
+            "value":"10.2",
+            "type":{
+              "name":"float"
+            }
+          },
+          "end":{
+            "value":"1010010",
+            "type":{
+              "name":"int"
+            }
+          },
+          "inclusiveStart":true,
+          "inclusiveEnd":true
+        }
+      }
+    ]
+  }
 }

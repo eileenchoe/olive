@@ -1,17 +1,17 @@
 {
-  "block": {
-    "statements": [
+  "block":{
+    "statements":[
       {
-        "body": {
-          "values": [
+        "body":{
+          "values":[
             "s",
             "t",
             "a",
             "r",
             "t",
             {
-              "value": {
-                "id": "var"
+              "value":{
+                "id":"var"
               }
             },
             "e",
@@ -21,19 +21,19 @@
         }
       },
       {
-        "body": {
-          "values": [
+        "body":{
+          "values":[
             "s",
             "t",
             "a",
             "r",
             "t",
             {
-              "value": {
-                "values": [
+              "value":{
+                "values":[
                   {
-                    "value": {
-                      "id": "var"
+                    "value":{
+                      "id":"var"
                     }
                   }
                 ]

@@ -1,188 +1,190 @@
 {
-    "block": {
-        "statements": [
+  "block":{
+    "statements":[
+      {
+        "annotation":{
+          "id":"fun",
+          "parameterTypes":[
             {
-                "annotation": {
-                    "id": "fun",
-                    "parameterTypes": [
-                        {
-                            "name": "matrix",
-                            "elementType": {
-                                "name": "int"
-                            }
-                        },
-                        {
-                            "name": "tuple",
-                            "elementType": [
-                                {
-                                    "name": "float"
-                                },
-                                {
-                                    "name": "int"
-                                },
-                                {
-                                    "name": "string"
-                                }
-                            ]
-                        }
-                    ],
-                    "returnType": {
-                        "id": null,
-                        "parameterTypes": [
-                            {
-                                "name": "int"
-                            }
-                        ],
-                        "returnType": {
-                            "name": "dictionary",
-                            "keyType": {
-                                "name": "int"
-                            },
-                            "valueType": {
-                                "name": "string"
-                            }
-                        }
-                    }
+              "name":"matrix",
+              "elementType":{
+                "name":"int"
+              }
+            },
+            {
+              "name":"tuple",
+              "elementType":[
+                {
+                  "name":"float"
                 },
-                "id": "fun",
-                "parameters": [
-                    "y"
-                ],
-                "body": {
-                    "statements": [
-                        {
-                            "returnValue": {
-                                "op": "*",
-                                "left": {
-                                    "value": "2",
-                                    "type": {
-                                        "name": "int"
-                                    }
-                                },
-                                "right": {
-                                    "id": "y"
-                                }
-                            }
-                        }
-                    ]
+                {
+                  "name":"int"
+                },
+                {
+                  "name":"string"
                 }
-            },
-            {
-                "body": {
-                    "id": "dog",
-                    "args": []
-                }
-            },
-            {
-                "body": {
-                    "id": "fun",
-                    "args": [
-                        {
-                            "value": "1",
-                            "type": {
-                                "name": "int"
-                            }
-                        },
-                        {
-                            "value": "2",
-                            "type": {
-                                "name": "int"
-                            }
-                        }
-                    ]
-                }
-            },
-            {
-                "body": {
-                    "id": "yes",
-                    "args": [
-                        {
-                            "type": {
-                                "name": "tuple"
-                            },
-                            "values": [
-                                {
-                                    "value": "1",
-                                    "type": {
-                                        "name": "int"
-                                    }
-                                },
-                                {
-                                    "value": "2",
-                                    "type": {
-                                        "name": "int"
-                                    }
-                                },
-                                {
-                                    "value": "'eddie'",
-                                    "type": {
-                                        "name": "string"
-                                    }
-                                }
-                            ]
-                        },
-                        {
-                            "type": {
-                                "name": "dictionary"
-                            },
-                            "values": [
-                                {
-                                    "key": {
-                                        "value": "'hello'",
-                                        "type": {
-                                            "name": "string"
-                                        }
-                                    },
-                                    "value": {
-                                        "value": "3",
-                                        "type": {
-                                            "name": "int"
-                                        }
-                                    }
-                                },
-                                {
-                                    "key": {
-                                        "value": "'dog'",
-                                        "type": {
-                                            "name": "string"
-                                        }
-                                    },
-                                    "value": {
-                                        "value": "5",
-                                        "type": {
-                                            "name": "int"
-                                        }
-                                    }
-                                }
-                            ]
-                        },
-                        {
-                            "value": "1000",
-                            "type": {
-                                "name": "int"
-                            }
-                        }
-                    ]
-                }
-            },
-            {
-                "body": {
-                    "id": "yes",
-                    "args": [
-                        {
-                            "id": "smile",
-                            "args": [
-                                {
-                                    "value": "21",
-                                    "type": {
-                                        "name": "int"
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                }
+              ]
             }
-        ]
-    }
+          ],
+          "returnType":{
+            "id":null,
+            "parameterTypes":[
+              {
+                "name":"int"
+              }
+            ],
+            "returnType":{
+              "name":"dictionary",
+              "keyType":{
+                "name":"int"
+              },
+              "valueType":{
+                "name":"string"
+              }
+            }
+          }
+        },
+        "id":"fun",
+        "parameters":[
+          "y"
+        ],
+        "body":{
+          "statements":[
+            {
+              "returnValue":{
+                "op":"*",
+                "left":{
+                  "value":"2",
+                  "type":{
+                    "name":"int"
+                  }
+                },
+                "right":{
+                  "id":"y"
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "body":{
+          "id":"dog",
+          "args":[
+
+          ]
+        }
+      },
+      {
+        "body":{
+          "id":"fun",
+          "args":[
+            {
+              "value":"1",
+              "type":{
+                "name":"int"
+              }
+            },
+            {
+              "value":"2",
+              "type":{
+                "name":"int"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "body":{
+          "id":"yes",
+          "args":[
+            {
+              "type":{
+                "name":"tuple"
+              },
+              "values":[
+                {
+                  "value":"1",
+                  "type":{
+                    "name":"int"
+                  }
+                },
+                {
+                  "value":"2",
+                  "type":{
+                    "name":"int"
+                  }
+                },
+                {
+                  "value":"'eddie'",
+                  "type":{
+                    "name":"string"
+                  }
+                }
+              ]
+            },
+            {
+              "type":{
+                "name":"dictionary"
+              },
+              "values":[
+                {
+                  "key":{
+                    "value":"'hello'",
+                    "type":{
+                      "name":"string"
+                    }
+                  },
+                  "value":{
+                    "value":"3",
+                    "type":{
+                      "name":"int"
+                    }
+                  }
+                },
+                {
+                  "key":{
+                    "value":"'dog'",
+                    "type":{
+                      "name":"string"
+                    }
+                  },
+                  "value":{
+                    "value":"5",
+                    "type":{
+                      "name":"int"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "value":"1000",
+              "type":{
+                "name":"int"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "body":{
+          "id":"yes",
+          "args":[
+            {
+              "id":"smile",
+              "args":[
+                {
+                  "value":"21",
+                  "type":{
+                    "name":"int"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  }
 }
