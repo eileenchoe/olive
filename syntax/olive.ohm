@@ -45,8 +45,7 @@ Olive {
                         |  Exp
 
   Key                   =  boollit
-                        |  intlit
-                        |  floatlit
+                        |  numlit
                         |  stringlit
                         |  nonelit
                         |  StringInterpolation
@@ -61,23 +60,21 @@ Olive {
   StringInterpolation   = "`" ((~"`" ~"$" any) | Interpolation)* "`"
   Interpolation         = "${" Exp "}"
 
-  types                 =  "int"
-                        |  "float"
+  types                 =  "number"
                         |  "string"
                         |  "bool"
-                        |  "None"
+                        |  "none"
                         |  "tuple"
                         |  "matrix"
                         |  "dictionary"
                         |  "set"
                         |  "range"
 
-  basicAnnTypes         =  "None"
+  basicAnnTypes         =  "none"
                         |  "string"
-                        |  "int"
+                        |  "number"
                         |  "bool"
                         |  "range"
-                        |  "float"
 
   FunctionDecl          =  TypeAnn id "(" ListOf<id, ","> ") =" Suite
   TypeAnn               =  id ":" ("_" | ParamAnn) "->" ("_" | Annotation)
@@ -97,7 +94,7 @@ Olive {
   idrest                =  "_" | alnum
   keyword               = ("true" | "false" | "if"
                         | "else" | "while" | "for" | "in" | "return"
-                        | "None" | "not" | "break" | "pass" |  types) ~idrest
+                        | "none" | "not" | "break" | "pass" |  types) ~idrest
 
   addop                 =  "+" | "-"
   relop                 =  "<=" | "<" | "==" | "!=" | ">=" | ">"
@@ -108,9 +105,8 @@ Olive {
 
   stringlit             = "\'" ("\\\"" | (~"\'" any))* "\'"
   boollit               = "true" | "false"
-  intlit                = ~floatlit digit+
-  floatlit              = digit+ "." digit+
-  nonelit               = "None"
+  numlit                = digit+ ("." digit+)?
+  nonelit               = "none"
 
   newline               =  "\n"+
   space                 += comment

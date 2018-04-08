@@ -61,8 +61,7 @@ class DictionaryType extends Type {
 
 Type.cache = {};
 Type.BOOL = new Type('bool');
-Type.INT = new Type('int');
-Type.FLOAT = new Type('float');
+Type.NUM = new Type('number');
 Type.STRING = new Type('string');
 Type.NONE = new Type('none');
 Type.TUPLE = new Type('tuple');
@@ -96,10 +95,10 @@ class StringLiteral {
   }
 }
 
-class FloatLiteral {
+class NumberLiteral {
   constructor(value) {
     this.value = value;
-    this.type = Type.FLOAT;
+    this.type = Type.NUM;
   }
   analyze() {
     return this;
@@ -113,19 +112,6 @@ class BooleanLiteral {
   constructor(value) {
     this.value = value;
     this.type = Type.BOOL;
-  }
-  analyze() {
-    return this;
-  }
-  optimize() {
-    return this;
-  }
-}
-
-class IntegerLiteral {
-  constructor(value) {
-    this.value = value;
-    this.type = Type.INT;
   }
   analyze() {
     return this;
@@ -288,7 +274,7 @@ class BinaryExpression {
     this.left.analyze(context);
     this.right.analyze(context);
     if (['<', '<=', '>=', '>'].includes(this.op)) {
-      this.mustHaveIntegerOperands();
+      this.mustHaveNumericOperands();
       this.type = Type.BOOL;
     } else if (['==', '!='].includes(this.op)) {
       this.mustHaveCompatibleOperands();
@@ -298,7 +284,7 @@ class BinaryExpression {
       this.type = Type.BOOL;
     } else {
       // All other binary operators are arithmetic
-      this.mustHaveIntegerOperands();
+      this.mustHaveNumericOperands();
       this.type = Type.INT;
     }
   }
@@ -645,9 +631,8 @@ class Program {
 module.exports = {
   Type,
   BooleanLiteral,
-  IntegerLiteral,
+  NumberLiteral,
   StringLiteral,
-  FloatLiteral,
   NoneLiteral,
   IdExpression,
   SubscriptExpression,
