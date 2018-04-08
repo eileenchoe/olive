@@ -1,4 +1,5 @@
 const { InitialContext } = require('./analyzer');
+const util = require('util');
 
 const sameType = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 
@@ -33,6 +34,7 @@ class MatrixType extends Type {
   constructor(type) {
     super('matrix');
     this.elementType = type;
+    this.isIterable = true;
   }
 }
 
@@ -40,6 +42,7 @@ class TupleType extends Type {
   constructor(type) {
     super('tuple');
     this.elementType = type;
+    this.isIterable = true;
   }
 }
 
@@ -47,6 +50,7 @@ class SetType extends Type {
   constructor(name, type) {
     super('set');
     this.elementType = type;
+    this.isIterable = true;
   }
 }
 
@@ -55,6 +59,7 @@ class DictionaryType extends Type {
     super('dictionary');
     this.keyType = keyType;
     this.valueType = valueType;
+    this.isIterable = true;
   }
 }
 
@@ -85,6 +90,7 @@ class NoneLiteral {
 class StringLiteral {
   constructor(value) {
     this.value = value;
+    this.isIterable = true;
     this.type = Type.STRING;
   }
   analyze() {
@@ -280,7 +286,6 @@ class BinaryExpression {
     Object.assign(this, { op, left, right });
   }
   analyze(context) {
-    console.log(this.left);
     this.left.analyze(context);
     this.right.analyze(context);
     if (['<', '<=', '>=', '>'].includes(this.op)) {
@@ -462,7 +467,7 @@ class WhileStatement {
   analyze(context) {
     this.condition.analyze(context);
     this.condition.type.mustBeBoolean('Condition in "while" statement must be boolean');
-    this.body.analyze(context);
+    this.body.analyze(context, false);
   }
 
   optimize() {
@@ -475,12 +480,56 @@ class WhileStatement {
   }
 }
 
+const determineIteratorType = (exp) => {
+  let expression = exp;
+  if (exp instanceof IdExpression) {
+    expression = exp.referent;
+  }
+  if (!expression.type.isIterable) {
+    throw new Error(`Type ${expression.type.name} is not iterable.`);
+  };
+  if (expression instanceof StringLiteral) {
+    return Type.STRING;
+  } else if (expression instanceof DictionaryExpression) {
+    return expression.type.keyType;
+  } else {
+    return expression.type.elementType;
+  }
+}
+
+class Block {
+  constructor(statements) {
+    this.statements = statements;
+  }
+
+  analyze(context, manualContext) {
+    // flag for whether or not we need to manually implement a context
+    // manual context should be true for both function and for
+    if (!manualContext) {
+      const localContext = context.createChildContextForBlock();
+      this.statements.forEach(s => s.analyze(localContext));
+      return;
+    }
+    this.statements.forEach(s => s.analyze(context));
+  }
+
+  optimize() {
+    this.statements = this.statements.map(s => s.optimize()).filter(s => s !== null);
+    return this;
+  }
+}
+
 class ForStatement {
-  constructor(left, right, body) {
-    Object.assign(this, { left, right, body });
+  constructor(id, exp, body) {
+    Object.assign(this, { id, exp, body });
   }
   analyze(context) {
-    return this;
+    this.exp.analyze(context);
+    const childContext = context.createChildContextForBlock();
+    const iterator = new Variable(this.id.id, determineIteratorType(this.exp));
+    childContext.add(iterator);
+    this.body.analyze(childContext, true);
+    console.log(JSON.stringify(childContext.declarations), '\n');
   }
   optimize() {
     return this;
@@ -623,10 +672,8 @@ class Case {
 
   analyze(context) {
     this.test.analyze(context);
-    const bodyContext = context.createChildContextForBlock();
-    // console.log(this.body);
-    // this.body.forEach(s => s.analyze(bodyContext));
-    this.body.analyze(bodyContext);
+    this.test.type.mustBeBoolean('If statement tests must be boolean');
+    this.body.analyze(context, false);
   }
 
   optimize() {
@@ -638,19 +685,6 @@ class Case {
   }
 }
 
-class Block {
-  constructor(statements) {
-    this.statements = statements;
-  }
-  analyze(context) {
-    const localContext = context.createChildContextForBlock();
-    this.statements.forEach(s => s.analyze(localContext));
-  }
-  optimize() {
-    this.statements = this.statements.map(s => s.optimize()).filter(s => s !== null);
-    return this;
-  }
-}
 
 class Program {
   constructor(block) {

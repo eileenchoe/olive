@@ -100,8 +100,9 @@ const semantics = grammar.createSemantics().addOperation('ast', {
     return new FunctionCallExpression(id.ast(), args.ast());
   },
   Statement_while(_, test, suite) { return new WhileStatement(test.ast(), suite.ast()); },
-  Statement_for(_1, left, _2, right, suite) {
-    return new ForStatement(left.ast(), right.ast(), suite.ast());
+  Statement_for(_1, id, _2, exp, suite) {
+    const idExp = new IdExpression(id.ast());
+    return new ForStatement(idExp, exp.ast(), suite.ast());
   },
   Statement_if(_1, firstTest, firstSuite, _2, moreTests, moreSuites, _3, lastSuite) {
     const tests = [firstTest.ast(), ...moreTests.ast()];
