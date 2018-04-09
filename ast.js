@@ -91,9 +91,9 @@ class StringLiteral {
   constructor(value) {
     this.value = value;
     this.isIterable = true;
-    this.type = Type.STRING;
   }
   analyze() {
+    this.type = Type.STRING;
     return this;
   }
   optimize() {
@@ -104,9 +104,9 @@ class StringLiteral {
 class NumberLiteral {
   constructor(value) {
     this.value = value;
-    this.type = Type.NUM;
   }
   analyze(context) {
+    this.type = Type.NUM;
     return this;
   }
   optimize() {
@@ -117,29 +117,15 @@ class NumberLiteral {
 class BooleanLiteral {
   constructor(value) {
     this.value = value;
-    this.type = Type.BOOL;
   }
   analyze() {
+    this.type = Type.BOOL;
     return this;
   }
   optimize() {
     return this;
   }
 }
-
-// class VariableExpression {
-//   constructor(id) {
-//     this.id = id;
-//   }
-//   analyze(context) {
-//     this.referent = context.lookup(this.id);
-//     this.type = this.referent.type;
-//   }
-//   optimize() {
-//     return this;
-//   }
-// }
-
 
 class IdExpression {
   constructor(id) {
@@ -240,10 +226,7 @@ class MutableBinding {
     this.target.forEach(t => t.analyze(context, true));
 
     this.source.forEach((s, i) => {
-      // TODO: we only have this hardcoded, expecting just a IdExpression
-      // TODO: what happens if its a subscript expression coming in?! => need to have different case
       if (this.target[i] instanceof IdExpression) {
-        // this.target[i].analyze(context, true);
         const lookedUpValue = context.lookup(this.target[i].id);
         if (lookedUpValue === null) {
           const v = new Variable(this.target[i].id, s.type);
@@ -623,7 +606,7 @@ class DictionaryExpression {
   }
 }
 
-class Range {
+class RangeExpression {
   constructor(open, start, step, end, close) {
     this.type = Type.RANGE;
     this.start = start;
@@ -699,21 +682,6 @@ class Program {
   }
 }
 
-// function isZero(entity) {
-//   return entity instanceof NumberLiteral && entity.value === 0;
-// }
-//
-// function isOne(entity) {
-//   return entity instanceof NumberLiteral && entity.value === 1;
-// }
-//
-// function sameVariable(e1, e2) {
-//   return e1 instanceof VariableExpression &&
-//          e2 instanceof VariableExpression &&
-//          e1.referent === e2.referent;
-// }
-
-
 module.exports = {
   Type,
   BooleanLiteral,
@@ -735,7 +703,7 @@ module.exports = {
   TupleExpression,
   MatrixExpression,
   DictionaryExpression,
-  Range,
+  RangeExpression,
   SetExpression,
   KeyValuePair,
   Block,

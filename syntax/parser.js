@@ -36,10 +36,9 @@ const {
   SetExpression,
   DictionaryExpression,
   KeyValuePair,
-  // Immutables,
   StringInterpolation,
   Interpolation,
-  Range,
+  RangeExpression,
   FunctionCallExpression,
   FunctionDeclarationStatement,
   FunctionTypeAnnotation,
@@ -129,7 +128,7 @@ const semantics = grammar.createSemantics().addOperation('ast', {
   Range(open, start, _1, step, _2, end, close) {
     const openParen = open.primitiveValue;
     const closingParen = close.primitiveValue;
-    return new Range(openParen, start.ast(), step.ast(), end.ast(), closingParen);
+    return new RangeExpression(openParen, start.ast(), step.ast(), end.ast(), closingParen);
   },
   Dictionary(_1, v, _2) { return new DictionaryExpression([...v.ast()]); },
   KeyValuePair(k, _, v) { return new KeyValuePair(k.ast(), v.ast()); },
