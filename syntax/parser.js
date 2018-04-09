@@ -107,7 +107,6 @@ const semantics = grammar.createSemantics().addOperation('ast', {
     const tests = [firstTest.ast(), ...moreTests.ast()];
     const bodies = [firstSuite.ast(), ...moreSuites.ast()];
     const cases = tests.map((test, index) => new Case(test, bodies[index]));
-    console.log(util.inspect(cases));
     return new IfStatement(cases, unpack(lastSuite.ast()));
   },
   Statement_expression(body) {

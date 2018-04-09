@@ -22,6 +22,7 @@ describe('The parser', () => {
       it(`produces the correct decorated AST for ${name}`, (done) => {
         fs.readFile(`${__dirname}/${name}`, 'utf-8', (err, input) => {
           const ast = parse(input);
+          ast.analyze();
           fs.readFile(`${__dirname}/${name}.json`, 'utf-8', (_err, expected) => {
             assert.deepEqual(ast, JSON.parse(expected));
             done();

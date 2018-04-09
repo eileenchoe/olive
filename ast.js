@@ -69,10 +69,6 @@ Type.BOOL = new Type('bool');
 Type.NUM = new Type('number');
 Type.STRING = new Type('string');
 Type.NONE = new Type('none');
-Type.TUPLE = new Type('tuple');
-Type.MATRIX = new Type('matrix');
-Type.DICTIONARY = new Type('dictionary');
-Type.SET = new Type('set');
 Type.TEMPLATELITERAL = new Type('templateliteral');
 Type.RANGE = new Type('range');
 
@@ -512,7 +508,6 @@ class ForStatement {
     const iterator = new Variable(this.id.id, determineIteratorType(this.exp));
     childContext.add(iterator);
     this.body.analyze(childContext, true);
-    console.log(JSON.stringify(childContext.declarations), '\n');
   }
   optimize() {
     return this;
@@ -540,7 +535,6 @@ class IfStatement {
 
 class MatrixExpression {
   constructor(values) {
-    this.type = Type.MATRIX;
     this.values = values;
   }
   analyze(context) {
@@ -557,7 +551,6 @@ class MatrixExpression {
 
 class TupleExpression {
   constructor(values) {
-    this.type = Type.TUPLE;
     this.values = values;
   }
   analyze(context) {
@@ -572,7 +565,6 @@ class TupleExpression {
 
 class SetExpression {
   constructor(values) {
-    this.type = Type.SET;
     this.values = values;
   }
   analyze(context) {
@@ -589,7 +581,6 @@ class SetExpression {
 
 class DictionaryExpression {
   constructor(values) {
-    this.type = Type.DICTIONARY;
     this.values = values;
   }
   analyze(context) {
@@ -608,7 +599,6 @@ class DictionaryExpression {
 
 class RangeExpression {
   constructor(open, start, step, end, close) {
-    this.type = Type.RANGE;
     this.start = start;
     this.step = step;
     this.end = end;
@@ -616,6 +606,7 @@ class RangeExpression {
     this.inclusiveEnd = close === ']';
   }
   analyze(context) {
+    this.type = Type.RANGE;
     return this;
   }
 }
