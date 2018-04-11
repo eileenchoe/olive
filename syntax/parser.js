@@ -51,7 +51,7 @@ const {
 const fs = require('fs');
 const ohm = require('ohm-js');
 const withIndentsAndDedents = require('./preparser');
-const util = require('util');
+// const util = require('util');
 
 const grammar = ohm.grammar(fs.readFileSync('./syntax/olive.ohm'));
 

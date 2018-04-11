@@ -1,5 +1,5 @@
 const { InitialContext } = require('./analyzer');
-const util = require('util');
+// const util = require('util');
 
 const sameType = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 
@@ -36,21 +36,37 @@ class MatrixType extends Type {
     this.elementType = type;
     this.isIterable = true;
   }
+  assertSubscriptValidType(typeToCheck) { // eslint-disable-line
+    if (!sameType(typeToCheck, Type.NUM)) {
+      throw new Error('The subscript of a matrix must be a number.');
+    }
+  }
+  getElementType() {
+    return this.elementType;
+  }
 }
 
 class TupleType extends Type {
   constructor(type) {
     super('tuple');
     this.elementType = type;
-    this.isIterable = true;
   }
 }
 
 class SetType extends Type {
-  constructor(name, type) {
+  constructor(type) {
     super('set');
     this.elementType = type;
     this.isIterable = true;
+    this.isNotBindable = true;
+  }
+  assertSubscriptValidType(typeToCheck) {
+    if (!sameType(typeToCheck, this.elementType)) {
+      throw new Error('You tried to access a value of a set using the incorrect subscript type.');
+    }
+  }
+  getElementType() {
+    return this.elementType;
   }
 }
 
@@ -60,6 +76,14 @@ class DictionaryType extends Type {
     this.keyType = keyType;
     this.valueType = valueType;
     this.isIterable = true;
+  }
+  assertSubscriptValidType(typeToCheck) {
+    if (!sameType(typeToCheck, this.keyType)) {
+      throw new Error('You tried to access a value of a dictionary using the incorrect key type.');
+    }
+  }
+  getElementType() {
+    return this.valueType;
   }
 }
 
@@ -86,7 +110,6 @@ class NoneLiteral {
 class StringLiteral {
   constructor(value) {
     this.value = value;
-    this.isIterable = true;
   }
   analyze() {
     this.type = Type.STRING;
@@ -101,7 +124,7 @@ class NumberLiteral {
   constructor(value) {
     this.value = value;
   }
-  analyze(context) {
+  analyze() {
     this.type = Type.NUM;
     return this;
   }
@@ -148,38 +171,31 @@ class IdExpression {
 }
 
 class SubscriptExpression {
-  constructor(array, subscript) {
-    Object.assign(this, { array, subscript });
-    this.level = 1;
+  constructor(iterable, subscript) {
+    Object.assign(this, { iterable, subscript });
   }
 
   analyze(context) {
-    this.array.analyze(context);
-    this.test = this.subscript;
-    if (this.array instanceof IdExpression) {
-      const lookedUpValue = context.lookup(this.array.id);
-      if (lookedUpValue === null) {
-        throw new Error(`${this.array.id} has not been defined yet.`);
-      }
-      this.type = lookedUpValue.type;
-    } else {
-      this.level += 1;
-    }
     this.subscript.analyze(context);
+    this.iterable.analyze(context);
+    if (this.iterable instanceof IdExpression) {
+      const lookedUpValue = context.lookup(this.iterable.id);
+      if (lookedUpValue === null) {
+        throw new Error(`${this.iterable.id} has not been defined yet.`);
+      }
+      if (lookedUpValue.type.isIterable) {
+        lookedUpValue.type.assertSubscriptValidType(this.subscript.type);
+      }
+      this.type = lookedUpValue.type.getElementType();
+    } else if (this.iterable instanceof SubscriptExpression) {
+      this.type = this.iterable.iterable.type.elementType.elementType;
+    }
   }
 
   optimize() {
     return this;
   }
 }
-
-const lastSubscriptType = (exp) => {
-  let expression = exp;
-  while (expression.array instanceof SubscriptExpression) {
-    expression = expression.array;
-  }
-  return expression.type;
-};
 
 class Variable {
   constructor(id, type) {
@@ -197,17 +213,6 @@ const assertSameType = (value, test) => {
   if (!sameType(value, test)) {
     throw new Error('Type mismatch error');
   }
-};
-
-const matchTypeDepth = (target, sourceType) => {
-  let targetType = lastSubscriptType(target);
-  let depthOfSubscripts = target.level;
-
-  while (depthOfSubscripts > 0) {
-    targetType = targetType.elementType;
-    depthOfSubscripts -= 1;
-  }
-  assertSameType(targetType, sourceType);
 };
 
 class MutableBinding {
@@ -228,10 +233,15 @@ class MutableBinding {
           const v = new Variable(this.target[i].id, s.type);
           context.add(v);
         } else {
+          // TODO: look in todo.txt set binding
+          // console.log(JSON.stringify(lookedUpValue.type));
+          // if (lookedUpValue.type.isNotBindable) {
+          //   throw new Error('Cannot rebind to a set.')
+          // }
           assertSameType(lookedUpValue.type, s.type);
         }
       } else if (this.target[i] instanceof SubscriptExpression) {
-        matchTypeDepth(this.target[i], s.type);
+        assertSameType(this.target[i].type, s.type);
       }
     });
   }
@@ -239,6 +249,14 @@ class MutableBinding {
     return this;
   }
 }
+
+/*
+  For the subscript type:
+    if it's a matrix or tuple: the subscript needs to be an int
+    else if it's a dictionary: the subscript needs to be a string
+    subscript = 'string'
+    a = Variable -> checkthat variable.type.keytype = subscript.type
+*/
 
 class ImmutableBinding {
   constructor(target, source) {
@@ -325,6 +343,97 @@ class BinaryExpression {
     }
   }
 }
+
+class MatrixExpression {
+  constructor(values) {
+    this.values = values;
+  }
+  analyze(context) {
+    this.values.forEach(value => value.analyze(context));
+    const memberType = this.values[0].type;
+    this.values.forEach((value) => {
+      if (!sameType(value.type, memberType)) {
+        throw new Error('Type mismatch among members of matrix');
+      }
+    });
+    this.type = new MatrixType(memberType);
+  }
+}
+
+class TupleExpression {
+  constructor(values) {
+    this.values = values;
+  }
+  analyze(context) {
+    const memberTypes = [];
+    this.values.forEach((value) => {
+      value.analyze(context);
+      memberTypes.push(value.type);
+    });
+    this.type = new TupleType(memberTypes);
+  }
+}
+
+class SetExpression {
+  constructor(values) {
+    this.values = values;
+  }
+  analyze(context) {
+    this.values.forEach(value => value.analyze(context));
+    const memberType = this.values[0].type;
+    this.values.forEach((value) => {
+      if (!sameType(value.type, memberType)) {
+        throw new Error('Type mismatch among members of set');
+      }
+    });
+    this.type = new SetType(memberType);
+  }
+}
+
+class DictionaryExpression {
+  constructor(values) {
+    this.values = values;
+  }
+  analyze(context) {
+    this.values.forEach(value => value.analyze(context));
+    const memberKeyType = this.values[0].key.type;
+    const memberValueType = this.values[0].value.type;
+    this.values.forEach((value) => {
+      if (!sameType(value.key.type, memberKeyType)
+        || !sameType(value.value.type, memberValueType)) {
+        throw new Error('Type mismatch among members of dictionary');
+      }
+    });
+    this.type = new DictionaryType(memberKeyType, memberValueType);
+  }
+}
+
+class RangeExpression {
+  constructor(open, start, step, end, close) {
+    this.start = start;
+    this.step = step;
+    this.end = end;
+    this.inclusiveStart = open === '[';
+    this.inclusiveEnd = close === ']';
+  }
+  analyze() {
+    this.type = Type.RANGE;
+  }
+}
+
+const determineIteratorType = (exp) => {
+  let expression = exp;
+  if (exp instanceof IdExpression) {
+    expression = exp.referent;
+  }
+  if (!expression.type.isIterable) {
+    throw new Error(`Type ${expression.type.name} is not iterable.`);
+  }
+  if (expression instanceof DictionaryExpression) {
+    return expression.type.keyType;
+  }
+  return expression.type.elementType;
+};
 
 class UnaryExpression {
   constructor(op, operand) {
@@ -414,7 +523,7 @@ class FunctionDeclarationStatement {
     this.body = body;
   }
 
-  analyze(context) {
+  analyze() {
     return this;
   }
 
@@ -456,23 +565,6 @@ class WhileStatement {
       return null;
     }
     return this;
-  }
-}
-
-const determineIteratorType = (exp) => {
-  let expression = exp;
-  if (exp instanceof IdExpression) {
-    expression = exp.referent;
-  }
-  if (!expression.type.isIterable) {
-    throw new Error(`Type ${expression.type.name} is not iterable.`);
-  };
-  if (expression instanceof StringLiteral) {
-    return Type.STRING;
-  } else if (expression instanceof DictionaryExpression) {
-    return expression.type.keyType;
-  } else {
-    return expression.type.elementType;
   }
 }
 
@@ -533,91 +625,14 @@ class IfStatement {
   }
 }
 
-class MatrixExpression {
-  constructor(values) {
-    this.values = values;
-  }
-  analyze(context) {
-    this.values.forEach(value => value.analyze(context));
-    const memberType = this.values[0].type;
-    this.values.forEach((value, index) => {
-      if (!sameType(value.type, memberType)) {
-        throw new Error('Type mismatch among members of matrix');
-      }
-    });
-    this.type = new MatrixType(memberType);
-  }
-}
-
-class TupleExpression {
-  constructor(values) {
-    this.values = values;
-  }
-  analyze(context) {
-    const memberTypes = [];
-    this.values.forEach((value) => {
-      value.analyze(context);
-      memberTypes.push(value.type);
-    });
-    this.type = new TupleType(memberTypes);
-  }
-}
-
-class SetExpression {
-  constructor(values) {
-    this.values = values;
-  }
-  analyze(context) {
-    this.values.forEach(value => value.analyze(context));
-    const memberType = this.values[0].type;
-    this.values.forEach((value) => {
-      if (!sameType(value.type, memberType)) {
-        throw new Error('Type mismatch among members of set');
-      }
-    });
-    this.type = new SetType(memberType);
-  }
-}
-
-class DictionaryExpression {
-  constructor(values) {
-    this.values = values;
-  }
-  analyze(context) {
-    this.values.forEach(value => value.analyze(context));
-    const memberKeyType = this.values[0].key.type;
-    const memberValueType = this.values[0].value.type;
-    this.values.forEach((value) => {
-      if (!sameType(value.key.type, memberKeyType)
-      || !sameType(value.value.type, memberValueType)) {
-        throw new Error('Type mismatch among members of dictionary');
-      }
-    });
-    this.type = new DictionaryType(memberKeyType, memberValueType);
-  }
-}
-
-class RangeExpression {
-  constructor(open, start, step, end, close) {
-    this.start = start;
-    this.step = step;
-    this.end = end;
-    this.inclusiveStart = open === '[';
-    this.inclusiveEnd = close === ']';
-  }
-  analyze(context) {
-    this.type = Type.RANGE;
-    return this;
-  }
-}
-
 class KeyValuePair {
   constructor(key, value) {
     this.key = key;
     this.value = value;
   }
   analyze(context) {
-    return this;
+    this.key.analyze(context);
+    this.value.analyze(context);
   }
 }
 

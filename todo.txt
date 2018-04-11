@@ -7,4 +7,5 @@ TODO:
     tuples are the only hetergeneous type we have
 
 
-- Change types for literals to be inside analyze()
+- In context.declarations() -> the keys are ids and the values must be variables or fundecls
+- Decide how we want to do set membership and rebinding!
