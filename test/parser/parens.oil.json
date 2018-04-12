@@ -1,1 +1,1 @@
-{"block":{"statements":[{"target":["a"],"source":[{"value":"'hello'","isIterable":true}]},{"target":["b"],"source":[{"op":"*","left":{"op":"+","left":{"value":"3"},"right":{"value":"5"}},"right":{"value":"8"}}]}]}}
+ {"block": {"statements": [{"source": [{"value": "'hello'"}], "target": ["a"]}, {"source": [{"left": {"left": {"value": "3"}, "op": "+", "right": {"value": "5"}}, "op": "*", "right": {"value": "8"}}], "target": ["b"]}]}}
