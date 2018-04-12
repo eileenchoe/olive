@@ -1,2 +1,3 @@
-a := [('33',2), ('e', 4)]
-a[3] := ('hi','2')
+double: number, string, number -> number
+double (x, y, z) =
+    return x

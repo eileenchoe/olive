@@ -201,11 +201,11 @@ class Variable {
   constructor(id, type) {
     Object.assign(this, { id, type });
   }
-  analyze() {
-    return this;
-  }
-  optimize() {
-    return this;
+}
+
+class FunctionVariable {
+  constructor(id, fun) {
+    Object.assign(this, { id, fun });
   }
 }
 
@@ -523,8 +523,27 @@ class FunctionDeclarationStatement {
     this.body = body;
   }
 
-  analyze() {
-    return this;
+  analyze(context) {
+    this.annotation.analyze(context);
+    if (this.parameters.length !== this.annotation.parameterTypes.length) {
+      throw new Error("The number of arguments in your function signature doesn't match the number of parameters.");
+    }
+    const childContext = context.createChildContextForFunctionBody(this);
+    this.parameters.forEach((param, index) => {
+      const x = new Variable(param, this.annotation.parameterTypes[index]);
+      childContext.add(x);
+    });
+    this.body.analyze(childContext, true);
+
+    // Manually adding the function to the outer context
+    const functionForContext = new FunctionVariable(this.id, this);
+    context.add(functionForContext);
+
+    if (this.annotation.returnType) {
+      this.body.statements.filter(x => x instanceof ReturnStatement).forEach((returnStatement) => {
+        assertSameType(this.annotation.returnType, returnStatement.returnValue.type);
+      });
+    }
   }
 
   optimize() {
