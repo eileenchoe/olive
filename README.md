@@ -78,10 +78,11 @@ olives = ('kalamata', 'picholine', 'moroccan salt-cured', 'cerignola', 100)
 
 #### Dictionary
 
-Dictionary store key value pairs.
+Dictionary store homogenous key value pairs.
 
 ```
 color = {'red': 85, 'green': 107, 'blue': 47 }
+german = {'ich': 'I', 'du': 'you'}
 ```
 
 #### List
@@ -95,7 +96,7 @@ fibonacci_numbers = [0, 1, 1, 2, 3, 5, 8, 13]
 
 #### Set
 
-Sets are heterogeneous unordered collections of unique elements.
+Sets are homogeneous unordered collections of unique elements.
 
 ```
 friends = {'eileen', 'eddie', 'juan', 'nati'}
