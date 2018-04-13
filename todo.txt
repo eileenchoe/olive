@@ -9,3 +9,6 @@ TODO:
 
 - In context.declarations() -> the keys are ids and the values must be variables or fundecls
 - Decide how we want to do set membership and rebinding!
+
+- make a test to throw "throw new Error(`${this.iterable.id} has not been defined yet.`);
+"

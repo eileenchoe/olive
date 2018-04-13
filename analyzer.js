@@ -59,7 +59,7 @@ class Context {
   cannotRebindToImmutableBinding(id) {
     if (this.declarations[id] && !this.declarations[id].isMutable) {
       /* eslint-disable no-throw-literal */
-      throw `Cannot rebind to ${id}, which is an immutable binding`;
+      throw `Cannot rebind to ${id}, which is an immutable variable`;
     }
   }
   // Returns the entity bound to the given identifier, starting from this

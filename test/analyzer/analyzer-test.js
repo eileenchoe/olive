@@ -11,10 +11,11 @@ const parse = require('../../syntax/parser');
 
 describe('The parser', () => {
   fs.readdirSync(__dirname).forEach((name) => {
-    if (name.endsWith('.error')) {
+    const length = name.length - 1;
+    if (name.endsWith('.error', length) || name.endsWith('.error')) {
       it(`detects a ${name.replace(/[^a-z]/g, ' ')}`, (done) => {
         const program = parse(fs.readFileSync(`${__dirname}/${name}`, 'utf-8'));
-        const errorPattern = RegExp(name.replace('.error', '').replace(/-/g, ' '), 'i');
+        const errorPattern = RegExp(name.replace(/.error\d*/, '').replace(/-/g, ' '), 'i');
         assert.throws(() => program.analyze(), errorPattern);
         done();
       });
