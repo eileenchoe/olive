@@ -198,8 +198,8 @@ class SubscriptExpression {
 }
 
 class Variable {
-  constructor(id, type) {
-    Object.assign(this, { id, type });
+  constructor(id, type, isMutable) {
+    Object.assign(this, { id, type, isMutable });
   }
 }
 
@@ -228,9 +228,10 @@ class MutableBinding {
 
     this.source.forEach((s, i) => {
       if (this.target[i] instanceof IdExpression) {
+        context.cannotRebindToImmutableBinding(this.target[i].id);
         const lookedUpValue = context.lookup(this.target[i].id);
         if (lookedUpValue === null) {
-          const v = new Variable(this.target[i].id, s.type);
+          const v = new Variable(this.target[i].id, s.type, true);
           context.add(v);
         } else {
           // TODO: look in todo.txt set binding
@@ -269,7 +270,7 @@ class ImmutableBinding {
     this.source.forEach(s => s.analyze(context));
     this.source.forEach((s, i) => {
       context.variableMustNotBeAlreadyDeclared(this.target[i]);
-      const v = new Variable(this.target[i], s.type);
+      const v = new Variable(this.target[i], s.type, false);
       context.add(v);
     });
   }
@@ -530,7 +531,7 @@ class FunctionDeclarationStatement {
     }
     const childContext = context.createChildContextForFunctionBody(this);
     this.parameters.forEach((param, index) => {
-      const x = new Variable(param, this.annotation.parameterTypes[index]);
+      const x = new Variable(param, this.annotation.parameterTypes[index], false);
       childContext.add(x);
     });
     this.body.analyze(childContext, true);
@@ -616,7 +617,7 @@ class ForStatement {
   analyze(context) {
     this.exp.analyze(context);
     const childContext = context.createChildContextForBlock();
-    const iterator = new Variable(this.id.id, determineIteratorType(this.exp));
+    const iterator = new Variable(this.id.id, determineIteratorType(this.exp), false);
     childContext.add(iterator);
     this.body.analyze(childContext, true);
   }

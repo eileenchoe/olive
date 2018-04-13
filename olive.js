@@ -52,7 +52,7 @@ fs.readFile(argv._[0], 'utf-8', (err, text) => {
     program = program.optimize();
   }
   if (argv.i) {
-    // console.log(JSON.stringify(program));
+    console.log(JSON.stringify(program));
     console.log(util.inspect(program, { depth: null }));
     return;
   }

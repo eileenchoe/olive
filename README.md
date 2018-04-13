@@ -201,8 +201,6 @@ say_hello (name='Eileen') =
   print(`Hello, ${name}!`)
 
 say_hello('Eddie')           | 'Hello, Eddie!'
-say_hello(name='Eddie')      | 'Hello, Eddie!' (named parameter)
-say_hello()                  | 'Hello, Eileen!' (default parameter)
 
 square: int -> int
 square (x) =
@@ -219,7 +217,7 @@ factorial (x) =
   else if x == 0
     return 1
   return factorial(x - 1) * x
-  
+
 double: int -> int
 double (x) =
   return x + x
@@ -229,5 +227,7 @@ double("string")  | Compile time error
 #### Type Annotations
 Olive functions are required to have a function type annotation. Here are a few examples of more complex type annotations:
 ```
-TODO
+double: matrix<number>, string, number -> matrix<number>
+double (x, y, z) =
+    return x
 ```
