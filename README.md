@@ -33,7 +33,7 @@ Olive is a high-level, high-performance language for numerical computing. Olive 
 - None: `None`
 - tuple: `(2, 3, 5)`, `(800, 'San Francisco', true)`
 - matrix: `[0, 4 ,5]`, `[[3, 2], [8, 7]]`
-- dictionary: `{'a': 15, 'friends': 'best'}`
+- dictionary: `{'a': '15', 'friends': 'best'}`
 - set: `{2, 4, 7}`, `{'hello', 'friends'}`
 - range: `[0:1:10)`, `(0:0.01:1)`
 
