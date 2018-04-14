@@ -227,7 +227,7 @@ while (counter >= 0)
 The `pass` statement does nothing. It can be used when a statement is required syntactically but the program requires no action, just like in python. This helps with indentation. For example:
 
 ```
-for granpa_age in (91, 87, 101)
+for grandpa_age in (91, 87, 101)
   pass
 ```
 
@@ -246,7 +246,6 @@ for divisor in [2:n]
 
 Functions may have named and default parameters.
 
-Functions must have type annotations. See section on type annotations for more detail about constructing a function type annotation.
 The compiler will perform static semantic analysis to ensure function parameters and return value are of the correct type.
 
 ```
@@ -283,5 +282,43 @@ double("string")  | Compile time error
 #### Type Annotations
 Olive functions are required to have a function type annotation. Here are a few examples of more complex type annotations:
 ```
-TODO
+pun: number -> string
+pun (x) =
+    return 'pun'
+    
+pun(-12.3) | 'pun'
+
+join: number, number, intnumber-> string
+join (x, y, z) =
+    return '${x}-${y}-${z}'
+
+join(1, 2, 3) | '1-2-3'
+
+eval_mod: (number -> number), number -> number
+eval_mod (x, y) =
+	return x(y % 10)
+
+double: number -> number
+double(x) =
+  return 2 * x
+
+eval_mod(double, 101) | 2
+
+eval_mistery: (number -> _), number -> _
+eval_mistery (x, y) =
+    return x(y)
+    
+eval_mistery(pun, 999999999999999999) | 'pun'
+
+fun: matrix<number>, tuple<number, number, string> -> (int -> dictionary<number, string>)
+fun (M, t) =
+  inner_fun: number -> dictionary<number, string>
+  inner_fun (x) =
+    return {M[1]: '${t[2]} says: x is ${x}'}
+    
+  return inner_fun
+  
+spider_vocab = fun([1.1, 2.2, 3.3], (0, 101, 'spiderman'))
+spider_vocab(-1)[2.2] | 'spiderman says: x is -1'
 ```
+
