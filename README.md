@@ -26,8 +26,7 @@ Olive is a high-level, high-performance language for numerical computing. Olive 
 
 ### Types
 
-- int: `3`, `897`, `-32`
-- float: `-3.08`, `9.54`, `0.9`
+- number: `3`, `897`, `-32`, ``-3.08`, `9.54`, `0.9`
 - boolean: `true`, `false`
 - string: `'hello'`, `'olive is the best language ever'`
 - None: `None`
@@ -47,6 +46,7 @@ year = 2018
 
 x = 2.5     | immutable
 y := 2.3    | mutable
+y := 2.33
 
 | There are some built in constants
 e           | Euler's Constant
@@ -100,7 +100,7 @@ Sets are homogeneous unordered collections of unique elements.
 
 ```
 friends = {'eileen', 'eddie', 'juan', 'nati'}
-fav_numbers = {13, 3, 56}
+favorite_numbers = {13, 3, 56}
 ```
 
 #### Range
@@ -140,6 +140,7 @@ A = random((1, 3, 4), range=[0:1:10))          | 1x3x4 matrix of random numbers 
 B = zeros((3, 3))                              | 3x3 matrix of zeros
 I = identity(10)                               | 10x10 identity matrix
 
+
 | Multiplication
 A = random((1, 3, 4), range=(0:0.1:10])
 B = random((1, 3, 4), range=(3:0.1:10])
@@ -162,31 +163,83 @@ F = A ./ B
 ```
 greeting = 'hello'
 name = 'olive'
-
 complete_greeting = `${greeting}, ${name}`
+
+brand = 'Fiat'
+age = 4
+print('The age of that ${brand} car was ${age - 1} last year!')
 ```
 
-### Loops
-#### If
+### Control Flow Tools
+
+#### `If` Statements
+
+There can be zero or more `else if `, and the `else` part is optional.  
+
 ```
 olive_types = ('kalamata', 'picholine', 'moroccan salt-cured', 'cerignola')
+
 if (olive_types[0] == 'kalamata')
   print('yay')
+else if (olive_types[0] == 'picholine')
+  print('uh?')
+else
+  print('eww!')
 ```
 
-#### For
+#### `for` Statements
+
+The `for` statement in Olive borrows many ideas from Python 3.  Rather than always iterating over an  arithmetic progression of numbers, or giving the user the ability to define both the iteration step and halting condition , Olive's `for` iterates over the items of any iterable sequence, in the order that
+they appear in the sequence (or in a random order if that structure is inherently unordered like the keys of a dictionary.
+
 ```
+| Any iterable type can be used in a for loop.
+| Some examples include tuples, sets, and matrices
+
 olive_types = ('kalamata', 'picholine', 'moroccan salt-cured', 'cerignola')
 for types in olive_types
   print(types)
+  
+friends = {'Mom', 'Dad'}
+for friend in friends
+  print('${friend} is my best friend!')
+  
+for rand in random((1, 7), range=(0:1:10])
+  if rand > 5
+    print('yay')
+  else
+    print('boo')
 ```
 
-#### While
+#### `while` Statements
+
+The `while` loop executes as long as the condition (here: `counter >= 0`) remains true. Usual stuff...
+
 ```
 counter := 10
 while (counter >= 0)
   print(counter)
   counter := counter - 1 | we never said you should be doing this...
+```
+
+#### `pass` and `break` Statements
+
+The `pass` statement does nothing. It can be used when a statement is required syntactically but the program requires no action, just like in python. This helps with indentation. For example:
+
+```
+for granpa_age in (91, 87, 101)
+  pass
+```
+
+The `break` statement, like in C, breaks out of the innermost enclosing `for` or `while` loop.
+
+```
+n = 93
+for divisor in [2:n]
+  if next_random % divisor == 0
+    print('${n} is divisible by ${divisor}')
+    break
+  
 ```
 
 ### Functions
@@ -205,15 +258,15 @@ say_hello('Eddie')           | 'Hello, Eddie!'
 say_hello(name='Eddie')      | 'Hello, Eddie!' (named parameter)
 say_hello()                  | 'Hello, Eileen!' (default parameter)
 
-square: int -> int
+square: number -> number
 square (x) =
   return x ^ 2
 
-double: int -> int
+double: number -> number
 double (y) =
   return 2 * y
 
-factorial: int -> int
+factorial: number -> number
 factorial (x) =
   if x < 0
     throw "invalid argument"
@@ -221,7 +274,7 @@ factorial (x) =
     return 1
   return factorial(x - 1) * x
   
-double: int -> int
+double: number -> number
 double (x) =
   return x + x
 
