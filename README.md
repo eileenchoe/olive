@@ -288,7 +288,7 @@ pun (x) =
     
 pun(-12.3) | 'pun'
 
-join: number, number, intnumber-> string
+join: number, number, number-> string
 join (x, y, z) =
     return '${x}-${y}-${z}'
 
@@ -321,4 +321,3 @@ fun (M, t) =
 spider_vocab = fun([1.1, 2.2, 3.3], (0, 101, 'spiderman'))
 spider_vocab(-1)[2.2] | 'spiderman says: x is -1'
 ```
-
