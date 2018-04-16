@@ -1,4 +1,5 @@
-double: (number -> tuple<matrix<number>>), number -> matrix<tuple<number>>
-double (x, y, z) =
-    t = [(3, 4, 5)]
-    return t
+double: number, string -> string
+double (x, s) =
+    return s
+
+double(1, 'hi')

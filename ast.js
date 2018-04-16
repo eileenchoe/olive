@@ -204,8 +204,8 @@ class Variable {
 }
 
 class FunctionVariable {
-  constructor(id, fun) {
-    Object.assign(this, { id, fun });
+  constructor(id, referent) {
+    Object.assign(this, { id, referent });
   }
 }
 
@@ -559,7 +559,14 @@ class FunctionCallExpression {
   }
 
   analyze(context) {
-    return this;
+    this.args.forEach(arg => arg.analyze());
+    const x = context.lookup(this.id);
+    if (x === null) { throw new Error(`A function with the name ${this.id} has not be declared yet.`); }
+    this.type = x.referent.annotation.returnType;
+    this.args.forEach((arg, index) => {
+      assertSameType(arg.type, x.referent.annotation.parameterTypes[index]);
+    });
+    // console.log(JSON.stringify(context.declarations));
   }
 
   optimize() {
