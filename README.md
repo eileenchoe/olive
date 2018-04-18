@@ -10,6 +10,8 @@ Olive is a high-level, high-performance language for numerical computing. Olive 
 
 ## List of Features
 - `.oil` file extension
+- Function Annotations
+- Static Type Checking
 - Strongly, Statically, and Implicitly Typed
 - String Interpolation
 - Built in data structures
@@ -243,16 +245,14 @@ for divisor in [2:n]
 
 ### Functions
 
-The compiler will perform static semantic analysis to ensure function parameters and return value are of the correct type.
+Olive requires function declarations to be preceded by a type annotation. At compile time, the Olive compiler will perform static semantic analysis to ensure type safety. 
 
 ```
 say_hello: string -> void
-say_hello (name='Eileen') =
+say_hello (name) =
   print(`Hello, ${name}!`)
 
 say_hello('Eddie')           | 'Hello, Eddie!'
-say_hello(name='Eddie')      | 'Hello, Eddie!' (named parameter)
-say_hello()                  | 'Hello, Eileen!' (default parameter)
 
 square: number -> number
 square (x) =
