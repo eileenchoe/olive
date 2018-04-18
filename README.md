@@ -6,7 +6,7 @@
 
 ## Introduction
 
-Olive is a high-level, high-performance language for numerical computing. Olive combines the expressivity and power of Python with the first class support for matrix and array mathematics of languages like Julia and MATLAB. Olive's goal is to make programming delightful for data science and numerical computing applications. A simple syntax paired with implicit typing reduces the overhead of language-specific syntax and allows the programmer to focus on the content of their programs.
+Olive is a high-level, high-performance language for numerical computing. Olive combines the expressivity and power of Python, first class support for matrix and array mathematics of languages like Julia and MATLAB, and type safety of staticaly typed languages like Elm. Olive's goal is to make programming delightful for data science and numerical computing applications. A simple syntax paired with implicit typing reduces the overhead of language-specific syntax and allows the programmer to focus on the content of their programs.
 
 ## List of Features
 - `.oil` file extension
@@ -243,12 +243,21 @@ for divisor in [2:n]
 
 ```
 
-### Functions
+### Functions & Type Annotations
 
-Olive requires function declarations to be preceded by a type annotation. At compile time, the Olive compiler will perform static semantic analysis to ensure type safety.
+Olive requires function declarations to be preceded by a type annotation. At compile time, the Olive compiler will perform static semantic analysis to ensure type safety. 
+
+Olive function type annotations specify the type(s) of the argument(s) and the return type. `_` may be used to indicate the absence of arguments or return values. Type annotations for complex types can be constructed as follows:
+
+- Set: `set<string>` set of strings
+- Matrix: `matrix<matrix<number>>` 2D matrix of numbers
+- Tuple: `tuple<string, number, boolean>` 3-tuples with first element type string, second element type number, and third element type boolean
+- Dictionary: `dictionary<string, boolean>` dictionary with keys of type string, and values of type boolean
+- Functions: `(matrix<number>, number -> tuple<number>)` function with first argument type matrix of numbers, second argument type number, and return type tuple of numbers. *Function type annotations must be enclosed in parentheses*
+
 
 ```
-say_hello: string -> void
+say_hello: string -> _
 say_hello (name) =
   print(`Hello, ${name}!`)
 
@@ -262,59 +271,5 @@ double: number -> number
 double (y) =
   return 2 * y
 
-factorial: number -> number
-factorial (x) =
-  if x < 0
-    throw "invalid argument"
-  else if x == 0
-    return 1
-  return factorial(x - 1) * x
-
-double: number -> number
-double (x) =
-  return x + x
-
-double("string")  | Compile time error
-```
-#### Type Annotations
-Olive functions are required to have a function type annotation. Here are a few examples of more complex type annotations:
-```
-pun: number -> string
-pun (x) =
-    return 'pun'
-
-pun(-12.3) | 'pun'
-
-join: number, number, number-> string
-join (x, y, z) =
-    return '${x}-${y}-${z}'
-
-join(1, 2, 3) | '1-2-3'
-
-eval_mod: (number -> number), number -> number
-eval_mod (x, y) =
-	return x(y % 10)
-
-double: number -> number
-double(x) =
-  return 2 * x
-
-eval_mod(double, 101) | 2
-
-eval_mistery: (number -> _), number -> _
-eval_mistery (x, y) =
-    return x(y)
-
-eval_mistery(pun, 999999999999999999) | 'pun'
-
-fun: matrix<number>, tuple<number, number, string> -> (int -> dictionary<number, string>)
-fun (M, t) =
-  inner_fun: number -> dictionary<number, string>
-  inner_fun (x) =
-    return {M[1]: '${t[2]} says: x is ${x}'}
-
-  return inner_fun
-
-spider_vocab = fun([1.1, 2.2, 3.3], (0, 101, 'spiderman'))
-spider_vocab(-1)[2.2] | 'spiderman says: x is -1'
+double('hello')  | Type mismatch error, because the function `double` expects argument of type `number`
 ```
