@@ -1,0 +1,3 @@
+i = true
+for c in i
+  g := 3

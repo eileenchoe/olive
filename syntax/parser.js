@@ -20,10 +20,9 @@ const {
   IfStatement,
   ExpressionStatement,
   Type,
-  IntegerLiteral,
+  NumberLiteral,
   BooleanLiteral,
   StringLiteral,
-  FloatLiteral,
   NoneLiteral,
   MutableBinding,
   ImmutableBinding,
@@ -37,10 +36,9 @@ const {
   SetExpression,
   DictionaryExpression,
   KeyValuePair,
-  // Immutables,
   StringInterpolation,
   Interpolation,
-  Range,
+  RangeExpression,
   FunctionCallExpression,
   FunctionDeclarationStatement,
   FunctionTypeAnnotation,
@@ -53,6 +51,7 @@ const {
 const fs = require('fs');
 const ohm = require('ohm-js');
 const withIndentsAndDedents = require('./preparser');
+// const util = require('util');
 
 const grammar = ohm.grammar(fs.readFileSync('./syntax/olive.ohm'));
 
@@ -66,8 +65,7 @@ const semantics = grammar.createSemantics().addOperation('ast', {
   Program(b) { return new Program(b.ast()); },
   Block(s) { return new Block(s.ast()); },
   boollit(_) { return new BooleanLiteral(this.sourceString === 'true'); },
-  intlit(_) { return new IntegerLiteral(this.sourceString); },
-  floatlit(_1, _2, _3) { return new FloatLiteral(this.sourceString); },
+  numlit(_1, _2, _3) { return new NumberLiteral(this.sourceString); },
   stringlit(_1, chars, _3) { return new StringLiteral(this.sourceString); },
   nonelit(_) { return new NoneLiteral(); },
   Statement_mutable(s, _, t) { return new MutableBinding(s.ast(), t.ast()); },
@@ -101,8 +99,9 @@ const semantics = grammar.createSemantics().addOperation('ast', {
     return new FunctionCallExpression(id.ast(), args.ast());
   },
   Statement_while(_, test, suite) { return new WhileStatement(test.ast(), suite.ast()); },
-  Statement_for(_1, left, _2, right, suite) {
-    return new ForStatement(left.ast(), right.ast(), suite.ast());
+  Statement_for(_1, id, _2, exp, suite) {
+    const idExp = new IdExpression(id.ast());
+    return new ForStatement(idExp, exp.ast(), suite.ast());
   },
   Statement_if(_1, firstTest, firstSuite, _2, moreTests, moreSuites, _3, lastSuite) {
     const tests = [firstTest.ast(), ...moreTests.ast()];
@@ -128,7 +127,7 @@ const semantics = grammar.createSemantics().addOperation('ast', {
   Range(open, start, _1, step, _2, end, close) {
     const openParen = open.primitiveValue;
     const closingParen = close.primitiveValue;
-    return new Range(openParen, start.ast(), step.ast(), end.ast(), closingParen);
+    return new RangeExpression(openParen, start.ast(), step.ast(), end.ast(), closingParen);
   },
   Dictionary(_1, v, _2) { return new DictionaryExpression([...v.ast()]); },
   KeyValuePair(k, _, v) { return new KeyValuePair(k.ast(), v.ast()); },

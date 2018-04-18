@@ -1,0 +1,7 @@
+x = 6
+if x + 5
+  x := 3
+else if x < 4
+  y = 0
+else
+  x := 4

@@ -2,43 +2,43 @@ fun: _->_
 fun () =
     print(1)
 
-fun: float, float, float -> float
+fun: number, number, number -> number
 fun (x, y, z) =
     return x
 
-fun: bool, int -> _
+fun: bool, number -> _
 fun (x, y) =
     print(x)
 
-fun: string, set<string>, matrix<int>, tuple<tuple<string,int>> -> range
+fun: string, set<string>, matrix<number>, tuple<tuple<string,number>> -> range
 fun (x, y, z) =
     return x + 2
 
-fun: float, int -> string
+fun: number, number -> string
 fun (x, z) =
     return 'hello'
 
-fun: float, string, int -> string
+fun: number, string, number -> string
 fun (x, z, z) =
     return 'hello'
 
-fun: (int -> int), int -> int
+fun: (number -> number), number -> number
 fun (x, y) =
     return x(y)
 
-fun: (int -> _), int -> int
+fun: (number -> _), number -> number
 fun (x, y) =
     return x(y)
 
-fun: (_ -> _), int -> int
+fun: (_ -> _), number -> number
 fun (x, y) =
     return x(y)
 
-fun: (_ -> _), (int -> string), (int -> int) -> _
+fun: (_ -> _), (number -> string), (number -> number) -> _
 fun (x, y, z) =
     print('Hello, World!')
     print('testing that I can use " within a quote')
 
-fun: (int, string, (int, string -> int) -> string), int -> int
+fun: (number, string, (number, string -> number) -> string), number -> number
 fun (x, y, z) =
     return z(y)

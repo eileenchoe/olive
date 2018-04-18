@@ -1,0 +1,4 @@
+double: number, string, number -> number
+double (x, y, z) =
+    x := 2
+    return x

@@ -33,7 +33,7 @@ Olive is a high-level, high-performance language for numerical computing. Olive 
 - None: `None`
 - tuple: `(2, 3, 5)`, `(800, 'San Francisco', true)`
 - matrix: `[0, 4 ,5]`, `[[3, 2], [8, 7]]`
-- dictionary: `{'a': 15, 'friends': 'best'}`
+- dictionary: `{'a': '15', 'friends': 'best'}`
 - set: `{2, 4, 7}`, `{'hello', 'friends'}`
 - range: `[0:1:10)`, `(0:0.01:1)`
 
@@ -200,11 +200,11 @@ they appear in the sequence (or in a random order if that structure is inherentl
 olive_types = ('kalamata', 'picholine', 'moroccan salt-cured', 'cerignola')
 for types in olive_types
   print(types)
-  
+
 friends = {'Mom', 'Dad'}
 for friend in friends
   print('${friend} is my best friend!')
-  
+
 for rand in random((1, 7), range=(0:1:10])
   if rand > 5
     print('yay')
@@ -240,12 +240,12 @@ for divisor in [2:n]
   if next_random % divisor == 0
     print('${n} is divisible by ${divisor}')
     break
-  
+
 ```
 
 ### Functions
 
-Olive requires function declarations to be preceded by a type annotation. At compile time, the Olive compiler will perform static semantic analysis to ensure type safety. 
+Olive requires function declarations to be preceded by a type annotation. At compile time, the Olive compiler will perform static semantic analysis to ensure type safety.
 
 ```
 say_hello: string -> void
@@ -269,7 +269,7 @@ factorial (x) =
   else if x == 0
     return 1
   return factorial(x - 1) * x
-  
+
 double: number -> number
 double (x) =
   return x + x
@@ -282,7 +282,7 @@ Olive functions are required to have a function type annotation. Here are a few 
 pun: number -> string
 pun (x) =
     return 'pun'
-    
+
 pun(-12.3) | 'pun'
 
 join: number, number, number-> string
@@ -304,7 +304,7 @@ eval_mod(double, 101) | 2
 eval_mistery: (number -> _), number -> _
 eval_mistery (x, y) =
     return x(y)
-    
+
 eval_mistery(pun, 999999999999999999) | 'pun'
 
 fun: matrix<number>, tuple<number, number, string> -> (int -> dictionary<number, string>)
@@ -312,9 +312,9 @@ fun (M, t) =
   inner_fun: number -> dictionary<number, string>
   inner_fun (x) =
     return {M[1]: '${t[2]} says: x is ${x}'}
-    
+
   return inner_fun
-  
+
 spider_vocab = fun([1.1, 2.2, 3.3], (0, 101, 'spiderman'))
 spider_vocab(-1)[2.2] | 'spiderman says: x is -1'
 ```

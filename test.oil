@@ -1,0 +1,5 @@
+double: number, string -> string
+double (x, s) =
+    return s
+
+double(1, 'hi')

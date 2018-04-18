@@ -1,4 +1,5 @@
 const { InitialContext } = require('./analyzer');
+// const util = require('util');
 
 const sameType = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 
@@ -7,8 +8,8 @@ class Type {
     this.name = name;
     Type.cache[name] = this;
   }
-  mustBeInteger(message) {
-    return this.mustBeCompatibleWith(Type.INT, message);
+  mustBeNumber(message) {
+    return this.mustBeCompatibleWith(Type.NUM, message);
   }
   mustBeBoolean(message) {
     return this.mustBeCompatibleWith(Type.BOOL, message);
@@ -25,7 +26,7 @@ class Type {
   }
   isCompatibleWith(otherType) {
     // In more sophisticated languages, comapatibility would be more complex
-    return this === otherType;
+    return sameType(this, otherType);
   }
 }
 
@@ -33,6 +34,15 @@ class MatrixType extends Type {
   constructor(type) {
     super('matrix');
     this.elementType = type;
+    this.isIterable = true;
+  }
+  assertSubscriptValidType(typeToCheck) { // eslint-disable-line
+    if (!sameType(typeToCheck, Type.NUM)) {
+      throw new Error('The subscript of a matrix must be a number.');
+    }
+  }
+  getElementType() {
+    return this.elementType;
   }
 }
 
@@ -44,9 +54,19 @@ class TupleType extends Type {
 }
 
 class SetType extends Type {
-  constructor(name, type) {
+  constructor(type) {
     super('set');
     this.elementType = type;
+    this.isIterable = true;
+    this.isNotBindable = true;
+  }
+  assertSubscriptValidType(typeToCheck) {
+    if (!sameType(typeToCheck, this.elementType)) {
+      throw new Error('You tried to access a value of a set using the incorrect subscript type.');
+    }
+  }
+  getElementType() {
+    return this.elementType;
   }
 }
 
@@ -55,20 +75,24 @@ class DictionaryType extends Type {
     super('dictionary');
     this.keyType = keyType;
     this.valueType = valueType;
+    this.isIterable = true;
+  }
+  assertSubscriptValidType(typeToCheck) {
+    if (!sameType(typeToCheck, this.keyType)) {
+      throw new Error('You tried to access a value of a dictionary using the incorrect key type.');
+    }
+  }
+  getElementType() {
+    return this.valueType;
   }
 }
 
 
 Type.cache = {};
 Type.BOOL = new Type('bool');
-Type.INT = new Type('int');
-Type.FLOAT = new Type('float');
+Type.NUM = new Type('number');
 Type.STRING = new Type('string');
 Type.NONE = new Type('none');
-Type.TUPLE = new Type('tuple');
-Type.MATRIX = new Type('matrix');
-Type.DICTIONARY = new Type('dictionary');
-Type.SET = new Type('set');
 Type.TEMPLATELITERAL = new Type('templateliteral');
 Type.RANGE = new Type('range');
 
@@ -86,9 +110,9 @@ class NoneLiteral {
 class StringLiteral {
   constructor(value) {
     this.value = value;
-    this.type = Type.STRING;
   }
   analyze() {
+    this.type = Type.STRING;
     return this;
   }
   optimize() {
@@ -96,12 +120,12 @@ class StringLiteral {
   }
 }
 
-class FloatLiteral {
+class NumberLiteral {
   constructor(value) {
     this.value = value;
-    this.type = Type.FLOAT;
   }
   analyze() {
+    this.type = Type.NUM;
     return this;
   }
   optimize() {
@@ -112,52 +136,34 @@ class FloatLiteral {
 class BooleanLiteral {
   constructor(value) {
     this.value = value;
+  }
+  analyze() {
     this.type = Type.BOOL;
-  }
-  analyze() {
     return this;
   }
   optimize() {
     return this;
   }
 }
-
-class IntegerLiteral {
-  constructor(value) {
-    this.value = value;
-    this.type = Type.INT;
-  }
-  analyze() {
-    return this;
-  }
-  optimize() {
-    return this;
-  }
-}
-
-// class VariableExpression {
-//   constructor(id) {
-//     this.id = id;
-//   }
-//   analyze(context) {
-//     this.referent = context.lookup(this.id);
-//     this.type = this.referent.type;
-//   }
-//   optimize() {
-//     return this;
-//   }
-// }
-
 
 class IdExpression {
   constructor(id) {
     Object.assign(this, { id }); // id is ALWAYS a string
   }
-  analyze() {
-    // this.referent = context.lookup(this.id);
-    // console.log(this.referent);
-    // this.type = this.referent.type;
-    return this;
+  analyze(context, inBinding) {
+    const referent = context.lookup(this.id);
+    if (inBinding) {
+      if (referent) {
+        this.referent = referent;
+        this.type = this.referent.type;
+      }
+      return;
+    }
+    if (!referent) {
+      throw new Error(`Variable with id ${this.id} not declared`);
+    }
+    this.referent = referent;
+    this.type = this.referent.type;
   }
   optimize() {
     return this;
@@ -165,24 +171,25 @@ class IdExpression {
 }
 
 class SubscriptExpression {
-  constructor(array, subscript) {
-    Object.assign(this, { array, subscript });
-    this.level = 1;
+  constructor(iterable, subscript) {
+    Object.assign(this, { iterable, subscript });
   }
 
   analyze(context) {
-    this.array.analyze(context);
-    this.test = this.subscript;
-    if (this.array instanceof IdExpression) {
-      const lookedUpValue = context.lookup(this.array.id);
-      if (lookedUpValue === null) {
-        throw new Error(`${this.array.id} has not been defined yet.`);
-      }
-      this.type = lookedUpValue.type;
-    } else {
-      this.level += 1;
-    }
     this.subscript.analyze(context);
+    this.iterable.analyze(context);
+    if (this.iterable instanceof IdExpression) {
+      const lookedUpValue = context.lookup(this.iterable.id);
+      if (lookedUpValue === null) {
+        throw new Error(`${this.iterable.id} has not been defined yet.`);
+      }
+      if (lookedUpValue.type.isIterable) {
+        lookedUpValue.type.assertSubscriptValidType(this.subscript.type);
+      }
+      this.type = lookedUpValue.type.getElementType();
+    } else if (this.iterable instanceof SubscriptExpression) {
+      this.type = this.iterable.iterable.type.elementType.elementType;
+    }
   }
 
   optimize() {
@@ -190,23 +197,15 @@ class SubscriptExpression {
   }
 }
 
-const lastSubscriptType = (exp) => {
-  let expression = exp;
-  while (expression.array instanceof SubscriptExpression) {
-    expression = expression.array;
-  }
-  return expression.type;
-};
-
 class Variable {
-  constructor(id, type) {
-    Object.assign(this, { id, type });
+  constructor(id, type, isMutable) {
+    Object.assign(this, { id, type, isMutable });
   }
-  analyze() {
-    return this;
-  }
-  optimize() {
-    return this;
+}
+
+class FunctionVariable {
+  constructor(id, referent) {
+    Object.assign(this, { id, referent });
   }
 }
 
@@ -214,17 +213,6 @@ const assertSameType = (value, test) => {
   if (!sameType(value, test)) {
     throw new Error('Type mismatch error');
   }
-};
-
-const matchTypeDepth = (target, sourceType) => {
-  let targetType = lastSubscriptType(target);
-  let depthOfSubscripts = target.level;
-
-  while (depthOfSubscripts > 0) {
-    targetType = targetType.elementType;
-    depthOfSubscripts -= 1;
-  }
-  assertSameType(targetType, sourceType);
 };
 
 class MutableBinding {
@@ -236,21 +224,25 @@ class MutableBinding {
       throw new Error('Number of variables does not equal number of initializers');
     }
     this.source.forEach(s => s.analyze(context));
-    this.target.forEach(t => t.analyze(context));
+    this.target.forEach(t => t.analyze(context, true));
 
     this.source.forEach((s, i) => {
-      // TODO: we only have this hardcoded, expecting just a IdExpression
-      // TODO: what happens if its a subscript expression coming in?! => need to have different case
       if (this.target[i] instanceof IdExpression) {
+        context.cannotRebindToImmutableBinding(this.target[i].id);
         const lookedUpValue = context.lookup(this.target[i].id);
-        if (!lookedUpValue) {
-          const v = new Variable(this.target[i].id, s.type);
+        if (lookedUpValue === null) {
+          const v = new Variable(this.target[i].id, s.type, true);
           context.add(v);
         } else {
+          // TODO: look in todo.txt set binding
+          // console.log(JSON.stringify(lookedUpValue.type));
+          // if (lookedUpValue.type.isNotBindable) {
+          //   throw new Error('Cannot rebind to a set.')
+          // }
           assertSameType(lookedUpValue.type, s.type);
         }
       } else if (this.target[i] instanceof SubscriptExpression) {
-        matchTypeDepth(this.target[i], s.type);
+        assertSameType(this.target[i].type, s.type);
       }
     });
   }
@@ -258,6 +250,14 @@ class MutableBinding {
     return this;
   }
 }
+
+/*
+  For the subscript type:
+    if it's a matrix or tuple: the subscript needs to be an int
+    else if it's a dictionary: the subscript needs to be a string
+    subscript = 'string'
+    a = Variable -> checkthat variable.type.keytype = subscript.type
+*/
 
 class ImmutableBinding {
   constructor(target, source) {
@@ -270,10 +270,9 @@ class ImmutableBinding {
     this.source.forEach(s => s.analyze(context));
     this.source.forEach((s, i) => {
       context.variableMustNotBeAlreadyDeclared(this.target[i]);
-      const v = new Variable(this.target[i], s.type);
+      const v = new Variable(this.target[i], s.type, false);
       context.add(v);
     });
-    console.log(context.declarations);
   }
   optimize() {
     return this;
@@ -288,7 +287,7 @@ class BinaryExpression {
     this.left.analyze(context);
     this.right.analyze(context);
     if (['<', '<=', '>=', '>'].includes(this.op)) {
-      this.mustHaveIntegerOperands();
+      this.mustHaveNumericOperands();
       this.type = Type.BOOL;
     } else if (['==', '!='].includes(this.op)) {
       this.mustHaveCompatibleOperands();
@@ -298,14 +297,144 @@ class BinaryExpression {
       this.type = Type.BOOL;
     } else {
       // All other binary operators are arithmetic
-      this.mustHaveIntegerOperands();
-      this.type = Type.INT;
+      this.mustHaveNumericOperands();
+      this.type = Type.NUM;
     }
   }
   optimize() {
     return this;
   }
+
+  mustHaveNumericOperands() {
+    const errorMessage = `${this.op} must have numeric operands`;
+    this.left.type.mustBeCompatibleWith(Type.NUM, errorMessage, this.op);
+    this.right.type.mustBeCompatibleWith(Type.NUM, errorMessage, this.op);
+  }
+  mustHaveBooleanOperands() {
+    const errorMessage = `${this.op} must have boolean operands`;
+    this.left.type.mustBeCompatibleWith(Type.BOOL, errorMessage, this.op);
+    this.right.type.mustBeCompatibleWith(Type.BOOL, errorMessage, this.op);
+  }
+  mustHaveCompatibleOperands() {
+    const errorMessage = `${this.op} must have mutually compatible operands`;
+    this.left.type.mustBeMutuallyCompatibleWith(this.right.type, errorMessage, this.op);
+  }
+  foldIntegerConstants() {
+    switch (this.op) {
+      case '+': return new NumberLiteral(+this.left + this.right);
+      case '-': return new NumberLiteral(+this.left - this.right);
+      case '*': return new NumberLiteral(+this.left * this.right);
+      case '/': return new NumberLiteral(+this.left / this.right);
+      case '<': return new BooleanLiteral(+this.left < this.right);
+      case '<=': return new BooleanLiteral(+this.left <= this.right);
+      case '==': return new BooleanLiteral(+this.left === this.right);
+      case '!=': return new BooleanLiteral(+this.left !== this.right);
+      case '>=': return new BooleanLiteral(+this.left >= this.right);
+      case '>': return new BooleanLiteral(+this.left > this.right);
+      default: return this;
+    }
+  }
+  foldBooleanConstants() {
+    switch (this.op) {
+      case '==': return new BooleanLiteral(this.left === this.right);
+      case '!=': return new BooleanLiteral(this.left !== this.right);
+      case 'and': return new BooleanLiteral(this.left && this.right);
+      case 'or': return new BooleanLiteral(this.left || this.right);
+      default: return this;
+    }
+  }
 }
+
+class MatrixExpression {
+  constructor(values) {
+    this.values = values;
+  }
+  analyze(context) {
+    this.values.forEach(value => value.analyze(context));
+    const memberType = this.values[0].type;
+    this.values.forEach((value) => {
+      if (!sameType(value.type, memberType)) {
+        throw new Error('Type mismatch among members of matrix');
+      }
+    });
+    this.type = new MatrixType(memberType);
+  }
+}
+
+class TupleExpression {
+  constructor(values) {
+    this.values = values;
+  }
+  analyze(context) {
+    const memberTypes = [];
+    this.values.forEach((value) => {
+      value.analyze(context);
+      memberTypes.push(value.type);
+    });
+    this.type = new TupleType(memberTypes);
+  }
+}
+
+class SetExpression {
+  constructor(values) {
+    this.values = values;
+  }
+  analyze(context) {
+    this.values.forEach(value => value.analyze(context));
+    const memberType = this.values[0].type;
+    this.values.forEach((value) => {
+      if (!sameType(value.type, memberType)) {
+        throw new Error('Type mismatch among members of set');
+      }
+    });
+    this.type = new SetType(memberType);
+  }
+}
+
+class DictionaryExpression {
+  constructor(values) {
+    this.values = values;
+  }
+  analyze(context) {
+    this.values.forEach(value => value.analyze(context));
+    const memberKeyType = this.values[0].key.type;
+    const memberValueType = this.values[0].value.type;
+    this.values.forEach((value) => {
+      if (!sameType(value.key.type, memberKeyType)
+        || !sameType(value.value.type, memberValueType)) {
+        throw new Error('Type mismatch among members of dictionary');
+      }
+    });
+    this.type = new DictionaryType(memberKeyType, memberValueType);
+  }
+}
+
+class RangeExpression {
+  constructor(open, start, step, end, close) {
+    this.start = start;
+    this.step = step;
+    this.end = end;
+    this.inclusiveStart = open === '[';
+    this.inclusiveEnd = close === ']';
+  }
+  analyze() {
+    this.type = Type.RANGE;
+  }
+}
+
+const determineIteratorType = (exp) => {
+  let expression = exp;
+  if (exp instanceof IdExpression) {
+    expression = exp.referent;
+  }
+  if (!expression.type.isIterable) {
+    throw new Error(`Type ${expression.type.name} is not iterable.`);
+  }
+  if (expression instanceof DictionaryExpression) {
+    return expression.type.keyType;
+  }
+  return expression.type.elementType;
+};
 
 class UnaryExpression {
   constructor(op, operand) {
@@ -396,7 +525,26 @@ class FunctionDeclarationStatement {
   }
 
   analyze(context) {
-    return this;
+    this.annotation.analyze(context);
+    if (this.parameters.length !== this.annotation.parameterTypes.length) {
+      throw new Error("The number of arguments in your function signature doesn't match the number of parameters.");
+    }
+    const childContext = context.createChildContextForFunctionBody(this);
+    this.parameters.forEach((param, index) => {
+      const x = new Variable(param, this.annotation.parameterTypes[index], false);
+      childContext.add(x);
+    });
+    this.body.analyze(childContext, true);
+
+    // Manually adding the function to the outer context
+    const functionForContext = new FunctionVariable(this.id, this);
+    context.add(functionForContext);
+
+    if (this.annotation.returnType) {
+      this.body.statements.filter(x => x instanceof ReturnStatement).forEach((returnStatement) => {
+        assertSameType(this.annotation.returnType, returnStatement.returnValue.type);
+      });
+    }
   }
 
   optimize() {
@@ -411,7 +559,14 @@ class FunctionCallExpression {
   }
 
   analyze(context) {
-    return this;
+    this.args.forEach(arg => arg.analyze());
+    const x = context.lookup(this.id);
+    if (x === null) { throw new Error(`A function with the name ${this.id} has not be declared yet.`); }
+    this.type = x.referent.annotation.returnType;
+    this.args.forEach((arg, index) => {
+      assertSameType(arg.type, x.referent.annotation.parameterTypes[index]);
+    });
+    // console.log(JSON.stringify(context.declarations));
   }
 
   optimize() {
@@ -427,8 +582,9 @@ class WhileStatement {
   analyze(context) {
     this.condition.analyze(context);
     this.condition.type.mustBeBoolean('Condition in "while" statement must be boolean');
-    this.body.analyze(context);
+    this.body.analyze(context, false);
   }
+
   optimize() {
     this.condition = this.condition.optimize();
     this.body = this.body.optimize();
@@ -439,12 +595,38 @@ class WhileStatement {
   }
 }
 
+class Block {
+  constructor(statements) {
+    this.statements = statements;
+  }
+
+  analyze(context, manualContext) {
+    // flag for whether or not we need to manually implement a context
+    // manual context should be true for both function and for
+    if (!manualContext) {
+      const localContext = context.createChildContextForBlock();
+      this.statements.forEach(s => s.analyze(localContext));
+      return;
+    }
+    this.statements.forEach(s => s.analyze(context));
+  }
+
+  optimize() {
+    this.statements = this.statements.map(s => s.optimize()).filter(s => s !== null);
+    return this;
+  }
+}
+
 class ForStatement {
-  constructor(left, right, body) {
-    Object.assign(this, { left, right, body });
+  constructor(id, exp, body) {
+    Object.assign(this, { id, exp, body });
   }
   analyze(context) {
-    return this;
+    this.exp.analyze(context);
+    const childContext = context.createChildContextForBlock();
+    const iterator = new Variable(this.id.id, determineIteratorType(this.exp), false);
+    childContext.add(iterator);
+    this.body.analyze(childContext, true);
   }
   optimize() {
     return this;
@@ -459,7 +641,7 @@ class IfStatement {
   analyze(context) {
     this.cases.forEach(c => c.analyze(context.createChildContextForBlock()));
     if (this.alternate) {
-      this.alternate.forEach(s => s.analyze(context.createChildContextForBlock()));
+      this.alternate.analyze(context.createChildContextForBlock());
     }
   }
 
@@ -470,95 +652,14 @@ class IfStatement {
   }
 }
 
-class MatrixExpression {
-  constructor(values) {
-    this.type = Type.MATRIX;
-    this.values = values;
-  }
-  analyze(context) {
-    this.values.forEach(value => value.analyze(context));
-    const memberType = this.values[0].type;
-    this.values.forEach((value, index) => {
-      if (!sameType(value.type, memberType)) {
-        throw new Error('Type mismatch among members of matrix');
-      }
-    });
-    this.type = new MatrixType(memberType);
-  }
-}
-
-class TupleExpression {
-  constructor(values) {
-    this.type = Type.TUPLE;
-    this.values = values;
-  }
-  analyze(context) {
-    const memberTypes = [];
-    this.values.forEach((value) => {
-      value.analyze(context);
-      memberTypes.push(value.type);
-    });
-    this.type = new TupleType(memberTypes);
-  }
-}
-
-class SetExpression {
-  constructor(values) {
-    this.type = Type.SET;
-    this.values = values;
-  }
-  analyze(context) {
-    this.values.forEach(value => value.analyze(context));
-    const memberType = this.values[0].type;
-    this.values.forEach((value) => {
-      if (!sameType(value.type, memberType)) {
-        throw new Error('Type mismatch among members of set');
-      }
-    });
-    this.type = new SetType(memberType);
-  }
-}
-
-class DictionaryExpression {
-  constructor(values) {
-    this.type = Type.DICTIONARY;
-    this.values = values;
-  }
-  analyze(context) {
-    this.values.forEach(value => value.analyze(context));
-    const memberKeyType = this.values[0].key.type;
-    const memberValueType = this.values[0].value.type;
-    this.values.forEach((value) => {
-      if (!sameType(value.key.type, memberKeyType)
-      || !sameType(value.value.type, memberValueType)) {
-        throw new Error('Type mismatch among members of dictionary');
-      }
-    });
-    this.type = new DictionaryType(memberKeyType, memberValueType);
-  }
-}
-
-class Range {
-  constructor(open, start, step, end, close) {
-    this.type = Type.RANGE;
-    this.start = start;
-    this.step = step;
-    this.end = end;
-    this.inclusiveStart = open === '[';
-    this.inclusiveEnd = close === ']';
-  }
-  analyze(context) {
-    return this;
-  }
-}
-
 class KeyValuePair {
   constructor(key, value) {
     this.key = key;
     this.value = value;
   }
   analyze(context) {
-    return this;
+    this.key.analyze(context);
+    this.value.analyze(context);
   }
 }
 
@@ -587,8 +688,8 @@ class Case {
 
   analyze(context) {
     this.test.analyze(context);
-    const bodyContext = context.createChildContextForBlock();
-    this.body.forEach(s => s.analyze(bodyContext));
+    this.test.type.mustBeBoolean('If statement tests must be boolean');
+    this.body.analyze(context, false);
   }
 
   optimize() {
@@ -600,19 +701,6 @@ class Case {
   }
 }
 
-class Block {
-  constructor(statements) {
-    this.statements = statements;
-  }
-  analyze(context) {
-    const localContext = context.createChildContextForBlock();
-    this.statements.forEach(s => s.analyze(localContext));
-  }
-  optimize() {
-    this.statements = this.statements.map(s => s.optimize()).filter(s => s !== null);
-    return this;
-  }
-}
 
 class Program {
   constructor(block) {
@@ -627,27 +715,11 @@ class Program {
   }
 }
 
-// function isZero(entity) {
-//   return entity instanceof IntegerLiteral && entity.value === 0;
-// }
-//
-// function isOne(entity) {
-//   return entity instanceof IntegerLiteral && entity.value === 1;
-// }
-//
-// function sameVariable(e1, e2) {
-//   return e1 instanceof VariableExpression &&
-//          e2 instanceof VariableExpression &&
-//          e1.referent === e2.referent;
-// }
-
-
 module.exports = {
   Type,
   BooleanLiteral,
-  IntegerLiteral,
+  NumberLiteral,
   StringLiteral,
-  FloatLiteral,
   NoneLiteral,
   IdExpression,
   SubscriptExpression,
@@ -664,7 +736,7 @@ module.exports = {
   TupleExpression,
   MatrixExpression,
   DictionaryExpression,
-  Range,
+  RangeExpression,
   SetExpression,
   KeyValuePair,
   Block,

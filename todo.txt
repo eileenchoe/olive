@@ -1,41 +1,14 @@
 TODO:
-- Exp4 => Exp ?? as dictionary values?
-- Types on dictionaries and matrices
-- Set
 
-- ForLoop(check and make sure this is correct)
-- Function
-- Parameter
+-update readme
+    sets are homogenous
+    dictionaries: the key must all be of the same type
+                  same for values
+    tuples are the only hetergeneous type we have
 
-- first function file for safekeeping:
-<function-unnamed-annotation.oil>
 
-fun: int, int -> int
-fun (x, y) =
-    return x + y
+- In context.declarations() -> the keys are ids and the values must be variables or fundecls
+- Decide how we want to do set membership and rebinding!
 
-- Additional things to implement if time permits:
-    String Concatenation
-    #### Concatenation
-    ```
-    greeting = 'hello'
-    name = 'olive'
-
-    complete_greeting = greeting ++ ', ' ++ name
-    ```
-
-    #### Anonymous Functions
-    ```
-    ((y) = 2 * y)(2)
-    ```
-- Add function type annotations to the ReadMe
-
-Fix function syntax in type annotation
-Function AST
-    - Function Declaration
-    - Function Call
-        * I don't know how to deal with the (Argument)?
-    - Annotation
-        * I'm not sure what to do about ParamAnn and ReturnAnn
-    - Parameter
-    - Argument
+- make a test to throw "throw new Error(`${this.iterable.id} has not been defined yet.`);
+"

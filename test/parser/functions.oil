@@ -1,4 +1,4 @@
-fun: matrix<int>, tuple<float, int, string> -> (int -> dictionary<int, string>)
+fun: matrix<number>, tuple<number, number, string> -> (number -> dictionary<number, string>)
 fun (y) =
   return 2 * y
 
