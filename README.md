@@ -10,8 +10,7 @@ Olive is a high-level, high-performance language for numerical computing. Olive 
 
 ## List of Features
 - `.oil` file extension
-- Named and Default Parameters
-- Strongly, Statically, and Implicitly Typed (Optional manifest typing for disambiguation)
+- Strongly, Statically, and Implicitly Typed
 - String Interpolation
 - Built in data structures
 
@@ -44,8 +43,8 @@ name = 'olive'
 language = true
 year = 2018
 
-x = 2.5     | immutable
-y := 2.3    | mutable
+x = 2.5     | immutable binding
+y := 2.3    | mutable binding
 y := 2.33
 
 | There are some built in constants
@@ -78,7 +77,7 @@ olives = ('kalamata', 'picholine', 'moroccan salt-cured', 'cerignola', 100)
 
 #### Dictionary
 
-Dictionary store homogenous key value pairs.
+Dictionary store key value pairs. All keys of a dictionary must have the same type, and all values must have the same type.
 
 ```
 color = {'red': 85, 'green': 107, 'blue': 47 }
@@ -243,8 +242,6 @@ for divisor in [2:n]
 ```
 
 ### Functions
-
-Functions may have named and default parameters.
 
 The compiler will perform static semantic analysis to ensure function parameters and return value are of the correct type.
 
