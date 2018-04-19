@@ -273,3 +273,33 @@ double (y) =
 
 double('hello')  | Type mismatch error, because the function `double` expects argument of type `number`
 ```
+
+## List of Semantic Errors
+Subscript Errors
+- Subscript of a matrix must be a number.
+- You tried to access a value of a set using the incorrect subscript type.
+- You tried to access a value of a dictionary using the incorrect key type.
+
+Reference Errors
+- Variable with id x not declared
+
+Binding Errors
+- Number of variables does not equal number of initializers
+
+Function Errors
+- The number of arguments in your function signature doesn't match the number of parameters.
+- A function with the name compute_averages has not be declared yet.
+
+Type Errors
+- Type mismatch among members of matrix
+- Type mismatch among members of set
+- Type mismatch among members of dictionary
+- Type mismatch error
+- + must have numeric operands
+- === must have boolean operands
+
+Control Flow Errors
+- Condition in "while" statement must be boolean
+- Type string is not iterable.
+- Return statement outside function
+- If statement tests must be boolean
