@@ -1,5 +1,5 @@
 const { InitialContext } = require('./analyzer');
-const util = require('util');
+// const util = require('util');
 
 const sameType = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 
@@ -526,8 +526,11 @@ class FunctionDeclarationStatement {
 
   analyze(context) {
     this.annotation.analyze(context);
+    if (this.annotation.parameterTypes === '_' && this.parameters.length > 0) {
+      throw new Error(`Function ${this.id} should not have any parameters as indicated by its type annotation`);
+    }
     if (this.parameters.length !== this.annotation.parameterTypes.length) {
-      throw new Error("The number of arguments in your function signature doesn't match the number of parameters.");
+      throw new Error(`The number of parameters in function signature and type annotation do not match for function ${this.id}`);
     }
     const childContext = context.createChildContextForFunctionBody(this);
     this.parameters.forEach((param, index) => {
@@ -542,6 +545,9 @@ class FunctionDeclarationStatement {
 
     if (this.annotation.returnType) {
       this.body.statements.filter(x => x instanceof ReturnStatement).forEach((returnStatement) => {
+        if (this.annotation.returnType === '_') {
+          throw new Error(`${this.id} should not have a return statement in its function body`);
+        }
         assertSameType(this.annotation.returnType, returnStatement.returnValue.type);
       });
     }
@@ -599,7 +605,6 @@ class Block {
   constructor(statements) {
     this.statements = statements;
   }
-
   analyze(context, manualContext) {
     // flag for whether or not we need to manually implement a context
     // manual context should be true for both function and for

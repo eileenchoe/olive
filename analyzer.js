@@ -12,6 +12,46 @@
 // const FunctionObject = require('../ast/function-object');
 // const Parameter = require('../ast/parameter');
 
+const {
+  Program,
+  Block,
+  ReturnStatement,
+  WhileStatement,
+  ForStatement,
+  IfStatement,
+  ExpressionStatement,
+  Type,
+  NumberLiteral,
+  BooleanLiteral,
+  StringLiteral,
+  NoneLiteral,
+  MutableBinding,
+  ImmutableBinding,
+  IdExpression,
+  SubscriptExpression,
+  BinaryExpression,
+  UnaryExpression,
+  Case,
+  MatrixExpression,
+  TupleExpression,
+  SetExpression,
+  DictionaryExpression,
+  KeyValuePair,
+  StringInterpolation,
+  Interpolation,
+  RangeExpression,
+  FunctionCallExpression,
+  FunctionDeclarationStatement,
+  FunctionTypeAnnotation,
+  MatrixType,
+  TupleType,
+  SetType,
+  DictionaryType,
+} = require('./ast');
+
+console.log(MatrixType);
+console.log(Type);
+
 class Context {
   constructor({ parent = null, currentFunction = null, inLoop = false } = {}) {
     Object.assign(this, {
@@ -87,7 +127,10 @@ class Context {
 }
 
 const InitialContext = new Context();
-// new FunctionDeclaration('print', [new Parameter('_', null)], null).analyze(Context.INITIAL);
+// const printAnnotation = new FunctionTypeAnnotation('print', Type.STRING, Type.NULL);
+// console.log(printAnnotation);
+// const printFunctionStatement = new FunctionDeclarationStatement(printAnnotation, 'print', ['_'], null);
+// printFunctionStatement.analyze(InitialContext);
 // new FunctionDeclaration('sqrt', [new Parameter('_', null)], null).analyze(Context.INITIAL);
 
 module.exports = { InitialContext };
