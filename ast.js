@@ -1,5 +1,5 @@
 const { InitialContext } = require('./analyzer');
-// const util = require('util');
+const util = require('util');
 
 const sameType = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 
@@ -93,7 +93,7 @@ Type.BOOL = new Type('bool');
 Type.NUM = new Type('number');
 Type.STRING = new Type('string');
 Type.NONE = new Type('none');
-Type.TEMPLATELITERAL = new Type('templateliteral');
+// Type.TEMPLATELITERAL = new Type('templateliteral');
 Type.RANGE = new Type('range');
 
 Type.forName = name => Type.cache[name];
@@ -668,7 +668,8 @@ class StringInterpolation {
     this.values = values;
   }
   analyze(context) {
-    return this;
+    this.values.forEach(value => value.analyze(context));
+    this.type = Type.STRING;
   }
 }
 
@@ -677,7 +678,7 @@ class Interpolation {
     this.value = v;
   }
   analyze(context) {
-    return this;
+    this.value.analyze(context);
   }
 }
 

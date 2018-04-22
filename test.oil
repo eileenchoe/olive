@@ -1,5 +1,2 @@
-double: number, string -> string
-double (x, s) =
-    return s
-
-double(1, 'hi')
+name = 'eileen'
+x := `hello, ${name}! You are ${10 + 2} years old.`

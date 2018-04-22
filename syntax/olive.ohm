@@ -57,8 +57,9 @@ Olive {
                         |  id                                                                                 -- id
   VarExps               =  NonemptyListOf<VarExp, ",">
 
-  StringInterpolation   = "`" ((~"`" ~"$" any) | Interpolation)* "`"
+  StringInterpolation   = "`" (InterpolationChar | Interpolation)* "`"
   Interpolation         = "${" Exp "}"
+  InterpolationChar     = (~"`" ~"$" any)
 
   types                 =  "number"
                         |  "string"

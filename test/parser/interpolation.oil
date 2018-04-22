@@ -1,2 +1,4 @@
+test = 'hi'
+var = test
 `start ${var} end`
 `start ${`${var}`} end`

@@ -67,6 +67,7 @@ const semantics = grammar.createSemantics().addOperation('ast', {
   boollit(_) { return new BooleanLiteral(this.sourceString === 'true'); },
   numlit(_1, _2, _3) { return new NumberLiteral(this.sourceString); },
   stringlit(_1, chars, _3) { return new StringLiteral(this.sourceString); },
+  InterpolationChar(char) { return new StringLiteral(this.sourceString); },
   nonelit(_) { return new NoneLiteral(); },
   Statement_mutable(s, _, t) { return new MutableBinding(s.ast(), t.ast()); },
   Statement_immutable(s, _, t) { return new ImmutableBinding(s.ast(), t.ast()); },
