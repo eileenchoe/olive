@@ -524,6 +524,13 @@ class FunctionDeclarationStatement {
     this.body = body;
   }
 
+  // Functions like print and sqrt which are pre-defined are known as
+  // "external" functions because they are not declared in the current
+  // module and we therefore don't generate code for them.
+  get isExternal() {
+    return !this.function.body;
+  }
+
   analyze(context) {
     this.annotation.analyze(context);
     if (this.annotation.parameterTypes === '_' && this.parameters.length > 0) {
@@ -532,24 +539,28 @@ class FunctionDeclarationStatement {
     if (this.parameters.length !== this.annotation.parameterTypes.length) {
       throw new Error(`The number of parameters in function signature and type annotation do not match for function ${this.id}`);
     }
-    const childContext = context.createChildContextForFunctionBody(this);
-    this.parameters.forEach((param, index) => {
-      const x = new Variable(param, this.annotation.parameterTypes[index], false);
-      childContext.add(x);
-    });
-    this.body.analyze(childContext, true);
 
     // Manually adding the function to the outer context
     const functionForContext = new FunctionVariable(this.id, this);
     context.add(functionForContext);
 
-    if (this.annotation.returnType) {
-      this.body.statements.filter(x => x instanceof ReturnStatement).forEach((returnStatement) => {
-        if (this.annotation.returnType === '_') {
-          throw new Error(`${this.id} should not have a return statement in its function body`);
-        }
-        assertSameType(this.annotation.returnType, returnStatement.returnValue.type);
+    if (this.body) { // null for built in functions
+      const childContext = context.createChildContextForFunctionBody(this);
+      this.parameters.forEach((param, index) => {
+        const x = new Variable(param, this.annotation.parameterTypes[index], false);
+        childContext.add(x);
       });
+
+      this.body.analyze(childContext, true);
+      if (this.annotation.returnType) {
+        this.body.statements
+          .filter(x => x instanceof ReturnStatement).forEach((returnStatement) => {
+            if (this.annotation.returnType === '_') {
+              throw new Error(`${this.id} should not have a return statement in its function body`);
+            }
+            assertSameType(this.annotation.returnType, returnStatement.returnValue.type);
+          });
+      }
     }
   }
 
@@ -565,14 +576,13 @@ class FunctionCallExpression {
   }
 
   analyze(context) {
-    this.args.forEach(arg => arg.analyze());
+    this.args.forEach(arg => arg.analyze(context));
     const x = context.lookup(this.id);
     if (x === null) { throw new Error(`A function with the name ${this.id} has not be declared yet.`); }
     this.type = x.referent.annotation.returnType;
     this.args.forEach((arg, index) => {
       assertSameType(arg.type, x.referent.annotation.parameterTypes[index]);
     });
-    // console.log(JSON.stringify(context.declarations));
   }
 
   optimize() {
@@ -606,8 +616,7 @@ class Block {
     this.statements = statements;
   }
   analyze(context, manualContext) {
-    // flag for whether or not we need to manually implement a context
-    // manual context should be true for both function and for
+    // flag for whether or not a child context was manually created (happens for functions and for)
     if (!manualContext) {
       const localContext = context.createChildContextForBlock();
       this.statements.forEach(s => s.analyze(localContext));
@@ -707,12 +716,19 @@ class Case {
   }
 }
 
+const addBuiltInFunctionsToContext = (context) => {
+  const printAnnotation = new FunctionTypeAnnotation('print', [Type.STRING], Type.STRING);
+  const printFunctionStatement = new FunctionDeclarationStatement(printAnnotation, 'print', ['_'], null);
+  printFunctionStatement.analyze(context);
+};
+
 
 class Program {
   constructor(block) {
     this.block = block;
   }
   analyze() {
+    addBuiltInFunctionsToContext(InitialContext);
     this.block.analyze(InitialContext);
   }
   optimize() {

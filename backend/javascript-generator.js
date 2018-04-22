@@ -14,6 +14,8 @@
 
 const Context = require('../analyzer');
 
+console.log(Context);
+
 const {
   Program,
   Block,
