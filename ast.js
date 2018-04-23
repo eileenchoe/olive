@@ -9,7 +9,7 @@ class Type {
     Type.cache[name] = this;
   }
   mustBeNumber(message) {
-    return this.mustBeCompatibleWith(Type.NUM, message);
+    return this.mustBeCompatibleWith(Type.NUMBER, message);
   }
   mustBeBoolean(message) {
     return this.mustBeCompatibleWith(Type.BOOL, message);
@@ -37,7 +37,7 @@ class MatrixType extends Type {
     this.isIterable = true;
   }
   assertSubscriptValidType(typeToCheck) { // eslint-disable-line
-    if (!sameType(typeToCheck, Type.NUM)) {
+    if (!sameType(typeToCheck, Type.NUMBER)) {
       throw new Error('The subscript of a matrix must be a number.');
     }
   }
@@ -90,7 +90,7 @@ class DictionaryType extends Type {
 
 Type.cache = {};
 Type.BOOL = new Type('bool');
-Type.NUM = new Type('number');
+Type.NUMBER = new Type('number');
 Type.STRING = new Type('string');
 Type.NONE = new Type('none');
 // Type.TEMPLATELITERAL = new Type('templateliteral');
@@ -125,7 +125,7 @@ class NumberLiteral {
     this.value = value;
   }
   analyze() {
-    this.type = Type.NUM;
+    this.type = Type.NUMBER;
     return this;
   }
   optimize() {
@@ -232,7 +232,9 @@ class MutableBinding {
         const lookedUpValue = context.lookup(this.target[i].id);
         if (lookedUpValue === null) {
           const v = new Variable(this.target[i].id, s.type, true);
+          this.target[i].referent = v;
           context.add(v);
+          this.isAVariableDeclaration = true;
         } else {
           // TODO: look in todo.txt set binding
           // console.log(JSON.stringify(lookedUpValue.type));
@@ -268,13 +270,14 @@ class ImmutableBinding {
       throw new Error('Number of variables does not equal number of initializers');
     }
     this.source.forEach(s => s.analyze(context));
-    this.variables = [];
+    const targetsAsVariables = [];
     this.source.forEach((s, i) => {
       context.variableMustNotBeAlreadyDeclared(this.target[i]);
       const v = new Variable(this.target[i], s.type, false);
       context.add(v);
-      this.variables.push(v);
+      targetsAsVariables.push(v);
     });
+    this.target = targetsAsVariables; // overwrite sources with their variable equivalents
   }
   optimize() {
     return this;
@@ -300,7 +303,7 @@ class BinaryExpression {
     } else {
       // All other binary operators are arithmetic
       this.mustHaveNumericOperands();
-      this.type = Type.NUM;
+      this.type = Type.NUMBER;
     }
   }
   optimize() {
@@ -309,8 +312,8 @@ class BinaryExpression {
 
   mustHaveNumericOperands() {
     const errorMessage = `${this.op} must have numeric operands`;
-    this.left.type.mustBeCompatibleWith(Type.NUM, errorMessage, this.op);
-    this.right.type.mustBeCompatibleWith(Type.NUM, errorMessage, this.op);
+    this.left.type.mustBeCompatibleWith(Type.NUMBER, errorMessage, this.op);
+    this.right.type.mustBeCompatibleWith(Type.NUMBER, errorMessage, this.op);
   }
   mustHaveBooleanOperands() {
     const errorMessage = `${this.op} must have boolean operands`;
@@ -544,7 +547,7 @@ class FunctionDeclarationStatement {
 
     // Manually adding the function to the outer context
     const functionForContext = new FunctionVariable(this.id, this);
-    this.variable = functionForContext;
+    // this.variable = functionForContext; // TODO: I don't think this reference
     context.add(functionForContext);
 
     if (this.body) { // null for built in functions
@@ -722,13 +725,11 @@ class Case {
 const addBuiltInFunctionsToContext = (context) => {
   const printFunctionAnnotation = new FunctionTypeAnnotation('print', [Type.STRING], Type.STRING);
   const printFunctionStatement = new FunctionDeclarationStatement(printFunctionAnnotation, 'print', ['_'], null);
-  const print = new FunctionVariable('print', printFunctionStatement);
-  context.add(print);
+  printFunctionStatement.analyze(context);
 
   const sqrtFunctionAnnotation = new FunctionTypeAnnotation('sqrt', [Type.NUMBER], Type.NUMBER);
   const sqrtFunctionStatement = new FunctionDeclarationStatement(sqrtFunctionAnnotation, 'sqrt', ['_'], null);
-  const sqrt = new FunctionVariable('sqrt', sqrtFunctionStatement);
-  context.add(sqrt);
+  sqrtFunctionStatement.analyze(context);
 };
 
 

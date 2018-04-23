@@ -4,3 +4,4 @@ double: number -> number
 double (y) =
   print(outer)
   return 2 * y
+sqrt(123)

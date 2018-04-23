@@ -72,13 +72,10 @@ const addBuiltInFunctionsToContext = (context) => {
   const printFunctionAnnotation = new FunctionTypeAnnotation('print', [Type.STRING], Type.STRING);
   const printFunctionStatement = new FunctionDeclarationStatement(printFunctionAnnotation, 'print', ['_'], null);
   printFunctionStatement.analyze(context);
-  // const print = new FunctionVariable('print', printFunctionStatement);
-  // context.add(print);
 
   const sqrtFunctionAnnotation = new FunctionTypeAnnotation('sqrt', [Type.NUMBER], Type.NUMBER);
   const sqrtFunctionStatement = new FunctionDeclarationStatement(sqrtFunctionAnnotation, 'sqrt', ['_'], null);
-  const sqrt = new FunctionVariable('sqrt', sqrtFunctionStatement);
-  context.add(sqrt);
+  sqrtFunctionStatement.analyze(context);
 };
 
 addBuiltInFunctionsToContext(InitialContext);
@@ -276,9 +273,21 @@ Object.assign(UnaryExpression.prototype, {
 
 Object.assign(ImmutableBinding.prototype, {
   gen() {
-    const variables = this.variables.map(t => t.gen());
+    const variables = this.target.map(t => t.gen());
     const initializers = this.source.map(s => s.gen());
-    emit(`let ${bracketIfNecessary(variables)} = ${bracketIfNecessary(initializers)};`);
+    emit(`const ${bracketIfNecessary(variables)} = ${bracketIfNecessary(initializers)};`);
+  },
+});
+
+Object.assign(MutableBinding.prototype, {
+  gen() {
+    const targets = this.target.map(t => t.gen());
+    const sources = this.source.map(s => s.gen());
+    if (this.isAVariableDeclaration) {
+      emit(`let ${bracketIfNecessary(targets)} = ${bracketIfNecessary(sources)};`);
+    } else {
+      emit(`${bracketIfNecessary(targets)} = ${bracketIfNecessary(sources)};`);
+    }
   },
 });
 
