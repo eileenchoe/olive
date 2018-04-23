@@ -268,10 +268,12 @@ class ImmutableBinding {
       throw new Error('Number of variables does not equal number of initializers');
     }
     this.source.forEach(s => s.analyze(context));
+    this.variables = [];
     this.source.forEach((s, i) => {
       context.variableMustNotBeAlreadyDeclared(this.target[i]);
       const v = new Variable(this.target[i], s.type, false);
       context.add(v);
+      this.variables.push(v);
     });
   }
   optimize() {
@@ -542,6 +544,7 @@ class FunctionDeclarationStatement {
 
     // Manually adding the function to the outer context
     const functionForContext = new FunctionVariable(this.id, this);
+    this.variable = functionForContext;
     context.add(functionForContext);
 
     if (this.body) { // null for built in functions
@@ -577,11 +580,11 @@ class FunctionCallExpression {
 
   analyze(context) {
     this.args.forEach(arg => arg.analyze(context));
-    const x = context.lookup(this.id);
-    if (x === null) { throw new Error(`A function with the name ${this.id} has not be declared yet.`); }
-    this.type = x.referent.annotation.returnType;
+    this.callee = context.lookup(this.id);
+    if (this.callee === null) { throw new Error(`A function with the name ${this.id} has not be declared yet.`); }
+    this.type = this.callee.referent.annotation.returnType;
     this.args.forEach((arg, index) => {
-      assertSameType(arg.type, x.referent.annotation.parameterTypes[index]);
+      assertSameType(arg.type, this.callee.referent.annotation.parameterTypes[index]);
     });
   }
 
@@ -717,9 +720,15 @@ class Case {
 }
 
 const addBuiltInFunctionsToContext = (context) => {
-  const printAnnotation = new FunctionTypeAnnotation('print', [Type.STRING], Type.STRING);
-  const printFunctionStatement = new FunctionDeclarationStatement(printAnnotation, 'print', ['_'], null);
-  printFunctionStatement.analyze(context);
+  const printFunctionAnnotation = new FunctionTypeAnnotation('print', [Type.STRING], Type.STRING);
+  const printFunctionStatement = new FunctionDeclarationStatement(printFunctionAnnotation, 'print', ['_'], null);
+  const print = new FunctionVariable('print', printFunctionStatement);
+  context.add(print);
+
+  const sqrtFunctionAnnotation = new FunctionTypeAnnotation('sqrt', [Type.NUMBER], Type.NUMBER);
+  const sqrtFunctionStatement = new FunctionDeclarationStatement(sqrtFunctionAnnotation, 'sqrt', ['_'], null);
+  const sqrt = new FunctionVariable('sqrt', sqrtFunctionStatement);
+  context.add(sqrt);
 };
 
 
@@ -772,4 +781,6 @@ module.exports = {
   SetType,
   TupleType,
   DictionaryType,
+  Variable,
+  FunctionVariable,
 };

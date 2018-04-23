@@ -12,9 +12,7 @@
  *   program.gen();
  */
 
-const Context = require('../analyzer');
-
-console.log(Context);
+const { InitialContext } = require('../analyzer');
 
 const {
   Program,
@@ -52,7 +50,39 @@ const {
   SetType,
   DictionaryType,
   Variable,
+  FunctionVariable,
 } = require('../ast');
+/*
+ * Translation to JavaScript
+ *
+ * Requiring this module adds a gen() method to each of the AST classes.
+ * Nothing is actually exported from this module.
+ *
+ * Generally, calling e.gen() where e is an expression node will return the
+ * JavaScript translation as a string, while calling s.gen() where s is a
+ * statement-level node will write its translation to standard output.
+ *
+ *   require('./backend/javascript-generator');
+ *   program.gen();
+ */
+
+// TODO: this is copied code.
+// should be imported from AST or wherever we choose to define built in functions
+const addBuiltInFunctionsToContext = (context) => {
+  const printFunctionAnnotation = new FunctionTypeAnnotation('print', [Type.STRING], Type.STRING);
+  const printFunctionStatement = new FunctionDeclarationStatement(printFunctionAnnotation, 'print', ['_'], null);
+  printFunctionStatement.analyze(context);
+  // const print = new FunctionVariable('print', printFunctionStatement);
+  // context.add(print);
+
+  const sqrtFunctionAnnotation = new FunctionTypeAnnotation('sqrt', [Type.NUMBER], Type.NUMBER);
+  const sqrtFunctionStatement = new FunctionDeclarationStatement(sqrtFunctionAnnotation, 'sqrt', ['_'], null);
+  const sqrt = new FunctionVariable('sqrt', sqrtFunctionStatement);
+  context.add(sqrt);
+};
+
+addBuiltInFunctionsToContext(InitialContext);
+
 
 const indentPadding = 2;
 let indentLevel = 0;
@@ -69,7 +99,13 @@ function genStatementList(statements) {
 
 function makeOp(op) {
   return {
-    not: '!', and: '&&', or: '||', '==': '===', '!=': '!==',
+    not: '!',
+    and: '&&',
+    or: '||',
+    '==': '===',
+    '!=': '!==',
+    '>=': '>==',
+    '<=': '<==',
   }[op] || op;
 }
 
@@ -102,7 +138,7 @@ function bracketIfNecessary(a) {
 
 function generateLibraryFunctions() {
   function generateLibraryStub(name, params, body) {
-    const entity = Context.INITIAL.declarations[name];
+    const entity = InitialContext.declarations[name];
     emit(`function ${jsName(entity)}(${params}) {${body}}`);
   }
   // This is sloppy. There should be a better way to do this.
@@ -110,17 +146,9 @@ function generateLibraryFunctions() {
   generateLibraryStub('sqrt', '_', 'return Math.sqrt(_);');
 }
 
-Object.assign(Argument.prototype, {
-  gen() { return this.expression.gen(); },
-});
-
-Object.assign(NumberLiteral.prototype, {
-  gen() {
-    const targets = this.targets.map(t => t.gen());
-    const sources = this.sources.map(s => s.gen());
-    emit(`${bracketIfNecessary(targets)} = ${bracketIfNecessary(sources)};`);
-  },
-});
+// Object.assign(Argument.prototype, {
+//   gen() { return this.expression.gen(); },
+// });
 
 Object.assign(BinaryExpression.prototype, {
   gen() { return `(${this.left.gen()} ${makeOp(this.op)} ${this.right.gen()})`; },
@@ -130,38 +158,45 @@ Object.assign(BooleanLiteral.prototype, {
   gen() { return `${this.value}`; },
 });
 
-Object.assign(BreakStatement.prototype, {
-  gen() { return 'break;'; },
-});
+// Object.assign(BreakStatement.prototype, {
+//   gen() { return 'break;'; },
+// });
 
-Object.assign(CallStatement.prototype, {
-  gen() { emit(`${this.call.gen()};`); },
-});
+// Object.assign(CallStatement.prototype, {
+//   gen() { emit(`${this.call.gen()};`); },
+// });
 
-Object.assign(Call.prototype, {
+// Object.assign(Call.prototype, {
+//   gen() {
+//     const fun = this.callee.referent;
+//     const params = {};
+//     const args = Array(this.args.length).fill(undefined);
+//     fun.params.forEach((p, i) => { params[p.id] = i; });
+//     this.args.forEach((a, i) => { args[a.isPositionalArgument ? i : params[a.id]] = a; });
+//     return `${jsName(fun)}(${args.map(a => (a ? a.gen() : 'undefined')).join(', ')})`;
+//   },
+// });
+
+Object.assign(FunctionCallExpression.prototype, {
   gen() {
-    const fun = this.callee.referent;
-    const params = {};
-    const args = Array(this.args.length).fill(undefined);
-    fun.params.forEach((p, i) => { params[p.id] = i; });
-    this.args.forEach((a, i) => { args[a.isPositionalArgument ? i : params[a.id]] = a; });
-    return `${jsName(fun)}(${args.map(a => (a ? a.gen() : 'undefined')).join(', ')})`;
+    const fun = this.callee;
+    return `${jsName(fun)}(${this.args.map(a => (a ? a.gen() : 'undefined')).join(', ')})`;
   },
 });
 
-Object.assign(FunctionDeclaration.prototype, {
-  gen() { return this.function.gen(); },
-});
+// Object.assign(FunctionDeclaration.prototype, {
+//   gen() { return this.function.gen(); },
+// });
+//
+// Object.assign(FunctionObject.prototype, {
+//   gen() {
+//     emit(`function ${jsName(this)}(${this.params.map(p => p.gen()).join(', ')}) {`);
+//     genStatementList(this.body);
+//     emit('}');
+//   },
+// });
 
-Object.assign(FunctionObject.prototype, {
-  gen() {
-    emit(`function ${jsName(this)}(${this.params.map(p => p.gen()).join(', ')}) {`);
-    genStatementList(this.body);
-    emit('}');
-  },
-});
-
-Object.assign(IdentifierExpression.prototype, {
+Object.assign(IdExpression.prototype, {
   gen() { return this.referent.gen(); },
 });
 
@@ -180,30 +215,42 @@ Object.assign(IfStatement.prototype, {
   },
 });
 
-Object.assign(NumericLiteral.prototype, {
+Object.assign(NumberLiteral.prototype, {
   gen() { return `${this.value}`; },
 });
 
-Object.assign(Parameter.prototype, {
-  gen() {
-    let translation = jsName(this);
-    if (this.defaultExpression) {
-      translation += ` = ${this.defaultExpression.gen()}`;
-    }
-    return translation;
-  },
-});
+// Object.assign(Parameter.prototype, {
+//   gen() {
+//     let translation = jsName(this);
+//     if (this.defaultExpression) {
+//       translation += ` = ${this.defaultExpression.gen()}`;
+//     }
+//     return translation;
+//   },
+// });
 
 Object.assign(Program.prototype, {
   gen() {
     generateLibraryFunctions();
-    this.statements.forEach(statement => statement.gen());
+    this.block.gen();
   },
+});
+
+Object.assign(Block.prototype, {
+  gen() {
+    this.statements.forEach((statement) => {
+      statement.gen();
+    });
+  },
+});
+
+Object.assign(ExpressionStatement.prototype, {
+  gen() { emit(`${this.body.gen()};`); },
 });
 
 Object.assign(ReturnStatement.prototype, {
   gen() {
-    if (this.returnValue) {
+    if (this.returnValue) { // TODO: implement returnValue getter in olive
       emit(`return ${this.returnValue.gen()};`);
     } else {
       emit('return;');
@@ -215,29 +262,32 @@ Object.assign(StringLiteral.prototype, {
   gen() { return `${this.value}`; },
 });
 
-Object.assign(SubscriptedExpression.prototype, {
-  gen() {
-    const base = this.variable.gen();
-    const subscript = this.subscript.gen();
-    return `${base}[${subscript}]`;
-  },
-});
+// Object.assign(SubscriptedExpression.prototype, {
+//   gen() {
+//     const base = this.variable.gen();
+//     const subscript = this.subscript.gen();
+//     return `${base}[${subscript}]`;
+//   },
+// });
 
 Object.assign(UnaryExpression.prototype, {
   gen() { return `(${makeOp(this.op)} ${this.operand.gen()})`; },
 });
 
-Object.assign(VariableDeclaration.prototype, {
+Object.assign(ImmutableBinding.prototype, {
   gen() {
-    const variables = this.variables.map(v => v.gen());
-    const initializers = this.initializers.map(i => i.gen());
+    const variables = this.variables.map(t => t.gen());
+    const initializers = this.source.map(s => s.gen());
     emit(`let ${bracketIfNecessary(variables)} = ${bracketIfNecessary(initializers)};`);
   },
 });
 
-Object.assign(Variable.prototype, {
-  gen() { return jsName(this); },
-});
+// Object.assign(ImmutableBinding.prototype, { // TODO: this is wrong
+//   gen() {
+//     const sources = this.source.map(s => s.gen());
+//     emit(`${bracketIfNecessary(this.target)} = ${bracketIfNecessary(sources)};`);
+//   },
+// });
 
 Object.assign(WhileStatement.prototype, {
   gen() {
@@ -245,4 +295,12 @@ Object.assign(WhileStatement.prototype, {
     genStatementList(this.body);
     emit('}');
   },
+});
+
+Object.assign(Variable.prototype, {
+  gen() { return jsName(this); },
+});
+
+Object.assign(FunctionVariable.prototype, {
+  gen() { return jsName(this); },
 });

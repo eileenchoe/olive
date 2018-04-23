@@ -34,7 +34,7 @@ const { argv } = require('yargs')
 const fs = require('fs');
 const util = require('util');
 const parse = require('./syntax/parser');
-// require('./backend/javascript-generator');
+require('./backend/javascript-generator');
 
 fs.readFile(argv._[0], 'utf-8', (err, text) => {
   if (err) {
