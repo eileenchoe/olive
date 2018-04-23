@@ -143,9 +143,21 @@ function generateLibraryFunctions() {
   generateLibraryStub('sqrt', '_', 'return Math.sqrt(_);');
 }
 
-// Object.assign(Argument.prototype, {
-//   gen() { return this.expression.gen(); },
-// });
+const createListAsString = (acc, current, i) => ((i === 0) ? `${current}` : `${acc}, ${current}`);
+
+Object.assign(MatrixExpression.prototype, {
+  gen() {
+    const values = this.values.map(v => v.gen());
+    return `[${values.reduce(createListAsString, '')}]`;
+  },
+});
+
+Object.assign(DictionaryExpression.prototype, {
+  gen() {
+    const keyValuePairArray = this.values.map(v => `${v.key.gen()}: ${v.value.gen()}`);
+    return `{${keyValuePairArray.reduce(createListAsString, '')}}`;
+  },
+});
 
 Object.assign(BinaryExpression.prototype, {
   gen() { return `(${this.left.gen()} ${makeOp(this.op)} ${this.right.gen()})`; },
@@ -259,13 +271,13 @@ Object.assign(StringLiteral.prototype, {
   gen() { return `${this.value}`; },
 });
 
-// Object.assign(SubscriptedExpression.prototype, {
-//   gen() {
-//     const base = this.variable.gen();
-//     const subscript = this.subscript.gen();
-//     return `${base}[${subscript}]`;
-//   },
-// });
+Object.assign(SubscriptExpression.prototype, {
+  gen() {
+    const base = this.iterable.gen();
+    const subscript = this.subscript.gen();
+    return `${base}[${subscript}]`;
+  },
+});
 
 Object.assign(UnaryExpression.prototype, {
   gen() { return `(${makeOp(this.op)} ${this.operand.gen()})`; },
@@ -291,17 +303,10 @@ Object.assign(MutableBinding.prototype, {
   },
 });
 
-// Object.assign(ImmutableBinding.prototype, { // TODO: this is wrong
-//   gen() {
-//     const sources = this.source.map(s => s.gen());
-//     emit(`${bracketIfNecessary(this.target)} = ${bracketIfNecessary(sources)};`);
-//   },
-// });
-
 Object.assign(WhileStatement.prototype, {
   gen() {
-    emit(`while (${this.test.gen()}) {`);
-    genStatementList(this.body);
+    emit(`while (${this.condition.gen()}) {`);
+    genStatementList(this.body.statements);
     emit('}');
   },
 });
