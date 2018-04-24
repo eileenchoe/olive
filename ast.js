@@ -604,7 +604,7 @@ class WhileStatement {
   analyze(context) {
     this.condition.analyze(context);
     this.condition.type.mustBeBoolean('Condition in "while" statement must be boolean');
-    this.body.analyze(context, false);
+    this.body.analyze(context.createChildContextForLoop(), false);
   }
 
   optimize() {
@@ -643,7 +643,7 @@ class ForStatement {
   }
   analyze(context) {
     this.exp.analyze(context);
-    const childContext = context.createChildContextForBlock();
+    const childContext = context.createChildContextForLoop();
     const iterator = new Variable(this.id.id, determineIteratorType(this.exp), false);
     childContext.add(iterator);
     this.body.analyze(childContext, true);
@@ -747,6 +747,22 @@ class Program {
   }
 }
 
+class BreakStatement {
+  analyze(context) {
+    if (!context.inLoop) {
+      throw new Error('Break statement outside loop')
+    }
+  }
+}
+
+class PassStatement {
+  analyze(context) {
+    if (!context.inLoop) {
+      throw new Error('Pass statement outside loop')
+    }
+  }
+}
+
 module.exports = {
   Type,
   BooleanLiteral,
@@ -759,6 +775,8 @@ module.exports = {
   UnaryExpression,
   MutableBinding,
   ImmutableBinding,
+  BreakStatement,
+  PassStatement,
   ReturnStatement,
   WhileStatement,
   ForStatement,

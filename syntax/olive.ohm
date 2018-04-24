@@ -4,6 +4,8 @@ Olive {
   Statement             =  Ids "=" Exps                                                                       -- immutable
                         |  VarExps ":=" Exps                                                                  -- mutable
                         |  FunctionDecl                                                                       -- functiondeclaration
+                        |  "break"                                                                            -- break
+                        |  "pass"                                                                             -- pass
                         |  "return" Exp?                                                                      -- return
                         |  "while" Exp Suite                                                                  -- while
                         |  "for" id "in" Exp Suite                                                            -- for
