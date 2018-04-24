@@ -51,6 +51,8 @@ const {
   DictionaryType,
   Variable,
   FunctionVariable,
+  BreakStatement,
+  PassStatement,
 } = require('../ast');
 /*
  * Translation to JavaScript
@@ -90,7 +92,9 @@ function emit(line) {
 
 function genStatementList(statements) {
   indentLevel += 1;
-  statements.forEach(statement => statement.gen());
+  statements.forEach(statement => {
+    statement.gen()
+  });
   indentLevel -= 1;
 }
 
@@ -167,9 +171,13 @@ Object.assign(BooleanLiteral.prototype, {
   gen() { return `${this.value}`; },
 });
 
-// Object.assign(BreakStatement.prototype, {
-//   gen() { return 'break;'; },
-// });
+Object.assign(BreakStatement.prototype, {
+  gen() { emit('break;'); },
+});
+
+Object.assign(PassStatement.prototype, {
+  gen() { emit('continue;'); },
+});
 
 // Object.assign(CallStatement.prototype, {
 //   gen() { emit(`${this.call.gen()};`); },
@@ -214,11 +222,11 @@ Object.assign(IfStatement.prototype, {
     this.cases.forEach((c, index) => {
       const prefix = index === 0 ? 'if' : '} else if';
       emit(`${prefix} (${c.test.gen()}) {`);
-      genStatementList(c.body);
+      genStatementList(c.body.statements);
     });
     if (this.alternate) {
       emit('} else {');
-      genStatementList(this.alternate);
+      genStatementList(this.alternate.statements);
     }
     emit('}');
   },
