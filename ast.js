@@ -422,7 +422,13 @@ class RangeExpression {
     this.inclusiveStart = open === '[';
     this.inclusiveEnd = close === ']';
   }
-  analyze() {
+  analyze(context) {
+    this.start.analyze(context);
+    this.step.analyze(context);
+    this.end.analyze(context);
+    if (!sameType(this.start.type, Type.NUMBER) || !sameType(this.step.type, Type.NUMBER) || !sameType(this.end.type, Type.NUMBER)) {
+      throw new Error('Range expression values must evaluate to numbers');
+    }
     this.type = Type.RANGE;
   }
 }
@@ -448,6 +454,16 @@ class UnaryExpression {
 
   analyze(context) {
     this.operand.analyze(context);
+    if (this.op === '-') {
+      if(!sameType(this.operand.type, Type.NUMBER)) {
+        throw new Error('Unary operator minus can only be applied to numbers');
+      }
+    } else if (this.op === 'not') {
+      if(!sameType(this.operand.type, Type.BOOL)) {
+        throw new Error('Unary operator not can only be applied to bools');
+      }
+    }
+    this.type = this.operand.type;
   }
 
   optimize() {
