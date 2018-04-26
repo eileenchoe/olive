@@ -752,6 +752,11 @@ const addBuiltInFunctionsToContext = (context) => {
   const sqrtFunctionAnnotation = new FunctionTypeAnnotation('sqrt', [Type.NUMBER], Type.NUMBER);
   const sqrtFunctionStatement = new FunctionDeclarationStatement(sqrtFunctionAnnotation, 'sqrt', ['_'], null);
   sqrtFunctionStatement.analyze(context);
+
+  const generateMatrixFromRangeOutputType = new MatrixType(Type.NUMBER);
+  const generateMatrixFromRangeAnnotation = new FunctionTypeAnnotation('generateMatrixFromRange', [Type.BOOL, Type.NUMBER, Type.NUMBER, Type.NUMBER, Type.BOOL], generateMatrixFromRangeOutputType);
+  const generateMatrixFromRangeStatement = new FunctionDeclarationStatement(generateMatrixFromRangeAnnotation, 'generateMatrixFromRange', ['inclusiveStart', 'start', 'step', 'end', 'inclusiveEnd'], null);
+  generateMatrixFromRangeStatement.analyze(context);
 };
 
 
