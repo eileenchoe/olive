@@ -19,7 +19,7 @@ while x < 5
 
 dict = {'x': 1, 'y': 2}
 
-if (false)
+if (false and true)
   x := 8
   x := 2
 else if (x == 3)

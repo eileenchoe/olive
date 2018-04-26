@@ -22,7 +22,7 @@ const {
   ForStatement,
   IfStatement,
   ExpressionStatement,
-  Type,
+  // Type,
   NumberLiteral,
   BooleanLiteral,
   StringLiteral,
@@ -33,22 +33,22 @@ const {
   SubscriptExpression,
   BinaryExpression,
   UnaryExpression,
-  Case,
+  // Case,
   MatrixExpression,
   TupleExpression,
   SetExpression,
   DictionaryExpression,
-  KeyValuePair,
+  // KeyValuePair,
   StringInterpolation,
-  Interpolation,
+  // Interpolation,
   RangeExpression,
   FunctionCallExpression,
   FunctionDeclarationStatement,
-  FunctionTypeAnnotation,
-  MatrixType,
-  TupleType,
-  SetType,
-  DictionaryType,
+  // FunctionTypeAnnotation,
+  // MatrixType,
+  // TupleType,
+  // SetType,
+  // DictionaryType,
   Variable,
   FunctionVariable,
   BreakStatement,
@@ -177,28 +177,12 @@ Object.assign(PassStatement.prototype, {
   gen() { emit('continue;'); },
 });
 
-// Object.assign(CallStatement.prototype, {
-//   gen() { emit(`${this.call.gen()};`); },
-// });
-
 Object.assign(FunctionCallExpression.prototype, {
   gen() {
     const fun = this.callee;
     return `${jsName(fun)}(${this.args.map(a => (a ? a.gen() : 'undefined')).join(', ')})`;
   },
 });
-
-// Object.assign(FunctionDeclaration.prototype, {
-//   gen() { return this.function.gen(); },
-// });
-//
-// Object.assign(FunctionObject.prototype, {
-//   gen() {
-//     emit(`function ${jsName(this)}(${this.params.map(p => p.gen()).join(', ')}) {`);
-//     genStatementList(this.body);
-//     emit('}');
-//   },
-// });
 
 Object.assign(IdExpression.prototype, {
   gen() { return this.referent.gen(); },
@@ -222,16 +206,6 @@ Object.assign(IfStatement.prototype, {
 Object.assign(NumberLiteral.prototype, {
   gen() { return `${this.value}`; },
 });
-
-// Object.assign(Parameter.prototype, {
-//   gen() {
-//     let translation = jsName(this);
-//     if (this.defaultExpression) {
-//       translation += ` = ${this.defaultExpression.gen()}`;
-//     }
-//     return translation;
-//   },
-// });
 
 Object.assign(Program.prototype, {
   gen() {
@@ -312,4 +286,64 @@ Object.assign(Variable.prototype, {
 
 Object.assign(FunctionVariable.prototype, {
   gen() { return jsName(this); },
+});
+
+// ------------------------------------------------------------------------------
+// TODO: gen() for the following classes
+
+Object.assign(ForStatement.prototype, {
+  gen() {
+    // TODO: must be done differently for dictionaries vs. tuples and matrices
+  },
+});
+
+Object.assign(SetExpression.prototype, {
+  gen() {
+    // TODO: provide mapping to JS set
+  },
+});
+
+// Object.assign(Parameter.prototype, {
+//   gen() {
+//     let translation = jsName(this);
+//     if (this.defaultExpression) {
+//       translation += ` = ${this.defaultExpression.gen()}`;
+//     }
+//     return translation;
+//   },
+// });
+
+
+// Object.assign(FunctionDeclaration.prototype, {
+//   gen() { return this.function.gen(); },
+// });
+//
+// Object.assign(FunctionObject.prototype, {
+//   gen() {
+//     emit(`function ${jsName(this)}(${this.params.map(p => p.gen()).join(', ')}) {`);
+//     genStatementList(this.body);
+//     emit('}');
+//   },
+// });
+
+Object.assign(FunctionDeclarationStatement.prototype, {
+  gen() {
+    // TODO
+  },
+});
+
+Object.assign(StringInterpolation.prototype, {
+  gen() {
+    // TODO
+  },
+});
+
+// Object.assign(CallStatement.prototype, {
+//   gen() { emit(`${this.call.gen()};`); },
+// });
+
+Object.assign(RangeExpression.prototype, {
+  gen() {
+    // TODO:
+  },
 });
