@@ -1,0 +1,7 @@
+i = [1,2,3,4]
+for c in i
+  if c == 1
+     break
+while (true)
+  break
+break
