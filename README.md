@@ -245,7 +245,7 @@ for divisor in [2:n]
 
 ### Functions & Type Annotations
 
-Olive requires function declarations to be preceded by a type annotation. At compile time, the Olive compiler will perform static semantic analysis to ensure type safety. 
+Olive requires function declarations to be preceded by a type annotation. At compile time, the Olive compiler will perform static semantic analysis to ensure type safety.
 
 Olive function type annotations specify the type(s) of the argument(s) and the return type. `_` may be used to indicate the absence of arguments or return values. Type annotations for complex types can be constructed as follows:
 
