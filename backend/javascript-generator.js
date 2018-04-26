@@ -51,6 +51,7 @@ const {
   DictionaryType,
   Variable,
   FunctionVariable,
+  addBuiltInFunctionsToContext,
 } = require('../ast');
 /*
  * Translation to JavaScript
@@ -65,18 +66,6 @@ const {
  *   require('./backend/javascript-generator');
  *   program.gen();
  */
-
-// TODO: this is copied code.
-// should be imported from AST or wherever we choose to define built in functions
-const addBuiltInFunctionsToContext = (context) => {
-  const printFunctionAnnotation = new FunctionTypeAnnotation('print', [Type.STRING], Type.STRING);
-  const printFunctionStatement = new FunctionDeclarationStatement(printFunctionAnnotation, 'print', ['_'], null);
-  printFunctionStatement.analyze(context);
-
-  const sqrtFunctionAnnotation = new FunctionTypeAnnotation('sqrt', [Type.NUMBER], Type.NUMBER);
-  const sqrtFunctionStatement = new FunctionDeclarationStatement(sqrtFunctionAnnotation, 'sqrt', ['_'], null);
-  sqrtFunctionStatement.analyze(context);
-};
 
 addBuiltInFunctionsToContext(InitialContext);
 
@@ -152,6 +141,13 @@ Object.assign(MatrixExpression.prototype, {
   },
 });
 
+Object.assign(TupleExpression.prototype, {
+  gen() {
+    const values = this.values.map(v => v.gen());
+    return `[${values.reduce(createListAsString, '')}]`;
+  },
+});
+
 Object.assign(DictionaryExpression.prototype, {
   gen() {
     const keyValuePairArray = this.values.map(v => `${v.key.gen()}: ${v.value.gen()}`);
@@ -173,17 +169,6 @@ Object.assign(BooleanLiteral.prototype, {
 
 // Object.assign(CallStatement.prototype, {
 //   gen() { emit(`${this.call.gen()};`); },
-// });
-
-// Object.assign(Call.prototype, {
-//   gen() {
-//     const fun = this.callee.referent;
-//     const params = {};
-//     const args = Array(this.args.length).fill(undefined);
-//     fun.params.forEach((p, i) => { params[p.id] = i; });
-//     this.args.forEach((a, i) => { args[a.isPositionalArgument ? i : params[a.id]] = a; });
-//     return `${jsName(fun)}(${args.map(a => (a ? a.gen() : 'undefined')).join(', ')})`;
-//   },
 // });
 
 Object.assign(FunctionCallExpression.prototype, {

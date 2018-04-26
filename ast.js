@@ -784,4 +784,5 @@ module.exports = {
   DictionaryType,
   Variable,
   FunctionVariable,
+  addBuiltInFunctionsToContext,
 };
