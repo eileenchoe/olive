@@ -81,9 +81,7 @@ function emit(line) {
 
 function genStatementList(statements) {
   indentLevel += 1;
-  statements.forEach(statement => {
-    statement.gen()
-  });
+  statements.forEach(statement => statement.gen());
   indentLevel -= 1;
 }
 
@@ -165,6 +163,10 @@ Object.assign(BinaryExpression.prototype, {
 
 Object.assign(BooleanLiteral.prototype, {
   gen() { return `${this.value}`; },
+});
+
+Object.assign(NoneLiteral.prototype, {
+  gen() { return 'null'; }, // TODO: or undefined?
 });
 
 Object.assign(BreakStatement.prototype, {

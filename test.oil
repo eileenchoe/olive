@@ -28,3 +28,5 @@ else
   print('else')
 
 ('a', 'tuple', 'of', 'strings')
+none
+literal = none

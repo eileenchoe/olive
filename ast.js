@@ -414,6 +414,14 @@ class DictionaryExpression {
   }
 }
 
+const assertRangeGeneratorValuesMustBeTypeNumber = (values) => {
+  values.forEach((value) => {
+    if (!sameType(value, Type.NUMBER)) {
+      throw new Error('Range expression generator values must evaluate to numbers');
+    }
+  });
+};
+
 class RangeExpression {
   constructor(open, start, step, end, close) {
     this.start = start;
@@ -426,9 +434,7 @@ class RangeExpression {
     this.start.analyze(context);
     this.step.analyze(context);
     this.end.analyze(context);
-    if (!sameType(this.start.type, Type.NUMBER) || !sameType(this.step.type, Type.NUMBER) || !sameType(this.end.type, Type.NUMBER)) {
-      throw new Error('Range expression values must evaluate to numbers');
-    }
+    assertRangeGeneratorValuesMustBeTypeNumber([this.start.type, this.step.type, this.end.type]);
     this.type = Type.RANGE;
   }
 }
@@ -455,11 +461,11 @@ class UnaryExpression {
   analyze(context) {
     this.operand.analyze(context);
     if (this.op === '-') {
-      if(!sameType(this.operand.type, Type.NUMBER)) {
+      if (!sameType(this.operand.type, Type.NUMBER)) {
         throw new Error('Unary operator minus can only be applied to numbers');
       }
     } else if (this.op === 'not') {
-      if(!sameType(this.operand.type, Type.BOOL)) {
+      if (!sameType(this.operand.type, Type.BOOL)) {
         throw new Error('Unary operator not can only be applied to bools');
       }
     }
@@ -764,17 +770,17 @@ class Program {
 }
 
 class BreakStatement {
-  analyze(context) {
+  analyze(context) { // eslint-disable-line
     if (!context.inLoop) {
-      throw new Error('Break statement outside loop')
+      throw new Error('Break statement outside loop');
     }
   }
 }
 
 class PassStatement {
-  analyze(context) {
+  analyze(context) { // eslint-disable-line
     if (!context.inLoop) {
-      throw new Error('Pass statement outside loop')
+      throw new Error('Pass statement outside loop');
     }
   }
 }
