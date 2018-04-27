@@ -27,8 +27,9 @@ Olive {
                         |  Exp5
   Exp5                  =  prefixop Exp6                                                                      -- unary
                         |  Exp6
-  Exp6                  =  Matrix                                                                             -- matrix
-                        |  FunctionCall                                                                               -- functioncall
+  Exp6                  =  AsExp                                                                              -- asexpression
+                        |  Matrix                                                                             -- matrix
+                        |  FunctionCall                                                                       -- functioncall
                         |  Dictionary                                                                         -- dictionary
                         |  Set                                                                                -- set
                         |  Key
@@ -42,6 +43,8 @@ Olive {
   Set                   =  "{" NonemptyListOf<Exp5, ","> "}"
   Dictionary            =  "{" ListOf<KeyValuePair, ","> "}"
   KeyValuePair          =  Key ":" Exp
+
+  AsExp                 =  ("[" "]" | "{" "}") "as" Annotation
 
   RangeType             =  VarExp
                         |  Exp
@@ -97,7 +100,7 @@ Olive {
   idrest                =  "_" | alnum
   keyword               = ("true" | "false" | "if"
                         | "else" | "while" | "for" | "in" | "return"
-                        | "none" | "not" | "break" | "pass" |  types) ~idrest
+                        | "none" | "not" | "break" | "pass" | "as" | types) ~idrest
 
   addop                 =  "+" | "-"
   relop                 =  "<=" | "<" | "==" | "!=" | ">=" | ">"

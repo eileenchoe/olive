@@ -1,0 +1,5 @@
+[] as matrix<number>
+a = [] as matrix<matrix<string>>
+{} as dictionary<number, string>
+x = {} as dictionary<string, dictionary<string, bool>>
+x, y = [] as matrix<bool>, {} as dictionary<string, matrix<number>>

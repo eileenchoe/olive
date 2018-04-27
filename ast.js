@@ -350,6 +350,19 @@ class BinaryExpression {
   }
 }
 
+class AsExpression {
+  constructor(target, type) {
+    this.target = target;
+    this.type = type;
+  }
+
+  analyze() {
+    if (!((this.target === '[]' && this.type instanceof MatrixType) || (this.target === '{}' && this.type instanceof DictionaryType))) {
+      throw new Error('Invalid use of "as" for type casting.');
+    }
+  }
+}
+
 class MatrixExpression {
   constructor(values) {
     this.values = values;
@@ -799,6 +812,7 @@ module.exports = {
   IdExpression,
   SubscriptExpression,
   BinaryExpression,
+  AsExpression,
   UnaryExpression,
   MutableBinding,
   ImmutableBinding,

@@ -1,0 +1,81 @@
+{
+    "block": {
+        "statements": [
+            {
+                "body": {
+                    "target": "[]",
+                    "type": {
+                        "name": "matrix",
+                        "elementType": {
+                            "name": "number"
+                        },
+                        "isIterable": true
+                    }
+                }
+            },
+            {
+                "target": [
+                    "a"
+                ],
+                "source": [
+                    {
+                        "target": "[]",
+                        "type": {
+                            "name": "matrix",
+                            "elementType": {
+                                "name": "matrix",
+                                "elementType": {
+                                    "name": "string"
+                                },
+                                "isIterable": true
+                            },
+                            "isIterable": true
+                        }
+                    }
+                ]
+            },
+            {
+                "body": {
+                    "target": "{}",
+                    "type": {
+                        "name": "dictionary",
+                        "keyType": {
+                            "name": "number"
+                        },
+                        "valueType": {
+                            "name": "string"
+                        },
+                        "isIterable": true
+                    }
+                }
+            },
+            {
+                "target": [
+                    "x"
+                ],
+                "source": [
+                    {
+                        "target": "{}",
+                        "type": {
+                            "name": "dictionary",
+                            "keyType": {
+                                "name": "string"
+                            },
+                            "valueType": {
+                                "name": "dictionary",
+                                "keyType": {
+                                    "name": "string"
+                                },
+                                "valueType": {
+                                    "name": "bool"
+                                },
+                                "isIterable": true
+                            },
+                            "isIterable": true
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}
