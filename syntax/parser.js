@@ -31,6 +31,7 @@ const {
   IdExpression,
   SubscriptExpression,
   BinaryExpression,
+  AsExpression,
   UnaryExpression,
   Case,
   MatrixExpression,
@@ -126,6 +127,7 @@ const semantics = grammar.createSemantics().addOperation('ast', {
   Exp4_binary(left, op, right) { return new BinaryExpression(op.ast(), left.ast(), right.ast()); },
   Exp5_unary(op, operand) { return new UnaryExpression(op.ast(), operand.ast()); },
   Exp6_parens(_1, expression, _2) { return expression.ast(); },
+  AsExp(leftBracket, rightBracket, _3, right) { return new AsExpression(leftBracket.primitiveValue + rightBracket.primitiveValue, right.ast()); }, // eslint-disable-line
   Tuple(_1, v, _2) { return new TupleExpression([...v.ast()]); },
   Matrix(_1, v, _2) { return new MatrixExpression([...v.ast()]); },
   Set(_1, v, _2) { return new SetExpression([...v.ast()]); },
