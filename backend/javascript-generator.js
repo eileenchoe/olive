@@ -13,6 +13,7 @@
  */
 
 const { InitialContext } = require('../analyzer');
+const { generateMatrixFromRange } = require('./olive-range-generator');
 
 const {
   Program,
@@ -132,6 +133,7 @@ function generateLibraryFunctions() {
   // This is sloppy. There should be a better way to do this.
   generateLibraryStub('print', '_', 'console.log(_);');
   generateLibraryStub('sqrt', '_', 'return Math.sqrt(_);');
+  generateLibraryStub('generateMatrixFromRange', ['inclusiveStart', 'start', 'step', 'end', 'inclusiveEnd'], generateMatrixFromRange);
 }
 
 const createListAsString = (acc, current, i) => ((i === 0) ? `${current}` : `${acc}, ${current}`);
@@ -344,6 +346,6 @@ Object.assign(StringInterpolation.prototype, {
 
 Object.assign(RangeExpression.prototype, {
   gen() {
-    // TODO:
+    return `generateMatrixFromRange_3(${this.inclusiveStart}, ${this.start.gen()}, ${this.step.gen()}, ${this.end.gen()}, ${this.inclusiveEnd})`;
   },
 });

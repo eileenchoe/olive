@@ -30,3 +30,5 @@ else
 ('a', 'tuple', 'of', 'strings')
 none
 literal = none
+
+M = [1:1:10]
