@@ -12,3 +12,9 @@ TODO:
 
 - make a test to throw "throw new Error(`${this.iterable.id} has not been defined yet.`);
 "
+
+This doesn't work..
+dict = {'x': 1, 'y': 2}
+dict['x'] = 3
+
+Make set.add() work..

@@ -18,11 +18,12 @@ while x < 5
   x := 9
 
 dict = {'x': 1, 'y': 2}
+| dict['x'] = 3 | TODO
 
-if (false and true)
+if false and true
   x := 8
   x := 2
-else if (x == 3)
+else if x == 3
   y := 3
 else
   print('else')
@@ -31,4 +32,7 @@ else
 none
 literal = none
 
-M = [1:1:10]
+start = 1
+step = 1
+end = 10
+M = (start:step:end]

@@ -346,6 +346,7 @@ Object.assign(StringInterpolation.prototype, {
 
 Object.assign(RangeExpression.prototype, {
   gen() {
-    return `generateMatrixFromRange_3(${this.inclusiveStart}, ${this.start.gen()}, ${this.step.gen()}, ${this.end.gen()}, ${this.inclusiveEnd})`;
+    const functionName = jsName(InitialContext.declarations.generateMatrixFromRange);
+    return `${functionName}(${this.inclusiveStart}, ${this.start.gen()}, ${this.step.gen()}, ${this.end.gen()}, ${this.inclusiveEnd})`;
   },
 });
