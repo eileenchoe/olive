@@ -93,7 +93,6 @@ Type.BOOL = new Type('bool');
 Type.NUMBER = new Type('number');
 Type.STRING = new Type('string');
 Type.NONE = new Type('none');
-// Type.TEMPLATELITERAL = new Type('templateliteral');
 Type.RANGE = new Type('range');
 
 Type.forName = name => Type.cache[name];
@@ -300,6 +299,9 @@ class BinaryExpression {
     } else if (['and', 'or'].includes(this.op)) {
       this.mustHaveBooleanOperands();
       this.type = Type.BOOL;
+    } else if (this.op === '/%') {
+      this.mustHaveNumericOperands();
+      this.type = new TupleType([Type.NUMBER, Type.NUMBER]);
     } else {
       // All other binary operators are arithmetic
       this.mustHaveNumericOperands();
@@ -771,6 +773,11 @@ const addBuiltInFunctionsToContext = (context) => {
   const generateMatrixFromRangeAnnotation = new FunctionTypeAnnotation('generateMatrixFromRange', [Type.BOOL, Type.NUMBER, Type.NUMBER, Type.NUMBER, Type.BOOL], generateMatrixFromRangeOutputType);
   const generateMatrixFromRangeStatement = new FunctionDeclarationStatement(generateMatrixFromRangeAnnotation, 'generateMatrixFromRange', ['inclusiveStart', 'start', 'step', 'end', 'inclusiveEnd'], null);
   generateMatrixFromRangeStatement.analyze(context);
+
+  const generateDivmodOutputType = new TupleType([Type.NUMBER, Type.NUMBER]);
+  const generateDivmodAnnotation = new FunctionTypeAnnotation('generateDivmod', [Type.NUMBER, Type.NUMBER], generateDivmodOutputType);
+  const generateDivmodStatement = new FunctionDeclarationStatement(generateDivmodAnnotation, 'generateDivmod', ['a', 'b'], null);
+  generateDivmodStatement.analyze(context);
 };
 
 

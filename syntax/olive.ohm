@@ -98,12 +98,12 @@ Olive {
 
   id                    =  ~keyword letter idrest*
   idrest                =  "_" | alnum
-  keyword               = ("true" | "false" | "if"
+  keyword               = ("true" | "false" | "if" | "and" | "or"
                         | "else" | "while" | "for" | "in" | "return"
                         | "none" | "not" | "break" | "pass" | "as" | types) ~idrest
 
   addop                 =  "+" | "-"
-  relop                 =  "<=" | "<" | "==" | "!=" | ">=" | ">"
+  relop                 =  "<=" | "<" | "==" | "!=" | ">=" | ">" | "and" | "or"
   mulop                 =  "*" | "/%" | "/" | "%"
   prefixop              =  "-" | "not"
   indent                =  "⇨"

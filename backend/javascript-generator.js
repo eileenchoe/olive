@@ -14,6 +14,7 @@
 
 const { InitialContext } = require('../analyzer');
 const { generateMatrixFromRange } = require('./olive-range-generator');
+const { generateDivmod } = require('./olive-divmod-generator');
 
 const {
   Program,
@@ -86,18 +87,6 @@ function genStatementList(statements) {
   indentLevel -= 1;
 }
 
-function makeOp(op) {
-  return {
-    not: '!',
-    and: '&&',
-    or: '||',
-    '==': '===',
-    '!=': '!==',
-    '>=': '>==',
-    '<=': '<==',
-  }[op] || op;
-}
-
 // jsName(e) takes any PlainScript object with an id property, such as a
 // Variable, Parameter, or FunctionDeclaration, and produces a JavaScript
 // name by appending a unique indentifying suffix, such as '_1' or '_503'.
@@ -113,6 +102,16 @@ const jsName = (() => {
     return `${v.id}_${map.get(v)}`;
   };
 })();
+
+function makeOp(op) {
+  return {
+    not: '!',
+    and: '&&',
+    or: '||',
+    '==': '===',
+    '!=': '!==',
+  }[op] || op;
+}
 
 // This is a nice helper for variable declarations and assignment statements.
 // The AST represents both of these with lists of sources and lists of targets,
@@ -134,6 +133,7 @@ function generateLibraryFunctions() {
   generateLibraryStub('print', '_', 'console.log(_);');
   generateLibraryStub('sqrt', '_', 'return Math.sqrt(_);');
   generateLibraryStub('generateMatrixFromRange', ['inclusiveStart', 'start', 'step', 'end', 'inclusiveEnd'], generateMatrixFromRange);
+  generateLibraryStub('generateDivmod', ['a', 'b'], generateDivmod);
 }
 
 const createListAsString = (acc, current, i) => ((i === 0) ? `${current}` : `${acc}, ${current}`);
@@ -160,7 +160,15 @@ Object.assign(DictionaryExpression.prototype, {
 });
 
 Object.assign(BinaryExpression.prototype, {
-  gen() { return `(${this.left.gen()} ${makeOp(this.op)} ${this.right.gen()})`; },
+  gen() {
+    const left = this.left.gen();
+    const right = this.right.gen();
+    if (this.op === '/%') {
+      const functionName = jsName(InitialContext.declarations.generateDivmod);
+      return `${functionName}(${left}, ${right})`;
+    }
+    return `(${left} ${makeOp(this.op)} ${right})`;
+  },
 });
 
 Object.assign(BooleanLiteral.prototype, {
@@ -315,7 +323,7 @@ Object.assign(FunctionDeclarationStatement.prototype, {
 
 Object.assign(StringInterpolation.prototype, {
   gen() {
-    // TODO
+    // emit(`\`${this.values.gen()}\``);
   },
 });
 

@@ -42,3 +42,10 @@ square (x) =
   return x ^ 2
 
 square(3)
+
+var1 = true or false
+var2 = start != 1 and step >= 1
+mod = 12 % 3
+divmod := 12 /% 3
+divmod := (1, 2)
+| divmod := (1, 2, 3)
