@@ -1,0 +1,5 @@
+say_hello: number, number -> number
+say_hello (num1, num2) =
+  return num1 + num2
+
+print(`${say_hello(3, 7)}`)

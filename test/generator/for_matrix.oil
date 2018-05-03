@@ -1,0 +1,4 @@
+a = ['a', 'matrix', 'of', 'strings']
+for b in a
+  if b == 'matrix'
+    print(`${b}`)

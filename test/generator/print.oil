@@ -1,0 +1,8 @@
+name = 'Eileen'
+print(name)
+print(` hi${8}hi`)
+print('i am cool')
+a = ['a','b']
+b = [8, 5]
+print(`${a}`)
+print(`${b}`)
