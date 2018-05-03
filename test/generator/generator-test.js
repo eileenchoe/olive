@@ -9,7 +9,6 @@ const fs = require('fs');
 const assert = require('assert');
 const parse = require('../../syntax/parser');
 const capcon = require('capture-console');
-
 require('../../backend/javascript-generator');
 
 describe('The generator', () => {
@@ -19,12 +18,20 @@ describe('The generator', () => {
         fs.readFile(`${__dirname}/${name}`, 'utf-8', (err, input) => {
           const program = parse(input);
           program.analyze();
-          const stdout = capcon.captureStdout(() => {
+          const intercept = require('intercept-stdout'); // eslint-disable-line
+          let capturedText = '';
+          const unhookIntercept = intercept((txt) => {
+            capturedText += txt;
             eval(program.gen()); // eslint-disable-line
+            console.log(capturedText);
+            assert.deepEqual(capturedText, 'Eileen\n');
           });
-          assert.deepEqual(stdout, 'Eileen');
-          // console.log(`OUPUT: ${stdout}`);
+          unhookIntercept();
           done(); // TODO: take out
+          // const stdout = capcon.captureStdout(() => {
+          //   eval(program.gen()); // eslint-disable-line
+          // });
+          // console.log(`OUPUT: ${stdout}`);
           // fs.readFile(`${__dirname}/${name}.json`, 'utf-8', (_err, expected) => {
           //   assert.deepEqual(ast, JSON.parse(expected));
           //   done();
