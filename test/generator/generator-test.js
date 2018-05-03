@@ -8,7 +8,6 @@
 const fs = require('fs');
 const assert = require('assert');
 const parse = require('../../syntax/parser');
-const capcon = require('capture-console');
 require('../../backend/javascript-generator');
 
 describe('The generator', () => {

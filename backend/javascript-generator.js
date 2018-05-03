@@ -12,7 +12,7 @@
  *   program.gen();
  */
 
- const beautify = require('js-beautify');
+const beautify = require('js-beautify');
 
 const { InitialContext } = require('../analyzer');
 const { generateMatrixFromRange } = require('./olive-range-generator');
