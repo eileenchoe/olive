@@ -204,8 +204,8 @@ class Variable {
 }
 
 class FunctionVariable {
-  constructor(id, referent) {
-    Object.assign(this, { id, referent });
+  constructor(id, annotation) {
+    Object.assign(this, { id, annotation });
   }
 }
 
@@ -581,15 +581,16 @@ class FunctionDeclarationStatement {
     }
 
     // Manually adding the function to the outer context
-    const functionForContext = new FunctionVariable(this.id, this);
-    // this.variable = functionForContext; // TODO: I don't think this reference
+    const functionForContext = new FunctionVariable(this.id, this.annotation);
+    this.function = functionForContext;
     context.add(functionForContext);
 
     if (this.body) { // null for built in functions
       const childContext = context.createChildContextForFunctionBody(this);
       this.parameters.forEach((param, index) => {
-        const x = new Variable(param, this.annotation.parameterTypes[index], false);
-        childContext.add(x);
+        const variable = new Variable(param, this.annotation.parameterTypes[index], false);
+        this.parameters[index] = variable;
+        childContext.add(variable);
       });
 
       this.body.analyze(childContext, true);
@@ -620,9 +621,9 @@ class FunctionCallExpression {
     this.args.forEach(arg => arg.analyze(context));
     this.callee = context.lookup(this.id);
     if (this.callee === null) { throw new Error(`A function with the name ${this.id} has not be declared yet.`); }
-    this.type = this.callee.referent.annotation.returnType;
+    this.type = this.callee.annotation.returnType;
     this.args.forEach((arg, index) => {
-      assertSameType(arg.type, this.callee.referent.annotation.parameterTypes[index]);
+      assertSameType(arg.type, this.callee.annotation.parameterTypes[index]);
     });
   }
 

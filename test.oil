@@ -36,3 +36,9 @@ start = 1
 step = 1
 end = 10
 M = (start:step:end]
+
+square: number -> number
+square (x) =
+  return x ^ 2
+
+square(3)

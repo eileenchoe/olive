@@ -305,32 +305,11 @@ Object.assign(SetExpression.prototype, {
   },
 });
 
-// Object.assign(Parameter.prototype, {
-//   gen() {
-//     let translation = jsName(this);
-//     if (this.defaultExpression) {
-//       translation += ` = ${this.defaultExpression.gen()}`;
-//     }
-//     return translation;
-//   },
-// });
-
-
-// Object.assign(FunctionDeclaration.prototype, {
-//   gen() { return this.function.gen(); },
-// });
-//
-// Object.assign(FunctionObject.prototype, {
-//   gen() {
-//     emit(`function ${jsName(this)}(${this.params.map(p => p.gen()).join(', ')}) {`);
-//     genStatementList(this.body);
-//     emit('}');
-//   },
-// });
-
 Object.assign(FunctionDeclarationStatement.prototype, {
   gen() {
-    // TODO
+    emit(`function ${jsName(this.function)}(${this.parameters.map(p => jsName(p)).join(', ')}) {`);
+    genStatementList(this.body.statements);
+    emit('}');
   },
 });
 
@@ -339,10 +318,6 @@ Object.assign(StringInterpolation.prototype, {
     // TODO
   },
 });
-
-// Object.assign(CallStatement.prototype, {
-//   gen() { emit(`${this.call.gen()};`); },
-// });
 
 Object.assign(RangeExpression.prototype, {
   gen() {
