@@ -16,6 +16,8 @@
   },
   "homepage": "https://github.com/eileenchoe/olive#readme",
   "dependencies": {
+    "capture-console": "^1.0.1",
+    "intercept-stdout": "^0.1.2",
     "js-beautify": "^1.7.5",
     "ohm-js": "^0.14.0",
     "yargs": "^11.0.0"
