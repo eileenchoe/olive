@@ -42,7 +42,7 @@ const {
   DictionaryExpression,
   // KeyValuePair,
   StringInterpolation,
-  // Interpolation,
+  Interpolation,
   RangeExpression,
   FunctionCallExpression,
   FunctionDeclarationStatement,
@@ -298,6 +298,33 @@ Object.assign(FunctionVariable.prototype, {
   gen() { return jsName(this); },
 });
 
+Object.assign(FunctionDeclarationStatement.prototype, {
+  gen() {
+    emit(`function ${jsName(this.function)}(${this.parameters.map(p => jsName(p)).join(', ')}) {`);
+    genStatementList(this.body.statements);
+    emit('}');
+  },
+});
+
+Object.assign(Interpolation.prototype, {
+  gen() {
+    return `${this.value.gen()}`;
+  },
+});
+
+Object.assign(StringInterpolation.prototype, {
+  gen() {
+    return `\`${this.values.map(v => (v.isInterpolation ? `\`$\{${v.gen()}}\`` : v.gen())).join('')}\``;
+  },
+});
+
+Object.assign(RangeExpression.prototype, {
+  gen() {
+    const functionName = jsName(InitialContext.declarations.generateMatrixFromRange);
+    return `${functionName}(${this.inclusiveStart}, ${this.start.gen()}, ${this.step.gen()}, ${this.end.gen()}, ${this.inclusiveEnd})`;
+  },
+});
+
 // ------------------------------------------------------------------------------
 // TODO: gen() for the following classes
 
@@ -310,26 +337,5 @@ Object.assign(ForStatement.prototype, {
 Object.assign(SetExpression.prototype, {
   gen() {
     // TODO: provide mapping to JS set
-  },
-});
-
-Object.assign(FunctionDeclarationStatement.prototype, {
-  gen() {
-    emit(`function ${jsName(this.function)}(${this.parameters.map(p => jsName(p)).join(', ')}) {`);
-    genStatementList(this.body.statements);
-    emit('}');
-  },
-});
-
-Object.assign(StringInterpolation.prototype, {
-  gen() {
-    // emit(`\`${this.values.gen()}\``);
-  },
-});
-
-Object.assign(RangeExpression.prototype, {
-  gen() {
-    const functionName = jsName(InitialContext.declarations.generateMatrixFromRange);
-    return `${functionName}(${this.inclusiveStart}, ${this.start.gen()}, ${this.step.gen()}, ${this.end.gen()}, ${this.inclusiveEnd})`;
   },
 });

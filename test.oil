@@ -49,3 +49,5 @@ mod = 12 % 3
 divmod := 12 /% 3
 divmod := (1, 2)
 | divmod := (1, 2, 3)
+
+var3 = `Hello, ${name}!`
