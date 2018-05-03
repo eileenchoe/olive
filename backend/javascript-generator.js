@@ -12,6 +12,8 @@
  *   program.gen();
  */
 
+ const beautify = require('js-beautify');
+
 const { InitialContext } = require('../analyzer');
 const { generateMatrixFromRange } = require('./olive-range-generator');
 const { generateDivmod } = require('./olive-divmod-generator');
@@ -66,18 +68,18 @@ const {
 addBuiltInFunctionsToContext(InitialContext);
 
 
-const indentPadding = 2;
-let indentLevel = 0;
+// const indentPadding = 2;
+// let indentLevel = 0;
 
-function emit(line) {
-  console.log(`${' '.repeat(indentPadding * indentLevel)}${line}`);
-}
-
-function genStatementList(statements) {
-  indentLevel += 1;
-  statements.forEach(statement => statement.gen());
-  indentLevel -= 1;
-}
+// function emit(line) {
+//   console.log(`${' '.repeat(indentPadding * indentLevel)}${line}`);
+// }
+//
+// function genStatementList(statements) {
+//   indentLevel += 1;
+//   statements.forEach(statement => statement.gen());
+//   indentLevel -= 1;
+// }
 
 // jsName(e) takes any PlainScript object with an id property, such as a
 // Variable, Parameter, or FunctionDeclaration, and produces a JavaScript
@@ -119,13 +121,14 @@ function bracketIfNecessary(a) {
 function generateLibraryFunctions() {
   function generateLibraryStub(name, params, body) {
     const entity = InitialContext.declarations[name];
-    emit(`function ${jsName(entity)}(${params}) {${body}}`);
+    return `function ${jsName(entity)}(${params}) {${body}}`;
   }
-  // This is sloppy. There should be a better way to do this.
-  generateLibraryStub('print', '_', 'console.log(_);');
-  generateLibraryStub('sqrt', '_', 'return Math.sqrt(_);');
-  generateLibraryStub('generateMatrixFromRange', ['inclusiveStart', 'start', 'step', 'end', 'inclusiveEnd'], generateMatrixFromRange);
-  generateLibraryStub('generateDivmod', ['a', 'b'], generateDivmod);
+  return [
+    generateLibraryStub('print', '_', 'console.log(_);'),
+    generateLibraryStub('sqrt', '_', 'return Math.sqrt(_);'),
+    generateLibraryStub('generateMatrixFromRange', ['inclusiveStart', 'start', 'step', 'end', 'inclusiveEnd'], generateMatrixFromRange),
+    generateLibraryStub('generateDivmod', ['a', 'b'], generateDivmod),
+  ].join('');
 }
 
 const createListAsString = (acc, current, i) => ((i === 0) ? `${current}` : `${acc}, ${current}`);
@@ -172,11 +175,11 @@ Object.assign(NoneLiteral.prototype, {
 });
 
 Object.assign(BreakStatement.prototype, {
-  gen() { emit('break;'); },
+  gen() { return 'break;'; },
 });
 
 Object.assign(PassStatement.prototype, {
-  gen() { emit('continue;'); },
+  gen() { return 'continue;'; },
 });
 
 Object.assign(FunctionCallExpression.prototype, {
@@ -192,16 +195,12 @@ Object.assign(IdExpression.prototype, {
 
 Object.assign(IfStatement.prototype, {
   gen() {
-    this.cases.forEach((c, index) => {
+    const cases = this.cases.map((c, index) => {
       const prefix = index === 0 ? 'if' : '} else if';
-      emit(`${prefix} (${c.test.gen()}) {`);
-      genStatementList(c.body.statements);
+      return `${prefix} (${c.test.gen()}) {${c.body.statements.map(s => s.gen()).join('')}`;
     });
-    if (this.alternate) {
-      emit('} else {');
-      genStatementList(this.alternate.statements);
-    }
-    emit('}');
+    const alternate = this.alternate ? `}else{${this.alternate.statements.map(s => s.gen()).join('')}` : '';
+    return `${cases.join('')}${alternate}}`;
   },
 });
 
@@ -211,31 +210,26 @@ Object.assign(NumberLiteral.prototype, {
 
 Object.assign(Program.prototype, {
   gen() {
-    generateLibraryFunctions();
-    this.block.gen();
+    const libraryFunctions = generateLibraryFunctions();
+    const block = this.block.gen();
+    const target = `${libraryFunctions}${block}`;
+    return beautify(target, { indent_size: 2 });
   },
 });
 
 Object.assign(Block.prototype, {
   gen() {
-    this.statements.forEach((statement) => {
-      statement.gen();
-    });
+    const statements = this.statements.map(s => s.gen());
+    return `${statements.join('')}`;
   },
 });
 
 Object.assign(ExpressionStatement.prototype, {
-  gen() { emit(`${this.body.gen()};`); },
+  gen() { return `${this.body.gen()};`; },
 });
 
 Object.assign(ReturnStatement.prototype, {
-  gen() {
-    if (this.returnValue) { // TODO: implement returnValue getter in olive
-      emit(`return ${this.returnValue.gen()};`);
-    } else {
-      emit('return;');
-    }
-  },
+  gen() { return this.returnValue ? `return ${this.returnValue.gen()};` : 'return;'; },
 });
 
 Object.assign(StringLiteral.prototype, {
@@ -258,7 +252,7 @@ Object.assign(ImmutableBinding.prototype, {
   gen() {
     const variables = this.target.map(t => t.gen());
     const initializers = this.source.map(s => s.gen());
-    emit(`const ${bracketIfNecessary(variables)} = ${bracketIfNecessary(initializers)};`);
+    return `const ${bracketIfNecessary(variables)} = ${bracketIfNecessary(initializers)};`;
   },
 });
 
@@ -266,20 +260,13 @@ Object.assign(MutableBinding.prototype, {
   gen() {
     const targets = this.target.map(t => t.gen());
     const sources = this.source.map(s => s.gen());
-    if (this.isAVariableDeclaration) {
-      emit(`let ${bracketIfNecessary(targets)} = ${bracketIfNecessary(sources)};`);
-    } else {
-      emit(`${bracketIfNecessary(targets)} = ${bracketIfNecessary(sources)};`);
-    }
+    return this.isAVariableDeclaration ? `let ${bracketIfNecessary(targets)} = ${bracketIfNecessary(sources)};` :
+      `${bracketIfNecessary(targets)} = ${bracketIfNecessary(sources)};`;
   },
 });
 
 Object.assign(WhileStatement.prototype, {
-  gen() {
-    emit(`while (${this.condition.gen()}) {`);
-    genStatementList(this.body.statements);
-    emit('}');
-  },
+  gen() { return `while (${this.condition.gen()}) { ${this.body.statements.map(s => s.gen()).join('')} }`; },
 });
 
 Object.assign(Variable.prototype, {
@@ -292,21 +279,19 @@ Object.assign(FunctionVariable.prototype, {
 
 Object.assign(FunctionDeclarationStatement.prototype, {
   gen() {
-    emit(`function ${jsName(this.function)}(${this.parameters.map(p => jsName(p)).join(', ')}) {`);
-    genStatementList(this.body.statements);
-    emit('}');
+    const functionParameters = this.parameters.map(p => jsName(p)).join(', ');
+    const functionBodyStatements = this.body.statements.map(s => s.gen()).join('');
+    return `function ${jsName(this.function)}(${functionParameters}) { ${functionBodyStatements} }`;
   },
 });
 
 Object.assign(Interpolation.prototype, {
-  gen() {
-    return `${this.value.gen()}`;
-  },
+  gen() { return `$\{${this.value.gen()}}`; },
 });
 
 Object.assign(StringInterpolation.prototype, {
   gen() {
-    return `\`${this.values.map(v => (v.isInterpolation ? `$\{${v.gen()}}` : v.gen())).join('')}\``;
+    return `\`${this.values.map(v => v.gen()).join('')}\``;
   },
 });
 
@@ -319,15 +304,13 @@ Object.assign(RangeExpression.prototype, {
 
 Object.assign(ForStatement.prototype, {
   gen() {
+    const statements = this.body.statements.map(s => s.gen()).join('');
     if (this.exp.type.name === 'matrix' || this.exp.type.name === 'tuple') {
-      emit(`${this.exp.gen()}.forEach((${jsName(this.id)}) => {`);
-      genStatementList(this.body.statements);
-      emit('});');
+      return `${this.exp.gen()}.forEach((${jsName(this.id)}) => { ${statements} });`;
     } else if (this.exp.type.name === 'dictionary') {
-      emit(`for (const ${jsName(this.id)} in ${this.exp.gen()}) {`);
-      genStatementList(this.body.statements);
-      emit('}');
+      return `for (const ${jsName(this.id)} in ${this.exp.gen()}) { ${statements} }`;
     }
+    return '';
   },
 });
 

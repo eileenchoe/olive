@@ -734,7 +734,6 @@ class StringInterpolation {
 class Interpolation {
   constructor(v) {
     this.value = v;
-    this.isInterpolation = true;
   }
   analyze(context) {
     this.value.analyze(context);
