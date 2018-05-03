@@ -462,7 +462,7 @@ const determineIteratorType = (exp) => {
   if (!expression.type.isIterable) {
     throw new Error(`Type ${expression.type.name} is not iterable.`);
   }
-  if (expression instanceof DictionaryExpression) {
+  if (expression.type instanceof DictionaryType) {
     return expression.type.keyType;
   }
   return expression.type.elementType;
@@ -682,8 +682,8 @@ class ForStatement {
   analyze(context) {
     this.exp.analyze(context);
     const childContext = context.createChildContextForLoop();
-    const iterator = new Variable(this.id.id, determineIteratorType(this.exp), false);
-    childContext.add(iterator);
+    this.id = new Variable(this.id.id, determineIteratorType(this.exp), false);
+    childContext.add(this.id);
     this.body.analyze(childContext, true);
   }
   optimize() {

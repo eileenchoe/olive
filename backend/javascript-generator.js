@@ -314,7 +314,7 @@ Object.assign(Interpolation.prototype, {
 
 Object.assign(StringInterpolation.prototype, {
   gen() {
-    return `\`${this.values.map(v => (v.isInterpolation ? `\`$\{${v.gen()}}\`` : v.gen())).join('')}\``;
+    return `\`${this.values.map(v => (v.isInterpolation ? `\\\`$\{${v.gen()}}\\\`` : v.gen())).join('')}\``;
   },
 });
 
@@ -325,14 +325,22 @@ Object.assign(RangeExpression.prototype, {
   },
 });
 
-// ------------------------------------------------------------------------------
-// TODO: gen() for the following classes
-
 Object.assign(ForStatement.prototype, {
   gen() {
-    // TODO: must be done differently for dictionaries vs. tuples and matrices
+    if (this.exp.type.name === 'matrix' || this.exp.type.name === 'tuple') {
+      emit(`${this.exp.gen()}.forEach((${jsName(this.id)}) => {`);
+      genStatementList(this.body.statements);
+      emit('});');
+    } else if (this.exp.type.name === 'dictionary') {
+      emit(`for (const ${jsName(this.id)} in ${this.exp.gen()}) {`);
+      genStatementList(this.body.statements);
+      emit('}');
+    }
   },
 });
+
+// ------------------------------------------------------------------------------
+// TODO: gen() for the following classes
 
 Object.assign(SetExpression.prototype, {
   gen() {

@@ -1,1 +1,5 @@
-x = {} as matrix<number>
+map = {'a': 1, 'b': 2, 'c': 3}
+map['a']
+
+for key in map
+  print(`${key}, value${map[key]}`)

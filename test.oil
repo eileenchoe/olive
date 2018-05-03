@@ -48,6 +48,19 @@ var2 = start != 1 and step >= 1
 mod = 12 % 3
 divmod := 12 /% 3
 divmod := (1, 2)
-| divmod := (1, 2, 3)
 
 var3 = `Hello, ${name}!`
+
+| Matrix For Loop
+num_mat := [1, 2, 3, 4, 5]
+total := 0
+for num in num_mat
+  total := total + num
+print(`${total}`)
+
+| Dictionary For Loop
+map = {'a': 1, 'b': 2, 'c': 3}
+map['a']
+
+for key in map
+  print(`${key}, value${map[key]}`)
