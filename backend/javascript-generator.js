@@ -306,7 +306,7 @@ Object.assign(Interpolation.prototype, {
 
 Object.assign(StringInterpolation.prototype, {
   gen() {
-    return `\`${this.values.map(v => (v.isInterpolation ? `\\\`$\{${v.gen()}}\\\`` : v.gen())).join('')}\``;
+    return `\`${this.values.map(v => (v.isInterpolation ? `$\{${v.gen()}}` : v.gen())).join('')}\``;
   },
 });
 
