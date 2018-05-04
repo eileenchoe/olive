@@ -27,7 +27,7 @@ Olive is a high-level, high-performance language for numerical computing. Olive 
 
 ### Types
 
-- number: `3`, `897`, `-32`, ``-3.08`, `9.54`, `0.9`
+- number: `3`, `897`, `-32`, `-3.08`, `9.54`, `0.9`
 - boolean: `true`, `false`
 - string: `'hello'`, `'olive is the best language ever'`
 - None: `None`
