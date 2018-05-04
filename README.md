@@ -106,12 +106,11 @@ favorite_numbers = {13, 3, 56}
 
 #### Range
 
-Like Python 3 ranges, Olive ranges iteratively produce the following value in the range until the end condition is met. Range objects can also be used as a parameter for random generators, in which case, the start, increment and end values will be used to produce a single random value.
+Range expressions produce Olive matrices. Like Python 3 ranges, Olive ranges iteratively produce the following value in the range until the end condition is met. Range objects can also be used as a parameter for random generators, in which case, the start, increment and end values will be used to produce a single random value.
 
 ```
 evens = [0:2:10)                | range object with integers from 0 inclusive to 10 exclusive
 delta = (-0.2:0.1:1.6]          | range object with decimal values from 0 exclusive to 1 inclusive
-really_small = [0:1^(-10):0.1]  | increments can be specified using expressions like exponents
 reversed_evens = [10:-2:0]      | increments can be negative to iterate in reverse
 ```
 
@@ -165,10 +164,11 @@ F = A ./ B
 greeting = 'hello'
 name = 'olive'
 complete_greeting = `${greeting}, ${name}`
+print(complete_greeting)
 
 brand = 'Fiat'
 age = 4
-print('The age of that ${brand} car was ${age - 1} last year!')
+print(`The age of that ${brand} car was ${age - 1} last year!`)
 ```
 
 ### Control Flow Tools
@@ -178,14 +178,14 @@ print('The age of that ${brand} car was ${age - 1} last year!')
 There can be zero or more `else if `, and the `else` part is optional.  
 
 ```
-olive_types = ('kalamata', 'picholine', 'moroccan salt-cured', 'cerignola')
+olive_types = ['kalamata', 'picholine', 'moroccan salt-cured', 'cerignola']
 
 if (olive_types[0] == 'kalamata')
-  print('yay')
+  print(`yay`)
 else if (olive_types[0] == 'picholine')
-  print('uh?')
+  print(`uh?`)
 else
-  print('eww!')
+  print(`eww!`)
 ```
 
 #### `for` Statements
@@ -197,7 +197,7 @@ they appear in the sequence (or in a random order if that structure is inherentl
 | Any iterable type can be used in a for loop.
 | Some examples include tuples, sets, and matrices
 
-olive_types = ('kalamata', 'picholine', 'moroccan salt-cured', 'cerignola')
+olive_types = ['kalamata', 'picholine', 'moroccan salt-cured', 'cerignola']
 for types in olive_types
   print(types)
 
@@ -219,7 +219,7 @@ The `while` loop executes as long as the condition (here: `counter >= 0`) remain
 ```
 counter := 10
 while (counter >= 0)
-  print(counter)
+  print(`${counter}`)
   counter := counter - 1 | we never said you should be doing this...
 ```
 
@@ -236,11 +236,11 @@ The `break` statement, like in C, breaks out of the innermost enclosing `for` or
 
 ```
 n = 93
-for divisor in [2:n]
-  if next_random % divisor == 0
-    print('${n} is divisible by ${divisor}')
+divisor = [2:1:n]
+for x in divisor
+  if n % x == 0
+    print(`${n} is divisible by ${x}`)
     break
-
 ```
 
 ### Functions & Type Annotations
