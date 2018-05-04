@@ -305,3 +305,127 @@ Control Flow Errors
 - `Type string is not iterable.`
 - `Return statement outside function`
 - `If statement tests must be boolean`
+
+## Full Grammar ([Ohm](https://github.com/harc/ohm) Syntax)
+```
+Olive {
+  Program               =  Block
+  Block                 =  Statement+
+  Statement             =  Ids "=" Exps                                                                       -- immutable
+                        |  VarExps ":=" Exps                                                                  -- mutable
+                        |  FunctionDecl                                                                       -- functiondeclaration
+                        |  "break"                                                                            -- break
+                        |  "pass"                                                                             -- pass
+                        |  "return" Exp?                                                                      -- return
+                        |  "while" Exp Suite                                                                  -- while
+                        |  "for" id "in" Exp Suite                                                            -- for
+                        |  "if" Exp Suite
+                           ("else if" Exp Suite)*
+                           ("else" Suite)?                                                                    -- if
+                        |  Exp                                                                                -- expression
+  Suite                 =  indent Block dedent
+  Exp                   =  Exp "or" Exp1                                                                      -- or
+                        |  Exp "and" Exp1                                                                     -- and
+                        |  Exp1
+  Exp1                  =  Exp2 relop Exp2                                                                    -- binary
+                        |  Exp2
+  Exp2                  =  Exp2 addop Exp3                                                                    -- binary
+                        |  Exp3
+  Exp3                  =  Exp3 mulop Exp4                                                                    -- binary
+                        |  Exp4
+  Exp4                  =  Exp4 "^" Exp5                                                                      -- binary
+                        |  Exp5
+  Exp5                  =  prefixop Exp6                                                                      -- unary
+                        |  Exp6
+  Exp6                  =  AsExp                                                                              -- asexpression
+                        |  Matrix                                                                             -- matrix
+                        |  FunctionCall                                                                       -- functioncall
+                        |  Dictionary                                                                         -- dictionary
+                        |  Set                                                                                -- set
+                        |  Key
+                        |  "(" Exp ")"                                                                        -- parens
+                        |  Tuple
+                        |  Range
+
+  Range                 =  ("(" | "[") RangeType ":" RangeType ":" RangeType ("]" | ")")
+  Tuple                 =  "(" NonemptyListOf<Exp5, ","> ")"
+  Matrix                =  "[" ListOf<Exp5, ","> "]"
+  Set                   =  "{" NonemptyListOf<Exp5, ","> "}"
+  Dictionary            =  "{" ListOf<KeyValuePair, ","> "}"
+  KeyValuePair          =  Key ":" Exp
+
+  AsExp                 =  ("[" "]" | "{" "}") "as" Annotation
+
+  RangeType             =  VarExp
+                        |  Exp
+
+  Key                   =  boollit
+                        |  numlit
+                        |  stringlit
+                        |  nonelit
+                        |  StringInterpolation
+                        |  VarExp
+
+  Exps                  =  NonemptyListOf<Exp, ",">
+  Ids                   =  NonemptyListOf<id, ",">
+  VarExp                =  VarExp "[" Exp "]"                                                                 -- subscript
+                        |  id                                                                                 -- id
+  VarExps               =  NonemptyListOf<VarExp, ",">
+
+  StringInterpolation   = "`" (InterpolationChar | Interpolation)* "`"
+  Interpolation         = "${" Exp "}"
+  InterpolationChar     = (~"`" ~"$" any)
+
+  types                 =  "number"
+                        |  "string"
+                        |  "bool"
+                        |  "none"
+                        |  "tuple"
+                        |  "matrix"
+                        |  "dictionary"
+                        |  "set"
+                        |  "range"
+
+  basicAnnTypes         =  "none"
+                        |  "string"
+                        |  "number"
+                        |  "bool"
+                        |  "range"
+
+  FunctionDecl          =  TypeAnn id "(" ListOf<id, ","> ") =" Suite
+  TypeAnn               =  id ":" ("_" | ParamAnn) "->" ("_" | Annotation)
+  Annotation            =  "matrix<" (Annotation | basicAnnTypes) ">"                                         -- matrix
+                        |  "dictionary<" (Annotation | basicAnnTypes) "," (Annotation | basicAnnTypes) ">"    -- dictionary
+                        |  "tuple<" NonemptyListOf<(Annotation | basicAnnTypes), ","> ">"                     -- tuple
+                        |  "list<" (Annotation | basicAnnTypes) ">"                                           -- list
+                        |  "set<" (Annotation | basicAnnTypes) ">"                                            -- set
+                        |  "(" ("_" | ParamAnn) "->" ( "_" | Annotation) ")"                                  -- function
+                        |  basicAnnTypes                                                                      -- simple
+  ParamAnn              =  ListOf<Annotation, ",">
+  FunctionCall          =  id "(" ListOf <Arg, ","> ")"
+  Arg                   =  Exp
+                        |  id
+
+  id                    =  ~keyword letter idrest*
+  idrest                =  "_" | alnum
+  keyword               = ("true" | "false" | "if" | "and" | "or"
+                        | "else" | "while" | "for" | "in" | "return"
+                        | "none" | "not" | "break" | "pass" | "as" | types) ~idrest
+
+  addop                 =  "+" | "-"
+  relop                 =  "<=" | "<" | "==" | "!=" | ">=" | ">" | "and" | "or"
+  mulop                 =  "*" | "/%" | "/" | "%"
+  prefixop              =  "-" | "not"
+  indent                =  "⇨"
+  dedent                =  "⇦"
+
+  stringlit             = "\'" ("\\\"" | (~"\'" any))* "\'"
+  boollit               = "true" | "false"
+  numlit                = digit+ ("." digit+)?
+  nonelit               = "none"
+
+  newline               =  "\n"+
+  space                 += comment
+  comment               =  "|" (~"\n" any)* "\n"
+}
+```
