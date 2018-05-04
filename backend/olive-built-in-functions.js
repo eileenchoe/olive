@@ -1,25 +1,9 @@
-// const assert = require('assert');
-
-// const generateMatrixFromRange =
-// `const generateMatrixFromRange = (inclusiveStart, start, step, end, inclusiveEnd) => {
-//   const positiveStep = step > 0;
-//   if (positiveStep ? end - start < 0 : end - start > 0) {
-//     throw new Error('Range expression generator values are invalid');
-//   }
-//   const result = [];
-//   let currentVal = inclusiveStart ? start : start + step;
-//   const test = (pos) => {
-//     if (inclusiveEnd) {
-//       return pos ? currentVal <= end : currentVal >= end;
-//     }
-//     return pos ? currentVal < end : currentVal > end;
-//   };
-//   while (test(positiveStep)) {
-//     result.push(currentVal);
-//     currentVal += step;
-//   }
-//   return result;
-// };`;
+const generateDivmod =
+`
+  const quotient = Math.floor(a / b);
+  const remainder = a % b;
+  return [quotient, remainder];
+`;
 
 const generateMatrixFromRange =
 `
@@ -52,4 +36,7 @@ const generateMatrixFromRange =
 // assert.deepEqual(generateMatrixFromRange(false, 3, -0.5, 1, true), [2.5, 2, 1.5, 1]);
 // assert.deepEqual(generateMatrixFromRange(false, 3, -0.5, 1, false), [2.5, 2, 1.5]);
 
-module.exports = { generateMatrixFromRange };
+module.exports = {
+  generateDivmod,
+  generateMatrixFromRange,
+};

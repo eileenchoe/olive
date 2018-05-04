@@ -1,5 +1,4 @@
 const { InitialContext } = require('./analyzer');
-// const util = require('util');
 
 const sameType = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 
@@ -524,24 +523,6 @@ class ExpressionStatement {
   }
 }
 
-/* eslint-disable no-unused-vars */
-
-class FunctionAnnotation {
-  constructor(id, parameterTypes, returnType) {
-    this.id = id;
-    this.parameterTypes = parameterTypes;
-    this.returnType = returnType;
-  }
-
-  analyze(context) {
-    return this;
-  }
-
-  optimize() {
-    return this;
-  }
-}
-
 class FunctionTypeAnnotation {
   constructor(id, parameterTypes, returnType) {
     this.id = id;
@@ -549,7 +530,7 @@ class FunctionTypeAnnotation {
     this.returnType = returnType;
   }
 
-  analyze(context) {
+  analyze() {
     return this;
   }
 

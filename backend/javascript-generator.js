@@ -12,11 +12,11 @@
  *   program.gen();
  */
 
+
 const beautify = require('js-beautify');
 
 const { InitialContext } = require('../analyzer');
-const { generateMatrixFromRange } = require('./olive-range-generator');
-const { generateDivmod } = require('./olive-divmod-generator');
+const { generateMatrixFromRange, generateDivmod } = require('./olive-built-in-functions');
 
 const {
   Program,
@@ -51,35 +51,8 @@ const {
   PassStatement,
   addBuiltInFunctionsToContext,
 } = require('../ast');
-/*
- * Translation to JavaScript
- *
- * Requiring this module adds a gen() method to each of the AST classes.
- * Nothing is actually exported from this module.
- *
- * Generally, calling e.gen() where e is an expression node will return the
- * JavaScript translation as a string, while calling s.gen() where s is a
- * statement-level node will write its translation to standard output.
- *
- *   require('./backend/javascript-generator');
- *   program.gen();
- */
 
 addBuiltInFunctionsToContext(InitialContext);
-
-
-// const indentPadding = 2;
-// let indentLevel = 0;
-
-// function emit(line) {
-//   console.log(`${' '.repeat(indentPadding * indentLevel)}${line}`);
-// }
-//
-// function genStatementList(statements) {
-//   indentLevel += 1;
-//   statements.forEach(statement => statement.gen());
-//   indentLevel -= 1;
-// }
 
 // jsName(e) takes any PlainScript object with an id property, such as a
 // Variable, Parameter, or FunctionDeclaration, and produces a JavaScript
@@ -111,6 +84,7 @@ function makeOp(op) {
 // The AST represents both of these with lists of sources and lists of targets,
 // but when writing out JavaScript it seems silly to write `[x] = [y]` when
 // `x = y` suffices.
+
 function bracketIfNecessary(a) {
   if (a.length === 1) {
     return `${a}`;
@@ -314,11 +288,8 @@ Object.assign(ForStatement.prototype, {
   },
 });
 
-// ------------------------------------------------------------------------------
-// TODO: gen() for the following classes
-
 Object.assign(SetExpression.prototype, {
   gen() {
-    // TODO: provide mapping to JS set
+    // TODO: Feature not yet implemented
   },
 });
